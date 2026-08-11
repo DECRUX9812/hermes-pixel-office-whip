@@ -65,6 +65,19 @@ var shot_time := 0.0
 var test_seconds := 0.0
 var _elapsed := 0.0
 var _finished := false
+var _advancing := false
+
+## Hard safety: total planned cut + 12s margin, and a frame cap. If _process
+## errors on some frame (e.g. display/fallback flakiness), the watchdog below
+## still ends the capture instead of recording forever.
+const TOTAL_SECONDS := 40.0
+const MAX_FRAMES := 2200
+
+func _physics_process(_delta: float) -> void:
+	if _finished:
+		return
+	if _elapsed > TOTAL_SECONDS + 12.0 or Engine.get_frames_drawn() > MAX_FRAMES:
+		_finish()
 
 func _ready() -> void:
 	var scene: PackedScene = load(CHAPTER2)
@@ -138,8 +151,16 @@ func _setup_shot(i: int) -> void:
 func _process(delta: float) -> void:
 	_elapsed += delta
 	shot_time += delta
+	# Advance/quit FIRST — an error later in this frame must never stall the cut.
 	var s: Array = SHOTS[shot_index]
 	var dur: float = s[0]
+	if shot_time >= dur and not _advancing:
+		if shot_index >= SHOTS.size() - 1:
+			_finish()
+			return
+		_advancing = true
+		_setup_shot(shot_index + 1)
+		_advancing = false
 	var ease := smoothstep(0.0, 1.0, clampf(shot_time / dur, 0.0, 1.0))
 	var pos: Vector3 = (s[1] as Vector3).lerp(s[2] as Vector3, ease)
 	var look: Vector3 = (s[3] as Vector3).lerp(s[4] as Vector3, ease)
@@ -162,12 +183,8 @@ func _process(delta: float) -> void:
 	if test_seconds > 0.0 and _elapsed >= test_seconds:
 		_finish()
 		return
-	if shot_time >= dur:
-		if shot_index >= SHOTS.size() - 1:
-			print("DEMO_CAPTURE_DONE %d shots" % SHOTS.size())
-			get_tree().quit(0)
-			return
-		_setup_shot(shot_index + 1)
+	if _finished:
+		return
 
 ## --- Shot 4: arena combat two-shot (player vs CustodianA) --------------------
 
@@ -302,5 +319,5 @@ func _finish() -> void:
 	if _finished:
 		return
 	_finished = true
-	print("DEMO_CAPTURE_TEST_END %.1fs" % _elapsed)
+	print("DEMO_CAPTURE_DONE %d shots (%.1fs)" % [SHOTS.size(), _elapsed])
 	get_tree().quit(0)
