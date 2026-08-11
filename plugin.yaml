@@ -1,7 +1,7 @@
 name: pixel-office
-version: "0.2.0"
-description: "Pixel-art virtual office for Hermes — every agent and subagent becomes an animated pixel character at a desk. Watch tools fire, subagents spawn, and sessions come and go at http://127.0.0.1:8113. Visual only; observes lifecycle hooks, never blocks or transforms anything."
-author: "NousResearch"
+version: "0.3.0"
+description: "Pixel-art virtual office for Hermes — watch agents work, then harmlessly whip their pixel characters for fun. Visual only; observes lifecycle hooks, never blocks or transforms anything."
+author: "NousResearch + Ritesh Patel"
 hooks:
   - pre_tool_call
   - post_tool_call

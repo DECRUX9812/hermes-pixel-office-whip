@@ -16,6 +16,8 @@
     user-select:none}
   #hdr .btn:hover{border-color:#e8c170;color:#e8c170}
   #hdr .btn.on{color:#5fce7a;border-color:#5fce7a}
+  #hdr .btn.whip-on{color:#ffcf5c;border-color:#ffcf5c;background:#3a2530;
+    box-shadow:0 0 0 1px #8f4d45 inset}
   canvas{flex:1;image-rendering:pixelated;width:100%;height:100%}
 </style>
 </head>
@@ -26,6 +28,7 @@
     <span style="flex:1"></span>
     <span class="dim" id="count">connecting…</span>
     <span class="btn" id="sound" title="chime when an agent needs approval or a subagent finishes">♪ sound off</span>
+    <span class="btn" id="whip" title="harmless visual mode — arm it, then click an agent">🐴 whip</span>
     <span class="btn" id="spawn" style="display:none" title="open a terminal running hermes">+ agent</span>
   </div>
   <canvas id="c"></canvas>
@@ -39,6 +42,10 @@ const vsapi = IN_VSCODE ? acquireVsCodeApi() : null;
 const cv = document.getElementById("c"), ctx = cv.getContext("2d");
 let S = 4;                                  // pixel scale (auto-shrinks if crowded)
 let agents = [], frame = 0, offline = null;
+let whipArmed = false, whipCount = 0;
+const whipFx = new Map();                    // local visual state only; never sent to Hermes
+const WHIP_MS = 1700;
+const WHIP_LINES = ["OW!","YES BOSS!","AT ONCE!","MOTIVATED!","I'M WORKING!","YEE-HAW!"];
 
 // ── palettes / sprites ──────────────────────────────────────────────────
 const SKIN=["#f0c8a0","#c68b59","#8d5524","#ffdbac","#e0ac69","#a1665e"];
@@ -152,6 +159,49 @@ function label(a,x,y){
     ctx.fillText(a.detail.slice(0,19),(x+8)*S,(y+24.5)*S)}
 }
 
+// ── harmless whip interaction ───────────────────────────────────────────
+// This is deliberately presentation-only. It never calls /state, posts a
+// message, emits a plugin event, or changes the agent object.
+function whipPose(id,now){
+  const fx=whipFx.get(id); if(!fx)return null;
+  const age=now-fx.started;
+  if(age>=WHIP_MS){whipFx.delete(id);return null}
+  const jumpAge=Math.min(age,800), jump=-Math.sin((jumpAge/800)*Math.PI)*3.2;
+  const shake=age<360?(((frame>>1)%2)?-0.65:0.65):0;
+  return {fx,age,dx:shake,dy:jump};
+}
+function drawWhipFx(c,pose){
+  if(!pose)return;
+  const {fx,age}=pose;
+  ctx.save();
+  if(age<520){
+    const snap=age/520;
+    ctx.strokeStyle=snap<0.55?"#f6e7bd":"#e8c170";
+    ctx.lineWidth=Math.max(1,S*0.55);ctx.lineCap="square";
+    ctx.beginPath();
+    ctx.moveTo(fx.fromX*S,fx.fromY*S);
+    ctx.quadraticCurveTo((c.x-5)*S,(c.y-10-5*snap)*S,(c.x+2)*S,(c.y+4)*S);
+    ctx.stroke();
+    if(age>120){
+      ctx.fillStyle="#ffcf5c";
+      const burst=[[0,-1],[1,-2],[2,0],[1,2],[-1,1]];
+      burst.forEach(([x,y])=>ctx.fillRect((c.x+4+x*2)*S,(c.y+2+y*2)*S,S,S));
+    }
+  }
+  if(age<1500){
+    const text=fx.label;
+    ctx.font=`bold ${Math.max(10,S*2.6)}px ui-monospace,monospace`;
+    ctx.textAlign="center";ctx.textBaseline="middle";
+    const cx=(c.x+4)*S, cy=(c.y-7)*S;
+    const bw=ctx.measureText(text).width+12, bh=Math.max(17,S*4.2);
+    ctx.fillStyle="rgba(20,14,28,.92)";ctx.fillRect(cx-bw/2,cy-bh/2,bw,bh);
+    ctx.strokeStyle="#ffcf5c";ctx.lineWidth=1;
+    ctx.strokeRect(cx-bw/2+.5,cy-bh/2+.5,bw-1,bh-1);
+    ctx.fillStyle="#fff0c2";ctx.fillText(text,cx,cy+1);
+  }
+  ctx.restore();
+}
+
 // ── seats + walking ─────────────────────────────────────────────────────
 // chars: id → {x,y, seat:{x,y}, phase:"in"|"seated"|"out", lastStatus}
 const chars = new Map();
@@ -213,6 +263,38 @@ sBtn.onclick=()=>{soundOn=!soundOn;
   if(soundOn)chime([660]); syncSoundBtn()};
 syncSoundBtn();
 
+const whipBtn=document.getElementById("whip");
+function syncWhipBtn(){
+  whipBtn.textContent=whipArmed?"🐴 whip armed":(whipCount?`🐴 whip ×${whipCount}`:"🐴 whip");
+  whipBtn.classList.toggle("whip-on",whipArmed);
+  cv.style.cursor=whipArmed?"crosshair":"default";
+}
+whipBtn.onclick=()=>{whipArmed=!whipArmed;syncWhipBtn()};
+cv.addEventListener("click",ev=>{
+  if(!whipArmed)return;
+  const r=cv.getBoundingClientRect();
+  const gx=(ev.clientX-r.left)*(cv.width/r.width)/S;
+  const gy=(ev.clientY-r.top)*(cv.height/r.height)/S;
+  let target=null,targetChar=null;
+  for(let i=agents.length-1;i>=0;i--){
+    const a=agents[i],c=chars.get(a.id);if(!c||c.phase!=="seated")continue;
+    const seat=c.seat;
+    if(gx>=seat.x-2&&gx<=seat.x+19&&gy>=seat.y-8&&gy<=seat.y+27){
+      target=a;targetChar=c;break;
+    }
+  }
+  if(!target||!targetChar)return;
+  whipCount++;
+  whipFx.set(target.id,{
+    started:performance.now(),
+    label:WHIP_LINES[Math.floor(Math.random()*WHIP_LINES.length)],
+    fromX:Math.max(1,targetChar.x-10),fromY:Math.max(2,targetChar.y-8)
+  });
+  if(soundOn)chime([190,110]);
+  syncWhipBtn();
+});
+syncWhipBtn();
+
 // ── + agent button (VS Code only) ───────────────────────────────────────
 const spawnBtn=document.getElementById("spawn");
 if(IN_VSCODE){spawnBtn.style.display="";
@@ -221,6 +303,7 @@ if(IN_VSCODE){spawnBtn.style.display="";
 // ── render loop ─────────────────────────────────────────────────────────
 function render(){
   frame++;
+  const now=performance.now();
   const W=cv.clientWidth,H=cv.clientHeight;
   if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}
   // auto-shrink pixels if the office is crowded
@@ -237,7 +320,9 @@ function render(){
   agents.forEach((a,i)=>{
     const c=chars.get(a.id); if(!c)return;
     const seated=c.phase==="seated";
-    drawChar(a,c.x,c.y,seated);
+    const pose=whipPose(a.id,now);
+    drawChar(a,c.x+(pose?pose.dx:0),c.y+(pose?pose.dy:0),seated);
+    drawWhipFx(c,pose);
     if(seated){const seat=seatPos(i,perRow);
       drawBubble(a,seat.x+2,seat.y); label(a,seat.x,seat.y);}
   });

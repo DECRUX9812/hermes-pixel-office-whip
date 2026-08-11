@@ -1,4 +1,4 @@
-# Hermes Pixel Office ☤
+# Hermes Pixel Office — Whip Edition ☤🐴
 
 A pixel-art virtual office for [Hermes Agent](https://github.com/NousResearch/hermes-agent) —
 every agent session and every `delegate_task` subagent becomes an animated
@@ -6,6 +6,11 @@ pixel character at a desk. Watch tools fire, subagents spawn and finish, and
 approval requests flag you visually, live in your browser or in VS Code.
 
 Hermes' answer to "Pixel Agents" for Claude Code.
+
+This Whip Edition is maintained by **Ritesh Patel** and adds a harmless,
+viewer-only whip interaction to
+[Teknium's original Hermes Pixel Office](https://github.com/teknium1/hermes-pixel-office).
+The agent runtime and lifecycle integration remain unchanged.
 
 ![office](screenshot.png)
 
@@ -25,6 +30,9 @@ Companion VS Code extension: [hermes-pixel-office-vscode](https://github.com/tek
   header counter ("N waiting!")
 - Optional sound: chime when an agent needs approval or a subagent finishes
   (♪ toggle in the header, off by default, persists)
+- Harmless **whip mode**: click `🐴 whip`, then click any seated agent to make
+  the pixel character jump with a whip-crack and reaction bubble. This is
+  strictly local visual state — it sends no event, prompt, or command to Hermes.
 - Sessions from ALL Hermes processes on the machine share one office
 
 Visual only: the plugin observes lifecycle hooks — it never blocks, vetoes,
@@ -34,7 +42,7 @@ the prompt cache.
 ## Install
 
 ```bash
-git clone https://github.com/teknium1/hermes-pixel-office ~/.hermes/plugins/pixel-office
+git clone https://github.com/DECRUX9812/hermes-pixel-office-whip ~/.hermes/plugins/pixel-office
 hermes plugins enable pixel-office
 ```
 
