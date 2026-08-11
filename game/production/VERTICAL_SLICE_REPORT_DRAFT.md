@@ -4,14 +4,17 @@
 **Project:** `game/` on branch `game/hermes-last-open-door`
 **Engine:** Godot 4.7.1 stable (`/home/decrux/.local/bin/godot4`)
 **Auditor:** adversarial release audit, run 2026-08-11
-**Status:** **DRAFT — awaits independent supervisor visual verification.**
+**Status:** **DRAFT — independently reviewed; engineering foundation accepted,
+visual target not yet met.**
 
 > This report is a draft. Every item in VERIFIED WORKING below is backed by a
 > headless Godot import, a test-suite run, and/or a bounded runtime launch that
 > this audit reproduced on disk. Items marked "visually verified" are backed by
 > captured frames in `game/production/evidence/` whose files exist and contain
-> real (non-blank) pixel data, but **no human supervisor has yet visually
-> reviewed them**. This slice is a *vertical-slice foundation*; it is **not**
+> real (non-blank) pixel data. The supervisor visually reviewed all three frames,
+> found and removed an oversized world-space prototype guide that obscured the
+> original Dove's Row capture, and regenerated that evidence frame. This slice is
+> a *vertical-slice foundation*; it is **not**
 > presented as an AAA-complete game. See NOT IMPLEMENTED.
 
 ---
@@ -49,7 +52,7 @@ scenes, and a reproduced evidence-capture run — all re-executed by this audit.
 | Combat VFX | procedural emerald/copper/violet effects, self-free (`combat_vfx.gd`, `test_combat_vfx.gd`) | suite + source |
 | HUD / pause / options / title card | runtime-clean launches; subtitle, objective, boss bar, companion label wired (`hud.gd`, `pause_menu.gd`, `title_card.gd`) | runtime + source |
 | Evidence-capture pipeline | `production/capture_frames.tscn` under Xvfb produced a valid 1.5 MB PNG in this audit (`CAPTURE_OK`) | audit re-run |
-| On-disk evidence frames | `main_menu.png`, `chapter2_doves_row.png`, `chapter2_arena.png` are 1280×720, non-blank, high pixel variance | audit re-run |
+| On-disk evidence frames | `main_menu.png` and `chapter2_arena.png` are 1280×720; regenerated `chapter2_doves_row.png` is 1920×1080; all are non-blank | audit + supervisor review |
 
 ### Run controls (current build)
 
@@ -187,9 +190,9 @@ this draft as a complete claim.
 
 ## 5. What a supervisor must still do
 
-- **Visually review** `game/production/evidence/main_menu.png`,
-  `chapter2_doves_row.png`, and `chapter2_arena.png` (or re-run the capture
-  command in §1) and confirm composition, readability, and color language.
+- **Visual review completed.** The menu is clean but sparse; Dove's Row is now
+  unobscured and readable; the arena has a coherent copper/emerald/obsidian color
+  script. All three remain visibly primitive blockouts, not premium authored art.
 - **Play the slice** via the §1 run controls from the main menu (New Game) and
   confirm pacing and the emotional beats 2.1 → 2.11.
 - **Approve or reject** this DRAFT. Until then, nothing above should be treated as

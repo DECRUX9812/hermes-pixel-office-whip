@@ -31,7 +31,6 @@ func _ready() -> void:
 	_build_collapsed_conduit()
 	_build_choir_threshold()
 	_build_choir_arena()
-	_add_prototype_guide()
 
 ## --- Helpers ----------------------------------------------------------------
 
@@ -360,12 +359,3 @@ func _build_choir_arena() -> void:
 	for i in 7:
 		_add_visual_cylinder(beat, "ChoirEcho_%d" % i, 0.2, 3.0, Vector3(-6.0 + i * 2.0, -6.4, -102.0), COPPER)
 		_add_visual_sphere(beat, "ChoirEchoLumen_%d" % i, 0.12, Vector3(-6.0 + i * 2.0, -6.4, -101.7), EMERALD)
-
-## --- Prototype guide --------------------------------------------------------
-
-func _add_prototype_guide() -> void:
-	var guide := _beat("BeatPrototypeGuide")
-	var label := _add_plaque(guide, "GuideLabel",
-		"PROTOTYPE BLOCKOUT — replaceable by authored art\nWASD move · Shift sprint · LMB light · RMB heavy · Q dodge · Tab lock-on\nE interact · F companion command · C switch companion · F3 telemetry\nPause/Esc pause menu · T truth-layer scan prompt appears near fragments",
-		Vector3(0.0, 2.2, 4.0), Color(0.6, 0.65, 0.7))
-	label.billboard = BaseMaterial3D.BILLBOARD_DISABLED
