@@ -1,8 +1,10 @@
 extends Node
 ## Headless-to-frame capture harness for visual evidence.
 ##
-## Usage (from game/):
-##   xvfb-run -a godot4 --path . res://production/capture_frames.gd --scene <path> --out <path.png>
+## Usage (from game/, under a display — xvfb counts):
+##   xvfb-run -a godot4 --path . res://production/capture_frames.tscn -- --scene <path> --out <path.png>
+## The .gd entry must be loaded as a scene (capture_frames.tscn), not passed
+## directly to the engine: a bare Node script as the main entry never starts.
 ##
 ## Loads the scene, lets it simulate `--frames` physics frames so the blockout,
 ## lighting rig, and HUD settle, then renders the current camera view to a PNG.
