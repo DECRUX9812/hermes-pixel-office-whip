@@ -79,6 +79,14 @@ def run(cmd: list[str], timeout: int, log_path: Path | None = None) -> subproces
     return completed
 
 
+def timeout_output(exc: subprocess.TimeoutExpired) -> str:
+    """Return a stable text log for TimeoutExpired from text or bytes output."""
+    output = exc.stdout or b''
+    if isinstance(output, bytes):
+        output = output.decode('utf-8', errors='replace')
+    return output + '\nTIMEOUT\n'
+
+
 def changed_paths() -> list[str]:
     out = subprocess.check_output(['git', 'status', '--porcelain=v1'], cwd=REPO, text=True)
     return [line[3:] for line in out.splitlines() if line.strip()]
@@ -138,7 +146,7 @@ def main() -> int:
                 result = run([str(OPENCODE), 'run', '--model', MODEL, '--thinking', '--title', f'Last Open Door {slug}', BASE + task], 3000, log)
                 agent_exit = result.returncode
             except subprocess.TimeoutExpired as exc:
-                log.write_text((exc.stdout or '') + '\nTIMEOUT\n')
+                log.write_text(timeout_output(exc))
                 agent_exit = 124
             paths = changed_paths()
             outside = [p for p in paths if not p.startswith('game/')]
