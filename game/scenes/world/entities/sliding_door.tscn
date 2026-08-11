@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/world/sliding_door.gd" id="1_door"]
+[ext_resource type="Script" path="res://src/interaction/story_interactable.gd" id="2_story"]
+[ext_resource type="Material" path="res://assets/blockout/materials/copper.tres" id="3_copper"]
+[ext_resource type="Material" path="res://assets/blockout/materials/emerald_glow.tres" id="4_emerald"]
+
+[sub_resource type="BoxShape3D" id="BoxShape_panel"]
+size = Vector3(4.0, 3.0, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_panel"]
+size = Vector3(4.0, 3.0, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lumen"]
+size = Vector3(3.6, 0.12, 0.06)
+
+[sub_resource type="BoxShape3D" id="BoxShape_trigger"]
+size = Vector3(2.0, 2.6, 0.6)
+
+[node name="SlidingDoor" type="Node3D"]
+script = ExtResource("1_door")
+
+[node name="Panel" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Panel"]
+mesh = SubResource("BoxMesh_panel")
+material_override = ExtResource("3_copper")
+
+[node name="Shape" type="CollisionShape3D" parent="Panel"]
+shape = SubResource("BoxShape_panel")
+
+[node name="LumenStrip" type="MeshInstance3D" parent="Panel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.16)
+mesh = SubResource("BoxMesh_lumen")
+material_override = ExtResource("4_emerald")
+
+[node name="Trigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.9)
+script = ExtResource("2_story")
+prompt_text = "Open the door"
+one_shot = true
+speaker = "Teknium"
+lines = PackedStringArray("The Choir's got a voice under the stone. Let's go ask it a question.")
+beat_id = "threshold_door"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trigger"]
+shape = SubResource("BoxShape_trigger")

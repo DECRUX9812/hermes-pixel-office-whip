@@ -1,0 +1,109 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/ui/hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="bar_bg"]
+bg_color = Color(0.04, 0.045, 0.05, 0.8)
+border_width_bottom = 1
+border_width_left = 1
+border_width_right = 1
+border_width_top = 1
+border_color = Color(0.12, 0.14, 0.16, 1)
+
+[sub_resource type="StyleBoxFlat" id="bar_fill"]
+bg_color = Color(0.0, 0.7, 0.42, 1)
+
+[sub_resource type="StyleBoxFlat" id="bar_fill_copper"]
+bg_color = Color(0.75, 0.42, 0.2, 1)
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="TopBar" type="MarginContainer" parent="."]
+anchors_preset = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 420.0
+offset_bottom = 150.0
+
+[node name="VBox" type="VBoxContainer" parent="TopBar"]
+
+[node name="HealthLabel" type="Label" parent="TopBar/VBox"]
+text = "HEALTH"
+theme_override_colors/font_color = Color(0.72, 0.95, 0.86, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="HealthBar" type="ProgressBar" parent="TopBar/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 18)
+show_percentage = false
+theme_override_styles/background = SubResource("bar_bg")
+theme_override_styles/fill = SubResource("bar_fill")
+
+[node name="ResolveLabel" type="Label" parent="TopBar/VBox"]
+text = "RESOLVE"
+theme_override_colors/font_color = Color(0.82, 0.62, 0.45, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="ResolveBar" type="ProgressBar" parent="TopBar/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 14)
+show_percentage = false
+theme_override_styles/background = SubResource("bar_bg")
+theme_override_styles/fill = SubResource("bar_fill_copper")
+
+[node name="ObjectiveLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_right = 1.0
+offset_top = 168.0
+offset_bottom = 196.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.6, 0.9, 0.78, 1)
+theme_override_font_sizes/font_size = 16
+text = ""
+mouse_filter = 2
+
+[node name="PromptLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -86.0
+offset_right = 300.0
+offset_bottom = -52.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.0, 0.9, 0.55, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+text = ""
+mouse_filter = 2
+
+[node name="SubtitleLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -150.0
+offset_right = 500.0
+offset_bottom = -102.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.9, 0.92, 0.95, 1)
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+autowrap_mode = 2
+text = ""
+mouse_filter = 2
+
+[node name="SubtitleTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+one_shot = true

@@ -1,0 +1,106 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://src/player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://src/player/camera_rig.gd" id="2_cam"]
+[ext_resource type="Script" path="res://src/combat/health_component.gd" id="3_health"]
+[ext_resource type="Script" path="res://src/combat/resolve_component.gd" id="4_resolve"]
+[ext_resource type="Script" path="res://src/interaction/interaction_controller.gd" id="5_inter"]
+[ext_resource type="Script" path="res://src/player/melee_controller.gd" id="6_melee"]
+[ext_resource type="Material" path="res://assets/blockout/materials/stone_obsidian.tres" id="7_obs"]
+[ext_resource type="Material" path="res://assets/blockout/materials/stone_black.tres" id="8_stone"]
+[ext_resource type="Material" path="res://assets/blockout/materials/emerald_glow.tres" id="9_emerald"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_body"]
+radius = 0.4
+height = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape_spring"]
+radius = 0.3
+
+[sub_resource type="SphereShape3D" id="SphereShape_detect"]
+radius = 2.6
+
+[sub_resource type="BoxShape3D" id="BoxShape_hit"]
+size = Vector3(1.2, 1.5, 1.6)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_torso"]
+radius = 0.32
+height = 1.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+radius = 0.28
+height = 0.56
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_staff"]
+top_radius = 0.035
+bottom_radius = 0.035
+height = 1.6
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+floor_stop_on_slope = true
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+shape = SubResource("CapsuleShape_body")
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("2_cam")
+
+[node name="SpringArm" type="SpringArm3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+spring_length = 4.2
+collision_mask = 1
+shape = SubResource("SphereShape_spring")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/SpringArm"]
+current = true
+fov = 70.0
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="Torso" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("CapsuleMesh_torso")
+material_override = ExtResource("7_obs")
+
+[node name="Head" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)
+mesh = SubResource("SphereMesh_head")
+material_override = ExtResource("8_stone")
+
+[node name="Staff" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(0.9211, 0.3894, 0, -0.3894, 0.9211, 0, 0, 0, 1, 0.55, 1.25, 0.15)
+mesh = SubResource("CylinderMesh_staff")
+material_override = ExtResource("9_emerald")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("3_health")
+
+[node name="Resolve" type="Node" parent="."]
+script = ExtResource("4_resolve")
+
+[node name="Interaction" type="Node3D" parent="."]
+script = ExtResource("5_inter")
+
+[node name="DetectionArea" type="Area3D" parent="Interaction"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interaction/DetectionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+shape = SubResource("SphereShape_detect")
+
+[node name="Melee" type="Node3D" parent="."]
+script = ExtResource("6_melee")
+
+[node name="HitArea" type="Area3D" parent="Melee"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, -1.3)
+collision_layer = 0
+collision_mask = 16
+monitoring = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Melee/HitArea"]
+shape = SubResource("BoxShape_hit")

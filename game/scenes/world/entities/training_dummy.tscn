@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/world/training_dummy.gd" id="1_dummy"]
+[ext_resource type="Script" path="res://src/combat/health_component.gd" id="2_health"]
+[ext_resource type="Material" path="res://assets/blockout/materials/stone_obsidian.tres" id="3_obs"]
+[ext_resource type="Material" path="res://assets/blockout/materials/copper_glow.tres" id="4_glow"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_dummy"]
+radius = 0.45
+height = 2.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+radius = 0.42
+height = 1.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+radius = 0.3
+height = 0.6
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+inner_radius = 0.5
+outer_radius = 0.62
+
+[node name="TrainingDummy" type="StaticBody3D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_dummy")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+mesh = SubResource("CapsuleMesh_body")
+material_override = ExtResource("3_obs")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
+mesh = SubResource("SphereMesh_head")
+material_override = ExtResource("3_obs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+shape = SubResource("CapsuleShape_dummy")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 40.0
+
+[node name="TargetRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("TorusMesh_ring")
+material_override = ExtResource("4_glow")

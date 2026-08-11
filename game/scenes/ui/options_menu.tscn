@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/options_menu.gd" id="1_options"]
+
+[node name="OptionsMenu" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_options")
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -170.0
+offset_right = 220.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+
+[node name="Title" type="Label" parent="Panel/VBox"]
+text = "Options"
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 12)
+
+[node name="SubtitlesToggle" type="CheckButton" parent="Panel/VBox"]
+unique_name_in_owner = true
+text = "Subtitles (accessibility)"
+
+[node name="InvertYToggle" type="CheckButton" parent="Panel/VBox"]
+unique_name_in_owner = true
+text = "Invert camera Y"
+
+[node name="SensitivityRow" type="HBoxContainer" parent="Panel/VBox"]
+
+[node name="SensitivityLabel" type="Label" parent="Panel/VBox/SensitivityRow"]
+text = "Camera sensitivity"
+size_flags_horizontal = 3
+
+[node name="SensitivitySlider" type="HSlider" parent="Panel/VBox/SensitivityRow"]
+unique_name_in_owner = true
+min_value = 0.1
+max_value = 3.0
+step = 0.05
+value = 1.0
+size_flags_horizontal = 3
+
+[node name="VolumeRow" type="HBoxContainer" parent="Panel/VBox"]
+
+[node name="VolumeLabel" type="Label" parent="Panel/VBox/VolumeRow"]
+text = "Master volume"
+size_flags_horizontal = 3
+
+[node name="VolumeSlider" type="HSlider" parent="Panel/VBox/VolumeRow"]
+unique_name_in_owner = true
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+size_flags_horizontal = 3

@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "Blockout Emerald Glow (Hermes light)"
+albedo_color = Color(0.02, 0.1, 0.075, 1)
+metallic = 0.0
+roughness = 0.45
+emission_enabled = true
+emission = Color(0, 0.95, 0.55, 1)
+emission_energy_multiplier = 1.8

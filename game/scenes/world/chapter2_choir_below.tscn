@@ -1,0 +1,210 @@
+[gd_scene load_steps=21 format=3]
+
+[ext_resource type="Script" path="res://scenes/world/chapter2.gd" id="1_chapter"]
+[ext_resource type="Script" path="res://src/environment/blockout_chapter2.gd" id="2_blockout"]
+[ext_resource type="Script" path="res://src/world/objective_flow.gd" id="3_flow"]
+[ext_resource type="Script" path="res://src/world/objective.gd" id="4_objective"]
+[ext_resource type="Script" path="res://src/world/checkpoint_area.gd" id="5_checkpoint"]
+[ext_resource type="Script" path="res://src/interaction/story_interactable.gd" id="6_story"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="7_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="8_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="9_pause"]
+[ext_resource type="PackedScene" path="res://scenes/world/entities/training_dummy.tscn" id="10_dummy"]
+[ext_resource type="PackedScene" path="res://scenes/world/entities/sliding_door.tscn" id="11_door"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.02, 0.023, 0.027, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.16, 0.18, 0.2, 1)
+ambient_light_energy = 0.4
+tonemap_mode = 3
+glow_enabled = true
+glow_intensity = 0.25
+glow_bloom = 0.0
+fog_enabled = true
+fog_light_color = Color(0.03, 0.05, 0.06, 1)
+fog_density = 0.012
+
+[sub_resource type="SphereShape3D" id="cp_shape"]
+radius = 3.5
+
+[sub_resource type="BoxShape3D" id="door_shape"]
+size = Vector3(1.8, 2.6, 0.6)
+
+[sub_resource type="Resource" id="obj1"]
+script = ExtResource("4_objective")
+id = "investigate_doves_row"
+label = "Dove's Row is silent. Find out what happened."
+
+[sub_resource type="Resource" id="obj2"]
+script = ExtResource("4_objective")
+id = "reach_the_weep"
+label = "Reach the Weep and descend into the Reliquary."
+
+[sub_resource type="Resource" id="obj3"]
+script = ExtResource("4_objective")
+id = "cross_the_conduit"
+label = "Cross the collapsed inference conduit."
+
+[sub_resource type="Resource" id="obj4"]
+script = ExtResource("4_objective")
+id = "clear_the_threshold"
+label = "Face the Custodian construct at the Choir threshold."
+
+[sub_resource type="Resource" id="obj5"]
+script = ExtResource("4_objective")
+id = "enter_the_choir"
+label = "Open the Choir door."
+
+[sub_resource type="Resource" id="obj6"]
+script = ExtResource("4_objective")
+id = "reach_the_wardens_house"
+label = "Reach the Warden's choir-house."
+
+[node name="Chapter2" type="Node3D"]
+script = ExtResource("1_chapter")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+current = true
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.1736, -0.9848, 0, 0.9848, 0.1736, 0, 0, 0)
+light_color = Color(0.75, 0.78, 0.85, 1)
+light_energy = 0.6
+shadow_enabled = true
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="LamppostLumen" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.6, -2)
+light_color = Color(0, 0.9, 0.5, 1)
+light_energy = 1.0
+omni_range = 7.0
+
+[node name="WeepBreach" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -45.2)
+light_color = Color(0, 0.9, 0.5, 1)
+light_energy = 2.0
+omni_range = 10.0
+
+[node name="DescentBase" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7, -55)
+light_color = Color(0, 0.85, 0.5, 1)
+light_energy = 0.8
+omni_range = 8.0
+
+[node name="ThresholdWarm" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -84)
+light_color = Color(0.95, 0.5, 0.2, 1)
+light_energy = 1.6
+omni_range = 12.0
+
+[node name="ArenaWarmL" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -4, -96)
+light_color = Color(0.95, 0.5, 0.2, 1)
+light_energy = 1.4
+omni_range = 12.0
+
+[node name="ArenaWarmR" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -4, -106)
+light_color = Color(0.95, 0.5, 0.2, 1)
+light_energy = 1.4
+omni_range = 12.0
+
+[node name="HermesBeacon" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -110)
+light_color = Color(0, 0.95, 0.55, 1)
+light_energy = 3.0
+omni_range = 18.0
+
+[node name="Blockout" type="Node3D" parent="."]
+script = ExtResource("2_blockout")
+
+[node name="Beats" type="Node3D" parent="."]
+
+[node name="SpawnPoint" type="Marker3D" parent="Beats"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Checkpoints" type="Node3D" parent="Beats"]
+
+[node name="CP_DovesRow" type="Area3D" parent="Beats/Checkpoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+script = ExtResource("5_checkpoint")
+checkpoint_id = "doves_row"
+display_name = "Dove's Row"
+
+[node name="SpawnPoint" type="Marker3D" parent="Beats/Checkpoints/CP_DovesRow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Checkpoints/CP_DovesRow"]
+shape = SubResource("cp_shape")
+
+[node name="CP_WeepDescent" type="Area3D" parent="Beats/Checkpoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -45.5)
+script = ExtResource("5_checkpoint")
+checkpoint_id = "weep_descent"
+display_name = "The Weep"
+
+[node name="SpawnPoint" type="Marker3D" parent="Beats/Checkpoints/CP_WeepDescent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -44)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Checkpoints/CP_WeepDescent"]
+shape = SubResource("cp_shape")
+
+[node name="CP_ChoirThreshold" type="Area3D" parent="Beats/Checkpoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -81)
+script = ExtResource("5_checkpoint")
+checkpoint_id = "choir_threshold"
+display_name = "Choir Threshold"
+
+[node name="SpawnPoint" type="Marker3D" parent="Beats/Checkpoints/CP_ChoirThreshold"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -80.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Checkpoints/CP_ChoirThreshold"]
+shape = SubResource("cp_shape")
+
+[node name="CP_ChoirHouse" type="Area3D" parent="Beats/Checkpoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -91)
+script = ExtResource("5_checkpoint")
+checkpoint_id = "choir_house"
+display_name = "Warden's Choir-House"
+
+[node name="SpawnPoint" type="Marker3D" parent="Beats/Checkpoints/CP_ChoirHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -90)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Checkpoints/CP_ChoirHouse"]
+shape = SubResource("cp_shape")
+
+[node name="Interactables" type="Node3D" parent="Beats"]
+
+[node name="DoorJuno" type="Area3D" parent="Beats/Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.9, 1.0, -16.4)
+script = ExtResource("6_story")
+id = "doves_row_door"
+prompt_text = "Step inside"
+one_shot = true
+speaker = "Sidbin"
+lines = PackedStringArray("Audio signature, Dove's Row. Expected: a hundred and twelve household harmonics. Observed: four. The four are ours.")
+beat_id = "doves_row_door"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Interactables/DoorJuno"]
+shape = SubResource("door_shape")
+
+[node name="DummyThreshold" parent="Beats" instance=ExtResource("10_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -84.5)
+
+[node name="SlidingDoorThreshold" parent="Beats" instance=ExtResource("11_door")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5, -88.5)
+
+[node name="Player" parent="." instance=ExtResource("7_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="ObjectiveFlow" type="Node" parent="." unique_name_in_owner = true]
+script = ExtResource("3_flow")
+objectives = [SubResource("obj1"), SubResource("obj2"), SubResource("obj3"), SubResource("obj4"), SubResource("obj5"), SubResource("obj6")]
+
+[node name="HUD" parent="." instance=ExtResource("8_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("9_pause")]
