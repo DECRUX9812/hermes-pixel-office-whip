@@ -4,7 +4,7 @@
   "branch": "game/hermes-last-open-door",
   "phase": "running",
   "started_at": "2026-08-11T12:04:31.167952+00:00",
-  "current": "b-environment",
+  "current": "c-combat-demo",
   "passes": [
     {
       "phase": "a-characters",
@@ -18,8 +18,24 @@
         "game/production/visual_mission_builder.py"
       ],
       "finished_at": "2026-08-11T12:08:17.343929+00:00"
+    },
+    {
+      "phase": "b-environment",
+      "agent_exit": 0,
+      "validated": true,
+      "commit": "21eb764f341eeb57afd2e64bff2a8724dc0933d7",
+      "changed_paths": [
+        "game/production/VISUAL_MISSION_STATE.json",
+        "game/src/environment/blockout_chapter2.gd",
+        "game/assets/environment/",
+        "game/production/evidence/env_arena.png",
+        "game/production/evidence/env_doves_row.png",
+        "game/production/perf_probe.gd",
+        "game/production/perf_probe.tscn"
+      ],
+      "finished_at": "2026-08-11T12:38:35.872404+00:00"
     }
   ],
   "blockers": [],
-  "updated_at": "2026-08-11T12:08:27.344392+00:00"
+  "updated_at": "2026-08-11T12:38:45.872920+00:00"
 }
