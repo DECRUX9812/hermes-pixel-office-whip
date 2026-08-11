@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import json
 import logging
+import mimetypes
 import os
 import socket
 import threading
@@ -285,7 +286,8 @@ def _serve() -> None:
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
     _port = _resolve_port()
-    html_path = Path(__file__).resolve().parent / "web" / "index.html"
+    web_root = Path(__file__).resolve().parent / "web"
+    html_path = web_root / "index.html"
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args: Any) -> None:  # silence stdout
@@ -302,6 +304,22 @@ def _serve() -> None:
                     self.send_response(200)
                     self.send_header("Content-Type", "application/json")
                     self.send_header("Cache-Control", "no-store")
+                elif self.path.split("?")[0].startswith("/audio/"):
+                    relative = self.path.split("?", 1)[0].lstrip("/")
+                    asset = (web_root / relative).resolve()
+                    audio_root = (web_root / "audio").resolve()
+                    if asset.parent != audio_root or asset.suffix.lower() != ".mp3":
+                        self.send_response(404)
+                        body = b"not found"
+                        self.send_header("Content-Type", "text/plain")
+                    else:
+                        body = asset.read_bytes()
+                        self.send_response(200)
+                        self.send_header(
+                            "Content-Type",
+                            mimetypes.guess_type(asset.name)[0] or "audio/mpeg",
+                        )
+                        self.send_header("Cache-Control", "public, max-age=86400")
                 else:
                     self.send_response(404)
                     body = b"not found"

@@ -31,8 +31,21 @@ Companion VS Code extension: [hermes-pixel-office-vscode](https://github.com/tek
 - Optional sound: chime when an agent needs approval or a subagent finishes
   (♪ toggle in the header, off by default, persists)
 - Harmless **whip mode**: click `🐴 whip`, then click any seated agent to make
-  the pixel character jump with a whip-crack and reaction bubble. This is
-  strictly local visual state — it sends no event, prompt, or command to Hermes.
+  the pixel character react to a full wind-up → snap → recoil animation with a
+  leather handle, shaking rope, motion streaks, impact burst, jump, and reaction
+  bubble. The sharp crack is synthesized locally with Web Audio. This is
+  strictly visual/audio state — it sends no event, prompt, or command to Hermes.
+- Optional **dark sarcastic voice reactions**: toggle `🗣 voice` to hear lines
+  such as “The backlog demands another sacrifice.” The neural MP3 clips ship
+  with the plugin and play on the viewing laptop, so they work in Hermes
+  Desktop and over Tailscale even when the operating system has no TTS voices.
+  A browser speech engine is retained only as a fallback.
+- **Teknium patrol NPC**: an original pixel adaptation of the user's green-hair,
+  red-visor character periodically leaves the executive corner, walks to an
+  employee, performs the harmless cinematic whip, and returns home.
+- **Nous Girl lounge NPC**: an original pixel adaptation of the user's
+  purple-haired, white-jacket character chills beside the sofa with coffee and
+  occasional heart animations while Teknium conducts “management.”
 - Sessions from ALL Hermes processes on the machine share one office
 
 Visual only: the plugin observes lifecycle hooks — it never blocks, vetoes,
@@ -96,7 +109,7 @@ Hook callbacks (`pre/post_tool_call`, `subagent_start/stop`,
 `on_session_start/end`, `pre_approval_request`/`post_approval_response`)
 append one JSON line each to `~/.hermes/pixel-office/events.jsonl` — O(1),
 fail-open, microseconds. A daemon thread serves `web/index.html` (single
-canvas page, sprites drawn in code, zero dependencies) and `/state`, which
+canvas page, sprites drawn in code, plus bundled audio) and `/state`, which
 folds the log into the current office snapshot. The log auto-trims at 512 KB.
 
 ## Troubleshooting

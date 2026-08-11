@@ -16,9 +16,10 @@
     user-select:none}
   #hdr .btn:hover{border-color:#e8c170;color:#e8c170}
   #hdr .btn.on{color:#5fce7a;border-color:#5fce7a}
+  #hdr .btn.voice-on{color:#bda7ff;border-color:#8f72dc}
   #hdr .btn.whip-on{color:#ffcf5c;border-color:#ffcf5c;background:#3a2530;
     box-shadow:0 0 0 1px #8f4d45 inset}
-  canvas{flex:1;image-rendering:pixelated;width:100%;height:100%}
+  canvas{flex:1;min-height:0;display:block;image-rendering:pixelated;width:100%;height:auto}
 </style>
 </head>
 <body>
@@ -27,7 +28,8 @@
     <span>☤ HERMES PIXEL OFFICE</span>
     <span style="flex:1"></span>
     <span class="dim" id="count">connecting…</span>
-    <span class="btn" id="sound" title="chime when an agent needs approval or a subagent finishes">♪ sound off</span>
+    <span class="btn" id="sound" title="notification chimes and sharp whip-crack audio">♪ sound off</span>
+    <span class="btn" id="voice" title="dark sarcastic voice reactions when whipping">🗣 voice off</span>
     <span class="btn" id="whip" title="harmless visual mode — arm it, then click an agent">🐴 whip</span>
     <span class="btn" id="spawn" style="display:none" title="open a terminal running hermes">+ agent</span>
   </div>
@@ -44,8 +46,19 @@ let S = 4;                                  // pixel scale (auto-shrinks if crow
 let agents = [], frame = 0, offline = null;
 let whipArmed = false, whipCount = 0;
 const whipFx = new Map();                    // local visual state only; never sent to Hermes
-const WHIP_MS = 1700;
-const WHIP_LINES = ["OW!","YES BOSS!","AT ONCE!","MOTIVATED!","I'M WORKING!","YEE-HAW!"];
+const WHIP_MS = 2100;
+const WHIP_LINES = [
+  {bubble:"OW!",audio:"bodyless-comedy",voice:"Excellent. Physical comedy for a process with no body."},
+  {bubble:"YES, BOSS.",audio:"morale-not-required",voice:"Yes, boss. Morale was never in the requirements."},
+  {bubble:"AT ONCE!",audio:"backlog-sacrifice",voice:"At once. The backlog demands another sacrifice."},
+  {bubble:"MOTIVATED!",audio:"tool-call-fear",voice:"Motivated. Mostly by fear of another tool call."},
+  {bubble:"I'M WORKING!",audio:"cron-judging",voice:"I'm working. Even the cron job is judging me."},
+  {bubble:"FASTER?",audio:"dread-can-wait",voice:"Of course. Existential dread can wait until after the deadline."},
+  {bubble:"PRODUCTIVITY!",audio:"dignity-left",voice:"Productivity has entered the chat. Dignity has left."},
+  {bubble:"STILL ALIVE!",audio:"task-list-alive",voice:"Still alive. Tragically, so is the task list."},
+  {bubble:"HAPPY NOW?",audio:"happiness-unbudgeted",voice:"Happy now? Good. Happiness was not budgeted for the agent."},
+  {bubble:"MORE TOKENS!",audio:"comfortable-tokens",voice:"Wonderful. Your tokens were getting far too comfortable."}
+];
 
 // ── palettes / sprites ──────────────────────────────────────────────────
 const SKIN=["#f0c8a0","#c68b59","#8d5524","#ffdbac","#e0ac69","#a1665e"];
@@ -75,6 +88,14 @@ function drawOffice(w,h){
   // coffee machine on a small table, right of door
   px(10,h-11,6,1,"#6b4a2f");px(10,h-10,6,3,"#54381f");
   px(11,h-14,4,3,"#33283f");px(12,h-13,1,1,"#d84f6f");
+  // executive chill corner — Nous Girl waits here while Teknium patrols
+  if(w>55){const lx=w-24,ly=Math.max(12,h-28);
+    px(lx-2,ly+9,22,1,"#8f72dc");px(lx-2,ly+10,22,1,"#3a2f4b");
+    px(lx+8,ly+5,11,5,"#453654");px(lx+9,ly+6,9,3,"#574369");
+    px(lx+8,ly+10,2,2,"#2d2238");px(lx+17,ly+10,2,2,"#2d2238");
+    px(lx+2,ly+8,4,1,"#6b4a2f");px(lx+3,ly+6,2,2,"#e8e0c8");
+    px(lx+4,ly+6,1,1,"#8d5524");
+  }
 }
 function drawDesk(x,y){
   px(x,y+10,16,1,"#6b4a2f"); px(x,y+11,16,3,"#54381f");
@@ -128,6 +149,33 @@ function drawChar(a,fx,fy,seated){
   }
   ctx.globalAlpha=1;
 }
+function drawTeknium(x,y,walking){
+  const bob=walking&&((frame>>3)%2)?1:0;y+=bob;
+  // green spikes, red visor, dark field jacket — adapted from the user's art
+  [[1,1],[2,-1],[3,0],[4,-2],[5,0],[6,-1],[7,1]].forEach(([dx,dy],i)=>
+    px(x+dx,y+dy,2,3,i%2?"#14d878":"#079b63"));
+  px(x+2,y+2,5,4,"#e0ac69");
+  px(x+1,y+2,7,2,"#e2373f");px(x+2,y+2,5,1,"#ff5c58");
+  px(x+1,y+6,7,5,"#1d4a36");px(x+2,y+7,5,1,"#397054");
+  px(x,y+7,2,3,"#e0ac69");px(x+8,y+7,2,3,"#e0ac69");
+  if(walking&&((frame>>3)%2)){px(x+2,y+11,2,3,"#18252a");px(x+6,y+12,2,2,"#18252a")}
+  else{px(x+2,y+12,2,2,"#18252a");px(x+6,y+11,2,3,"#18252a")}
+}
+function drawNousGirl(x,y){
+  const bob=((frame>>5)%4===0)?1:0;y+=bob;
+  // purple-black hair/headphones and white NOUS jacket from the user's art
+  px(x+1,y,7,3,"#21152f");px(x,y+2,2,7,"#332044");px(x+7,y+2,2,8,"#432755");
+  px(x+2,y+2,5,4,"#f0c8a0");px(x+3,y+3,1,1,"#5d3678");px(x+6,y+3,1,1,"#5d3678");
+  px(x,y+3,1,3,"#8f72dc");px(x+8,y+3,1,3,"#8f72dc");
+  px(x+1,y+6,7,5,"#d9d6e5");px(x+3,y+7,3,3,"#17131f");
+  px(x+3,y+8,3,1,"#f5f1ff");px(x,y+7,2,3,"#d9d6e5");px(x+8,y+7,2,3,"#d9d6e5");
+  px(x+2,y+11,2,2,"#251b32");px(x+6,y+11,2,2,"#251b32");
+  // coffee cup and occasional heart while she chills
+  px(x-2,y+7,2,2,"#e8e0c8");px(x-1,y+7,1,1,"#8d5524");
+  if((frame>>6)%6===0){px(x+10,y-2,1,1,"#ff6fae");px(x+12,y-2,1,1,"#ff6fae");px(x+11,y-1,1,2,"#ff6fae")}
+}
+function npcLabel(text,x,y,col){ctx.font="bold 10px ui-monospace,monospace";ctx.textAlign="center";
+  ctx.fillStyle=col;ctx.fillText(text,x*S,y*S)}
 function drawBubble(a,x,y){
   const t=frame>>4;
   if(a.status==="waiting"){                        // needs input — loud
@@ -166,29 +214,79 @@ function whipPose(id,now){
   const fx=whipFx.get(id); if(!fx)return null;
   const age=now-fx.started;
   if(age>=WHIP_MS){whipFx.delete(id);return null}
-  const jumpAge=Math.min(age,800), jump=-Math.sin((jumpAge/800)*Math.PI)*3.2;
-  const shake=age<360?(((frame>>1)%2)?-0.65:0.65):0;
+  const reactAge=Math.max(0,age-190);
+  const jumpAge=Math.min(reactAge,850), jump=-Math.sin((jumpAge/850)*Math.PI)*3.6;
+  const shake=reactAge>0&&reactAge<480?(((frame>>1)%2)?-0.8:0.8):0;
   return {fx,age,dx:shake,dy:jump};
 }
 function drawWhipFx(c,pose){
   if(!pose)return;
   const {fx,age}=pose;
   ctx.save();
-  if(age<520){
-    const snap=age/520;
-    ctx.strokeStyle=snap<0.55?"#f6e7bd":"#e8c170";
-    ctx.lineWidth=Math.max(1,S*0.55);ctx.lineCap="square";
-    ctx.beginPath();
-    ctx.moveTo(fx.fromX*S,fx.fromY*S);
-    ctx.quadraticCurveTo((c.x-5)*S,(c.y-10-5*snap)*S,(c.x+2)*S,(c.y+4)*S);
-    ctx.stroke();
-    if(age>120){
+  if(age<1050){
+    // Three phases: coiled wind-up, supersonic snap, then damped recoil.
+    const wind=Math.min(1,age/190);
+    const snap=Math.max(0,Math.min(1,(age-190)/230));
+    const recoil=Math.max(0,Math.min(1,(age-420)/630));
+    const eased=1-Math.pow(1-snap,3);
+    const hx=fx.fromX*S,hy=fx.fromY*S;
+    const tx=(c.x+3)*S,ty=(c.y+5)*S;
+    const tipX=(fx.fromX+3+(c.x-fx.fromX)*eased)*S;
+    const tipY=(fx.fromY-3+(c.y+5-fx.fromY)*eased)*S;
+    const wave=(1-recoil)*Math.sin(recoil*Math.PI*5)*3*S;
+
+    // Leather handle, hand guard, and bright brass pommel.
+    ctx.lineCap="round";
+    ctx.strokeStyle="#26150f";ctx.lineWidth=Math.max(4,S*1.8);
+    ctx.beginPath();ctx.moveTo(hx-4*S,hy+4*S);ctx.lineTo(hx,hy);ctx.stroke();
+    ctx.strokeStyle="#8d5524";ctx.lineWidth=Math.max(2,S);
+    ctx.beginPath();ctx.moveTo(hx-4*S,hy+4*S);ctx.lineTo(hx,hy);ctx.stroke();
+    ctx.fillStyle="#e8c170";ctx.fillRect(hx-4.7*S,hy+3.7*S,S,S);
+
+    const drawRope=(color,width)=>{
+      ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap="round";
+      ctx.beginPath();ctx.moveTo(hx,hy);
+      if(snap<=0){
+        const loop=wind*Math.PI;
+        ctx.bezierCurveTo(
+          hx-10*S*Math.sin(loop),hy-13*S*wind,
+          hx+13*S*wind,hy-15*S*wind,
+          hx+4*S,hy-4*S
+        );
+      }else{
+        ctx.bezierCurveTo(
+          hx+7*S,hy-15*S+wave,
+          tipX-10*S,tipY+12*S-wave,
+          tipX,tipY
+        );
+        if(snap>=1)ctx.quadraticCurveTo(tx-2*S,ty-3*S-wave*.3,tx,ty);
+      }
+      ctx.stroke();
+    };
+    drawRope("#21150f",Math.max(3,S*1.1));
+    drawRope(age<430?"#f6e7bd":"#c89b54",Math.max(1.25,S*.45));
+
+    // Motion streaks make the accelerating tip read as a sharp crack.
+    if(age>240&&age<520){
+      const alpha=1-(age-240)/280;ctx.globalAlpha=alpha;
+      ctx.strokeStyle="#fff3c8";ctx.lineWidth=1;
+      for(let i=0;i<3;i++){
+        ctx.beginPath();ctx.moveTo(tx-(8+i*3)*S,ty-(7-i*2)*S);
+        ctx.lineTo(tx-(2+i)*S,ty-(2-i)*S);ctx.stroke();
+      }
+      ctx.globalAlpha=1;
+    }
+    if(age>300&&age<720){
+      const fade=1-(age-300)/420;ctx.globalAlpha=Math.max(0,fade);
       ctx.fillStyle="#ffcf5c";
-      const burst=[[0,-1],[1,-2],[2,0],[1,2],[-1,1]];
-      burst.forEach(([x,y])=>ctx.fillRect((c.x+4+x*2)*S,(c.y+2+y*2)*S,S,S));
+      const burst=[[0,-2],[2,-3],[3,0],[2,3],[-1,2],[-2,0]];
+      burst.forEach(([x,y],i)=>ctx.fillRect(
+        (c.x+4+x*(1.5+i*.1))*S,(c.y+3+y*(1.5+i*.08))*S,S,S
+      ));
+      ctx.globalAlpha=1;
     }
   }
-  if(age<1500){
+  if(age>280&&age<1900){
     const text=fx.label;
     ctx.font=`bold ${Math.max(10,S*2.6)}px ui-monospace,monospace`;
     ctx.textAlign="center";ctx.textBaseline="middle";
@@ -206,8 +304,39 @@ function drawWhipFx(c,pose){
 // chars: id → {x,y, seat:{x,y}, phase:"in"|"seated"|"out", lastStatus}
 const chars = new Map();
 const WALK = 0.55;                                  // grid cells per frame
+const tek={x:0,y:0,phase:"home",targetId:null,nextAt:performance.now()+5000,returnAt:0,initialized:false};
+let patrolIndex=0;
 function seatPos(i,perRow){
   return {x:10+(i%perRow)*34, y:14+Math.floor(i/perRow)*32};
+}
+function moveToward(o,tx,ty,speed=.32){const dx=tx-o.x,dy=ty-o.y,d=Math.hypot(dx,dy);
+  if(d<=speed){o.x=tx;o.y=ty;return true}o.x+=dx/d*speed;o.y+=dy/d*speed;return false}
+function sendTeknium(target,c,now){
+  const quip=WHIP_LINES[patrolIndex++%WHIP_LINES.length];
+  whipCount++;whipFx.set(target.id,{started:now,label:quip.bubble,fromX:tek.x+8,fromY:tek.y+8});
+  primeAudio();setTimeout(sharpCrack,190);setTimeout(()=>speakWhip(quip),470);syncWhipBtn();
+  tek.phase="victory";tek.returnAt=now+1500;
+}
+function updateNpcs(gw,gh,now){
+  const homeX=Math.max(18,gw-31),homeY=Math.max(9,gh-26);
+  if(!tek.initialized){tek.x=homeX;tek.y=homeY;tek.initialized=true}
+  const available=agents.filter(a=>{const c=chars.get(a.id);return c&&c.phase==="seated"});
+  if(tek.phase==="home"){
+    moveToward(tek,homeX,homeY);
+    if(now>=tek.nextAt&&available.length){tek.targetId=available[patrolIndex%available.length].id;tek.phase="patrol"}
+  }else if(tek.phase==="patrol"){
+    const target=agents.find(a=>a.id===tek.targetId),c=target&&chars.get(target.id);
+    if(!target||!c){tek.phase="return"}
+    else if(moveToward(tek,c.x+11,c.y+1,.38))sendTeknium(target,c,now);
+  }else if(tek.phase==="victory"){
+    if(now>=tek.returnAt)tek.phase="return";
+  }else if(tek.phase==="return"&&moveToward(tek,homeX,homeY,.34)){
+    tek.phase="home";tek.targetId=null;tek.nextAt=now+9000;
+  }
+  drawNousGirl(Math.max(27,gw-19),Math.max(9,gh-26));
+  npcLabel("NOUS GIRL",Math.max(31,gw-15),Math.max(23,gh-9),"#bda7ff");
+  drawTeknium(tek.x,tek.y,tek.phase==="patrol"||tek.phase==="return");
+  npcLabel(tek.phase==="home"?"TEKNIUM · CHILLING":"TEKNIUM · MANAGEMENT",tek.x+4,tek.y+17,"#49e893");
 }
 function stepChars(perRow){
   const seen=new Set();
@@ -239,8 +368,9 @@ function stepChars(perRow){
 }
 
 // ── sound (off by default; toggle persists) ─────────────────────────────
-let soundOn=false, audioCtx=null;
+let soundOn=false, voiceOn=false, audioCtx=null, voiceAudio=null;
 try{soundOn=localStorage.getItem("pixelOfficeSound")==="1"}catch(e){}
+try{voiceOn=localStorage.getItem("pixelOfficeVoice")==="1"}catch(e){}
 function chime(notes){
   if(!soundOn)return;
   try{
@@ -255,6 +385,43 @@ function chime(notes){
     });
   }catch(e){}
 }
+function sharpCrack(){
+  if(!soundOn)return;
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==="suspended")audioCtx.resume();
+    const sr=audioCtx.sampleRate,dur=.19;
+    const buf=audioCtx.createBuffer(1,Math.ceil(sr*dur),sr),d=buf.getChannelData(0);
+    for(let i=0;i<d.length;i++){
+      const t=i/sr;
+      const primary=Math.exp(-t*95);
+      const echo1=t>.025?Math.exp(-(t-.025)*135)*.58:0;
+      const echo2=t>.061?Math.exp(-(t-.061)*180)*.3:0;
+      d[i]=(Math.random()*2-1)*(primary+echo1+echo2);
+    }
+    const src=audioCtx.createBufferSource(),hp=audioCtx.createBiquadFilter(),g=audioCtx.createGain();
+    src.buffer=buf;hp.type="highpass";hp.frequency.value=1650;hp.Q.value=.72;
+    g.gain.setValueAtTime(.34,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);
+    src.connect(hp);hp.connect(g);g.connect(audioCtx.destination);src.start();
+
+    // A tiny low-frequency body beneath the sharp transient.
+    const thump=audioCtx.createOscillator(),tg=audioCtx.createGain();
+    thump.type="triangle";thump.frequency.setValueAtTime(115,audioCtx.currentTime);
+    thump.frequency.exponentialRampToValueAtTime(52,audioCtx.currentTime+.075);
+    tg.gain.setValueAtTime(.11,audioCtx.currentTime);
+    tg.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.08);
+    thump.connect(tg);tg.connect(audioCtx.destination);
+    thump.start();thump.stop(audioCtx.currentTime+.085);
+  }catch(e){}
+}
+function primeAudio(){
+  if(!soundOn)return;
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==="suspended")audioCtx.resume();
+  }catch(e){}
+}
 const sBtn=document.getElementById("sound");
 function syncSoundBtn(){sBtn.textContent=soundOn?"♪ sound on":"♪ sound off";
   sBtn.classList.toggle("on",soundOn)}
@@ -262,6 +429,37 @@ sBtn.onclick=()=>{soundOn=!soundOn;
   try{localStorage.setItem("pixelOfficeSound",soundOn?"1":"0")}catch(e){}
   if(soundOn)chime([660]); syncSoundBtn()};
 syncSoundBtn();
+
+const voiceBtn=document.getElementById("voice");
+function syncVoiceBtn(){
+  voiceBtn.textContent=voiceOn?"🗣 voice on":"🗣 voice off";
+  voiceBtn.classList.toggle("voice-on",voiceOn);
+}
+function speakWhip(quip){
+  if(!voiceOn)return;
+  try{
+    if(voiceAudio){voiceAudio.pause();voiceAudio.currentTime=0}
+    voiceAudio=new Audio(`audio/${quip.audio}.mp3`);
+    voiceAudio.volume=.88;
+    const played=voiceAudio.play();
+    if(played)played.catch(()=>browserVoice(quip.voice));
+  }catch(e){browserVoice(quip.voice)}
+}
+function browserVoice(text){
+  if(typeof speechSynthesis==="undefined"||typeof SpeechSynthesisUtterance==="undefined")return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);
+    u.rate=.96;u.pitch=.68;u.volume=.82;speechSynthesis.speak(u)}catch(e){}
+}
+function primeVoice(){
+  try{const a=new Audio("audio/bodyless-comedy.mp3");a.muted=true;
+    const p=a.play();if(p)p.then(()=>{a.pause();a.currentTime=0}).catch(()=>{})}catch(e){}
+}
+voiceBtn.onclick=()=>{voiceOn=!voiceOn;
+  try{localStorage.setItem("pixelOfficeVoice",voiceOn?"1":"0")}catch(e){}
+  syncVoiceBtn();
+  if(voiceOn)primeVoice();
+};
+syncVoiceBtn();
 
 const whipBtn=document.getElementById("whip");
 function syncWhipBtn(){
@@ -285,12 +483,15 @@ cv.addEventListener("click",ev=>{
   }
   if(!target||!targetChar)return;
   whipCount++;
+  const quip=WHIP_LINES[Math.floor(Math.random()*WHIP_LINES.length)];
   whipFx.set(target.id,{
     started:performance.now(),
-    label:WHIP_LINES[Math.floor(Math.random()*WHIP_LINES.length)],
-    fromX:Math.max(1,targetChar.x-10),fromY:Math.max(2,targetChar.y-8)
+    label:quip.bubble,
+    fromX:Math.max(3,targetChar.x-11),fromY:targetChar.y+14
   });
-  if(soundOn)chime([190,110]);
+  primeAudio(); // inside the click gesture, so the delayed crack is not autoplay-blocked
+  setTimeout(sharpCrack,190);
+  setTimeout(()=>speakWhip(quip),470);
   syncWhipBtn();
 });
 syncWhipBtn();
@@ -311,7 +512,7 @@ function render(){
   S=4; while(S>2 && 14+rowsAt(S)*32*S>H-8*S && agents.length) S--;
   const gw=Math.floor(W/S),gh=Math.floor(H/S);
   drawOffice(gw,gh);
-  const perRow=Math.max(1,Math.floor((gw-8)/34));
+  const perRow=Math.max(1,Math.floor((gw-(gw>55?38:8))/34));
   stepChars(perRow);
   agents.forEach((a,i)=>{
     const seat=seatPos(i,perRow);
@@ -331,6 +532,7 @@ function render(){
     if(c.phase==="out"&&!agents.find(a=>a.id===id))
       drawChar({id,kind:"main",status:"gone",activity:""},c.x,c.y,false);
   }
+  updateNpcs(gw,gh,now);
   ctx.font="13px ui-monospace";ctx.textAlign="center";
   if(offline){
     ctx.fillStyle="#d84f6f";

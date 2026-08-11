@@ -1,6 +1,6 @@
 name: pixel-office
-version: "0.3.0"
-description: "Pixel-art virtual office for Hermes — watch agents work, then harmlessly whip their pixel characters for fun. Visual only; observes lifecycle hooks, never blocks or transforms anything."
+version: "0.6.0"
+description: "Pixel-art Hermes office with harmless cinematic whips, bundled sarcastic voice, and autonomous Teknium and Nous Girl NPCs."
 author: "NousResearch + Ritesh Patel"
 hooks:
   - pre_tool_call
