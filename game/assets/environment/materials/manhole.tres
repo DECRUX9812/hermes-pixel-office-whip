@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/blockout/materials/ink_edge.gdshader" id="1_shader"]
+
+[resource]
+resource_name = "Environment Manhole Grate (dark iron)"
+shader = ExtResource("1_shader")
+shader_parameter/albedo = Color(0.16, 0.17, 0.19, 1)
+shader_parameter/metallic = 0.85
+shader_parameter/roughness = 0.55
+shader_parameter/rim_width = 0.2
+shader_parameter/rim_intensity = 0.35
+shader_parameter/rim_color = Color(0.01, 0.01, 0.012, 1)
+shader_parameter/emission = Color(0, 0, 0, 1)
+shader_parameter/emission_energy = 0.0

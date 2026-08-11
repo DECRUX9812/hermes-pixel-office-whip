@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/environment/materials/organ_pipe.gdshader" id="1_shader"]
+
+[resource]
+resource_name = "Environment Organ Pipe (copper gradient + faint bands)"
+shader = ExtResource("1_shader")
+shader_parameter/bottom_color = Color(0.42, 0.22, 0.11, 1)
+shader_parameter/top_color = Color(0.88, 0.58, 0.38, 1)
+shader_parameter/metallic = 1.0
+shader_parameter/roughness = 0.35
+shader_parameter/band_color = Color(1.0, 0.62, 0.28, 1)
+shader_parameter/band_energy = 1.15
+shader_parameter/rim_width = 0.16
+shader_parameter/rim_intensity = 0.3
+shader_parameter/rim_color = Color(0.05, 0.028, 0.012, 1)

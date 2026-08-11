@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/blockout/materials/ink_edge.gdshader" id="1_shader"]
+
+[resource]
+resource_name = "Environment Window Interior (warm emerald household light)"
+shader = ExtResource("1_shader")
+shader_parameter/albedo = Color(0.03, 0.09, 0.07, 1)
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.6
+shader_parameter/rim_width = 0.1
+shader_parameter/rim_intensity = 0.2
+shader_parameter/rim_color = Color(0.0, 0.02, 0.02, 1)
+shader_parameter/emission = Color(0.5, 1.0, 0.62, 1)
+shader_parameter/emission_energy = 1.9
