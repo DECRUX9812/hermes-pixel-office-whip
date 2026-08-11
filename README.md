@@ -1,8 +1,8 @@
-# Hermes Pixel Office — Whip Edition ☤🐴
+# Hermes 3D Office — Whip Edition ☤🐴
 
-A pixel-art virtual office for [Hermes Agent](https://github.com/NousResearch/hermes-agent) —
+A fast low-poly 3D virtual office for [Hermes Agent](https://github.com/NousResearch/hermes-agent) —
 every agent session and every `delegate_task` subagent becomes an animated
-pixel character at a desk. Watch tools fire, subagents spawn and finish, and
+3D employee at a desk. Watch tools fire, subagents spawn and finish, and
 approval requests flag you visually, live in your browser or in VS Code.
 
 Hermes' answer to "Pixel Agents" for Claude Code.
@@ -19,6 +19,12 @@ Companion VS Code extension: [hermes-pixel-office-vscode](https://github.com/tek
 
 ## What you'll see
 
+- **3D by default**: a locally vendored Three.js/WebGL renderer with an orbiting
+  camera, zoom, neon lighting, real depth, low-poly furniture, and adaptive
+  quality. No CDN or remote rendering is required.
+- **Proven 2D fallback**: click `2D FALLBACK` whenever WebGL is unavailable or
+  when you simply want the original lightweight pixel office.
+
 - One character per Hermes session (CLI, Telegram, Discord, cron, ...) —
   characters walk in through the door, sit at a desk, and walk out when the
   session ends
@@ -31,7 +37,7 @@ Companion VS Code extension: [hermes-pixel-office-vscode](https://github.com/tek
 - Optional sound: chime when an agent needs approval or a subagent finishes
   (♪ toggle in the header, off by default, persists)
 - Harmless **whip mode**: click `🐴 whip`, then click any seated agent to make
-  the pixel character react to a full wind-up → snap → recoil animation with a
+  the 3D employee react to a full wind-up → snap → recoil animation with a
   leather handle, shaking rope, motion streaks, impact burst, jump, and reaction
   bubble. The sharp crack is synthesized locally with Web Audio. This is
   strictly visual/audio state — it sends no event, prompt, or command to Hermes.
@@ -108,8 +114,8 @@ agents ──lifecycle hooks──▶ events.jsonl ──fold──▶ /state �
 Hook callbacks (`pre/post_tool_call`, `subagent_start/stop`,
 `on_session_start/end`, `pre_approval_request`/`post_approval_response`)
 append one JSON line each to `~/.hermes/pixel-office/events.jsonl` — O(1),
-fail-open, microseconds. A daemon thread serves `web/index.html` (single
-canvas page, sprites drawn in code, plus bundled audio) and `/state`, which
+fail-open, microseconds. A daemon thread serves the vendored 3D WebGL app,
+the preserved pixel fallback, bundled audio, and `/state`, which
 folds the log into the current office snapshot. The log auto-trims at 512 KB.
 
 ## Troubleshooting

@@ -1,6 +1,6 @@
 name: pixel-office
-version: "0.6.0"
-description: "Pixel-art Hermes office with harmless cinematic whips, bundled sarcastic voice, and autonomous Teknium and Nous Girl NPCs."
+version: "0.7.0"
+description: "Fast low-poly 3D Hermes office with live agents, Teknium patrols, Nous Girl lounge, cinematic whips, voice, and pixel fallback."
 author: "NousResearch + Ritesh Patel"
 hooks:
   - pre_tool_call

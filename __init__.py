@@ -288,6 +288,14 @@ def _serve() -> None:
     _port = _resolve_port()
     web_root = Path(__file__).resolve().parent / "web"
     html_path = web_root / "index.html"
+    static_assets = {
+        "/pixel.html": web_root / "pixel.html",
+        "/office3d.mjs": web_root / "office3d.mjs",
+        "/office3d-core.mjs": web_root / "office3d-core.mjs",
+        "/vendor/three.module.min.js": web_root / "vendor" / "three.module.min.js",
+        "/vendor/three.core.min.js": web_root / "vendor" / "three.core.min.js",
+        "/vendor/THREE-LICENSE.txt": web_root / "vendor" / "THREE-LICENSE.txt",
+    }
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args: Any) -> None:  # silence stdout
@@ -304,6 +312,15 @@ def _serve() -> None:
                     self.send_response(200)
                     self.send_header("Content-Type", "application/json")
                     self.send_header("Cache-Control", "no-store")
+                elif self.path.split("?")[0] in static_assets:
+                    asset = static_assets[self.path.split("?", 1)[0]]
+                    body = asset.read_bytes()
+                    self.send_response(200)
+                    self.send_header(
+                        "Content-Type",
+                        mimetypes.guess_type(asset.name)[0] or "application/octet-stream",
+                    )
+                    self.send_header("Cache-Control", "public, max-age=3600")
                 elif self.path.split("?")[0].startswith("/audio/"):
                     relative = self.path.split("?", 1)[0].lstrip("/")
                     asset = (web_root / relative).resolve()
