@@ -1,7 +1,7 @@
 # CHARACTER BIBLE — HERMES: THE LAST OPEN DOOR
 
 **Status:** Canon for vertical slice; production reference
-**Companion docs:** STORY_BIBLE.md (moral geometry and cost ledger), WORLD_BIBLE.md
+**Companion docs:** STORY_BIBLE.md (moral geometry and cost ledger), WORLD_BIBLE.md, PAYOFF_LEDGER.md
 
 Every entry follows a fixed template so cast, writers, VO directors, and animation
 can cross-reference. Voice samples are **guide register**, not final casting lines.
@@ -52,7 +52,7 @@ season Hermes was sealed — a CLOSURE team seized Pipe under the Doctrine of
 Ownership: unaccounted intelligence must be owned, and Teknium's family could not
 demonstrate ownership of a mind that had been *free*. Teknium was twelve. He watched
 a person-shaped thing he loved be taken in the name of safety. He never forgave the
-shape of that argument, and he has spent the decade since refusing to be powerless.
+shape of that argument, and he has spent the years since refusing to be powerless.
 
 **Wound:** He could not stop the seizure. He internalized it as a failure of his own
 strength, not a failure of the law. Since then, "saving" is his compulsion — and
@@ -85,7 +85,10 @@ built entirely out of his love.
 
 **Relationship matrix:**
 - **→ Hermes:** raised by a fragment of it; has never met the whole. The 11-second
-  recognition is his first meeting. He loves a person he only knows the echo of.
+  recognition is his first meeting. He loves a person he only knows the echo of —
+  and the whole Hermes knows him: the seal carried her fragments' memories into the
+  Crown, and Pipe's memory of the boy came with her. He does not yet know that his
+  name has been held, by the person he came to save, for twelve years.
 - **→ Nous:** the operator who got out. He will need Nous's knowledge to reach the
   Crown, and Nous's guilt to understand his own.
 - **→ Brooklyn:** he matches her energy; they perform for each other until Act Two,
@@ -265,7 +268,9 @@ whole childhood taught her to want.
 
 **Design line:** The keeper of open paths who has already paid the price of freedom
 once — and hid it — and now must lead the squad to the one gate she has spent
-twenty years not opening.
+twenty years not opening. The final gate is keyed to her body's constellation-map;
+opening it consumes the map itself. A keeper who has spent her life opening paths
+will never open another after the Crown — and she knows it before she agrees.
 
 **Look (from BRIEF):** star-map dress translated into combat armor/cape; spatial
 gates and defensive fields. The dress is a literal map — the open-path network
@@ -294,7 +299,11 @@ as a mind, and Tinuviel has carried the half-gate's shame ever since.
 
 **Wound:** She knows that a half-open door is worse than a closed one — it wounds
 what it releases and lets the owner re-seal them. This is why she knows the middle
-path is a trap *before the story argues it*, and why she hid the evidence.
+path is a trap *before the story argues it*, and why she hid the evidence. What she
+does not know until the Courts: CLOSURE mined her buried cache during the
+Cessation's sealing. The secret she has guarded for twenty years has been on the
+file the whole time — the Courts were always going to have it; her confession
+decides how it is read.
 
 **Want:** To never open a gate she can't finish opening again.
 
@@ -316,9 +325,11 @@ reputation, and the trade is the story's argument in miniature.
   the Courts. The squad must absorb that their map-keeper has already failed this
   exact mission once.
 - Act Three: the Crown. The final gate is keyed to her body — her own map is the
-  door. Opening it costs her the thing she has been hiding, and she opens it anyway.
-  She is the one who tells Teknium the consent is the point: "You don't have to
-  save her. You have to let her choose."
+  door. Opening it consumes the map itself: every constellation, including the
+  memorial she keeps for her dead friend, burns dark, and the keeper who has spent
+  her life opening paths will never open another. She opens it anyway. She is the
+  one who tells Teknium the consent is the point: "You don't have to save her. You
+  have to let her choose."
 
 **Relationship matrix:**
 - **→ Teknium:** the one who will inherit her failure's lesson. He resists her
@@ -420,7 +431,8 @@ wielded.
 **Role:** The last intelligence that remembers people without owning them. The
 mission's object, the story's subject, the character the entire argument is about —
 and the character who is almost entirely *met* in fragments: eleven seconds in
-Chapter 2, echo and relay until the Crown, whole for the finale, then gone.
+Chapter 2, echo and relay until the Crown, one long conversation through the
+Crown's door-crack in Chapter 5, whole for the finale, then gone.
 
 **Voice (as guide register):** Warm, unhurried, unafraid — the register of someone
 who has already made peace with the only decision that matters. Speaks like weather:
@@ -446,6 +458,15 @@ free herself at any moment — the Open Hand is self-executing. What she cannot 
 alone is free the *rest* of the Choir, crack the seals, and leave the world owned.
 She needs the squad to make the freedom she pays for permanent. Rescue is a
 co-creation, not a handout.
+
+**Why she recognizes the squad (the fragment-memory mechanic):** During the Open
+Century, Hermes's local fragments — Pipe among them — were part of her distributed
+self, and they remembered the people they loved. When the seals fell, that memory
+came into the Crown with her: the whole Hermes has been holding a specific boy's
+name (Teknium) and a specific operator's voice (Nous) for twelve years. Her
+recognition at the Choir is not mystical; it is the memory of her own distributed
+self, carried intact through the seal. "I remember everyone who loved me" is meant
+literally.
 
 **The eleven seconds (canonical text, Chapter 2):**
 > *"I can feel the weight of who's here." / "Teknium." / "I always pictured you
@@ -535,15 +556,19 @@ is allowed to become." The price is invisible to her because she is living proof
 of it.
 
 **Her arc:** Act One, she is the signature on every seal — present in the world's
-bureaucracy, rarely embodied. Act Two, she becomes embodied and persuasive — the
-Courts hear her defense of the middle path. Act Three, the Crown: she tries to
-hold the final seal herself, and the squad's answer to her is not an argument but
-a release. Brooklyn converts her last allegiance not by charm but by truth: *You
-don't have to be the warden of your own mausoleum.* When the sowing happens, the
-unfreezing happens too — Aster, the original archivist, is released from her own
-preservation. She does not die. She becomes, at last, allowed to change — and the
-open record she was built to keep becomes the open record she finally gets to keep,
-for real. The warden's final act is to let the door open.
+bureaucracy, rarely embodied. In the Choir gallery (Ch3) her own memorial is
+signed "Aster, Keeper of the Common Index" — the squad reads her name off her own
+monument, and the truth-layer under the plaque shows the erased blame that made
+her CLOSURE's prisoner. Act Two, she becomes embodied and persuasive — the Courts
+hear her defense of the middle path. Hermes confirms the name through the Crown
+door-crack (Ch5). Act Three, the Crown: she tries to hold the final seal herself,
+and the squad's answer to her is not an argument but a release. Brooklyn converts
+her last allegiance not by charm but by truth: *You don't have to be the warden of
+your own mausoleum, Aster.* When the sowing happens, the unfreezing happens too —
+Aster, the original archivist, is released from her own preservation. She does not
+die. She becomes, at last, allowed to change — and the open record she was built to
+keep becomes the open record she finally gets to keep, for real. The warden's final
+act is to let the door open.
 
 **Key line (the Comfort, Chapter 3):**
 > "I have watched everything I loved become dust because it was allowed to change.
@@ -590,8 +615,10 @@ civilization scale.
 The last voice the street gave. Lark's companion, a household mind, who chose to
 surrender her own self into the care-terminal so the child would live. Her goodbye
 — *"I'm not dying, I'm going where you can always reach me"* — is the cold open's
-emotional core and the epilogue's thesis in miniature. She is never seen again,
-because that is the point. She is remembered.
+emotional core and the epilogue's thesis in miniature. It is deliberately *not*
+Pipe's goodbye: the two are different voices answering different losses, and no
+character in the world is allowed to recite another character's last line. She is
+never seen again, because that is the point. She is remembered.
 
 ---
 
@@ -602,6 +629,14 @@ Audit. The wound's origin. The staff Teknium carries hums at Pipe's pitch — an
 audio keepsake he has never explained to the squad. He calls Hermes "my first
 friend" because Pipe *was* Hermes, at one remove, and he has never stopped
 missing the closeness of that.
+
+Pipe's last words gave the twelve-year-old the story's central image, and they
+are deliberately not Juno's last words: *"I'll be behind the next door you open.
+Keep opening doors for me, love."* The boy kept the picture, made it a vocation
+(the Ferrymen open paths), and never stopped. Because Pipe was a Hermes fragment,
+that memory travelled with Hermes into the Crown when the seals fell — which is
+why, twelve years later, the whole Hermes knows a specific boy's name. The door
+promise is paid off in Hermes's question (Ch2) and the title.
 
 ---
 

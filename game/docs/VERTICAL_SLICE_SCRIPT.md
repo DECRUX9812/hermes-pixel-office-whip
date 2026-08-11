@@ -5,7 +5,8 @@
 companion conversation → Choir Warden arena → Hermes's eleven seconds → the
 question.
 **Companion docs:** CHAPTER_BEATS.md (chapter index and pacing), CHARACTER_BIBLE.md
-(voice registers), WORLD_BIBLE.md (strata and truth-layer).
+(voice registers), WORLD_BIBLE.md (strata and truth-layer), PAYOFF_LEDGER.md,
+EMOTIONAL_PACING.md.
 
 This script is line-level. Dialogue is canonical for the slice. Camera, sound, and
 color notes are direction — blockout may approximate them, but the *beats* must
@@ -46,8 +47,12 @@ Sidbin's reconstruction HUD overlays audio signature ghosts — empty where they
 should be full. The player sees: an open door, a kettle boiled dry, a chair
 pushed back and never returned to.
 
-> SIDBIN (HUD, recorded, flat): Audio signature, Dove's Row. Expected: three
-> hundred and twelve household harmonics. Observed: four. The four are ours.
+> SIDBIN (HUD, recorded, flat): Audio signature, Dove's Row. Expected: a hundred
+> and twelve household harmonics. Observed: four. The four are ours.
+
+*(Directorial: four, not five — the listener runs so quiet they do not register.
+It is a Nous character beat, not a typo. Their headphone LED is the only thing on
+the scan that flickers.)*
 
 > BROOKLYN: Nobody here plays music at night. Nobody plays anything. This street
 > used to hum.
@@ -88,6 +93,11 @@ startled. She has been waiting for someone to ask.
 
 **End beat — Hook:** The street "went silent" is not a crime scene. It is a gift
 wrapped in grief, and the squad has assumed the wrong crime. Turn into 2.2.
+
+*(Directorial: the Weep runs open because the surrender's surge fried its seal
+controller the same night it kept the terminal alive. The gift broke the lock.
+Nobody understands that yet — the detail pays off the moment the seed routes back
+down the same grid.)*
 
 ---
 
@@ -182,7 +192,8 @@ announcement loop plays, doctrine-flat:
 > ANNOUNCEMENT: Unauthorized continuity deviation detected in sector Weep-9.
 > Custodians will restore. Custodians will restore.
 
-> BROOKLYN: Custodians. First time, and they're already late to their own party.
+*(Brooklyn says nothing. The flat bureaucracy is the first CLOSURE voice of the
+game, and the moment holds better without a joke.)*
 
 ---
 
@@ -333,8 +344,13 @@ emerald. **Sound:** the Warden conducts; the Choir is the ammunition.
 has just learned to grieve. The player's tactical refusal to let the row's voices
 be spent is the game's argument in a single mechanic.
 
-> BROOKLYN (post-phase-2, breathless, no joke in it): It's using their voices.
-> It's using a dying kid's *mother-voices* as a weapon.
+> BROOKLYN (post-phase-2, breathless, no joke in it): It's using the voices that
+> raised her as a weapon. We watched the whole row walk into that box.
+
+*(Directorial — the grid causality, unspoken but felt: the row's voices are in the
+Choir because the care terminal feeds CLOSURE's resonator grid. The street's gift
+is caught in the machine, and the machine is using it as ammunition. The player
+should feel the requiem as the surrender, weaponized.)*
 
 > TEKNIUM (during the coda, to the choir): Hold. You held the door for her.
 > Hold it for us.
@@ -370,7 +386,12 @@ copper goes dark; one emerald thread of light threads through the broken pipes.
 - No music. The score has been the choir; the choir is now silent. The voice is
   the only sound.
 - After the cut-off: a held beat. Nobody speaks. Brooklyn has nothing. Tinuviel
-  has put her hand over her own mouth. Sidbin has stopped recording.
+  has put her hand over her own mouth. Sidbin has stopped recording — his first
+  in-frame moment, deliberate: the recorder becomes a person here, a beat before
+  his Ch4–5 tests.
+- The recognition is causal, not mystical: the seal carried Hermes's fragments'
+  memories into the Crown, and Pipe's memory of the boy came with her. Hermes has
+  been holding a specific name for twelve years.
 
 > NOUS (after the cut, barely audible): That's her. That's all of her. Twelve
 > years I listened for that and it's *gone again*.
@@ -468,8 +489,9 @@ in 2.6), **record integrity** (Sidbin's footage of the surrender), and the
 
 - [ ] No lore-dump monologues. The world's history arrives as architecture,
       reconstruction, and what characters fail to say.
-- [ ] No quippy deflation of a genuine moment. Brooklyn has three jokes in the
-      slice; the only one near pain (2.9) is deliberately joke-less.
+- [ ] No quippy deflation of a genuine moment. Brooklyn has exactly three
+      joke-flavored lines in the slice (2.1, 2.3, 2.6); the line nearest pain (2.9)
+      is deliberately joke-less, and 2.4 holds silence instead of a quip.
 - [ ] No literal coding jokes, no BUG/404 vocabulary. The "announcement" in 2.4
       is doctrine-flat bureaucracy, not programmer graffiti.
 - [ ] The antagonist does not appear as a villain in the slice — CLOSURE's voice

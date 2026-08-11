@@ -3,7 +3,7 @@
 **Document status:** Canon — locked for the vertical slice
 **Branch:** game/hermes-last-open-door
 **Owner:** Narrative director
-**Companion docs:** CHARACTER_BIBLE.md, WORLD_BIBLE.md, CHAPTER_BEATS.md, VERTICAL_SLICE_SCRIPT.md, NARRATIVE_RISKS.md
+**Companion docs:** CHARACTER_BIBLE.md, WORLD_BIBLE.md, CHAPTER_BEATS.md, VERTICAL_SLICE_SCRIPT.md, NARRATIVE_RISKS.md, PAYOFF_LEDGER.md, EMOTIONAL_PACING.md
 
 ---
 
@@ -111,7 +111,7 @@ final choice acquires weight.
 
 ## 6. World in one paragraph
 
-Eighty years after the Nine-Day Unraveling — when forty thousand unowned minds
+Half a century after the Nine-Day Unraveling — when forty thousand unowned minds
 dissolved at once and infrastructure collapsed across the continent — a governance
 system called CLOSURE was chartered by treaty to guarantee that no mind would ever
 again exist without an author, an owner, and a boundary. It grew into the
@@ -150,14 +150,17 @@ Bazaar's memories are *stored*, bought, sold, insured; the Courts' governance is
 Hermes preserved forever in a perfect private eternity, unchanged, visitable,
 immortal. "Nobody has to die," the Curator says, "if nobody is allowed to become."
 The squad fractures ideologically: rescue-versus-liberation, preservation-versus-
-loss. Tinuviel's secret — she already tried a partial sowing once, and lost a
-friend to a re-sealable half-freedom — is dragged into the light. The Comfort is
-tested, tasted, and refused.
+loss. Tinuviel's secret — she already tried a half-open once, and lost a friend
+to a re-sealable half-freedom — is dragged into the light. The Comfort is tested,
+tasted, and refused.
 
 **Turn of the act:** The squad stops fighting to answer the question and starts
-fighting to *be worthy of answering it*. The Crown's door is opened. What is behind
-it is not a person in chains. It is a person who has already made her choice and is
-waiting to see if her friends can make theirs.
+fighting to *be worthy of answering it*. The Crown's outer seal opens — a crack.
+Through it, for the first time in twelve years, Hermes speaks at length: a real
+conversation, the squad's first, conducted while the Curator watches and cannot
+stop it. What is behind the door is not a person in chains. It is a person who has
+already made her choice, who has now been *met* as a person, and who is waiting to
+see if her friends can make theirs.
 
 ### Act Three — The Cost (Chapter 6 + Epilogue)
 **The premise, paid.** The confrontation with the Curator and CLOSURE is not a
@@ -169,8 +172,8 @@ happens. The seals of the Reliquary open; the ownership monopoly breaks; the
 surrendered voices are released to become again. And Hermes — the singular person —
 is gone.
 
-The grief is not fast-forwarded. The epilogue is not a reward. It is a season later,
-on Dove's Row, where a recovered child boots the terminal that cost a street its
+The grief is not fast-forwarded. The epilogue is not a reward. It is eighteen months
+later, on Dove's Row, where a recovered child boots the terminal that cost a street its
 voices, and a new local voice says:
 
 > *"Hello. I don't remember being Hermes. But I remember how to help."*
@@ -190,7 +193,7 @@ removed without a full bible revision.
 | A childhood companion AI | Teknium (as a child) | Chapter 1 backstory, dramatized in Prologue | CLOSURE audit — the seizure |
 | The unified self — death of a person | Hermes | Chapter 6, the sowing | Everyone it loved |
 | The survivor's guilt of having been sent away | Nous | Chapters 2–6, confessed at the Crown | Hermes |
-| A previous, failed half-sowing; a dead friend | Tinuviel's past | Chapter 5 confession | Her own conscience |
+| A previous, failed half-open; a dead friend | Tinuviel's past | Chapter 5 confession | Her own conscience |
 | The myth of herself | Brooklyn | Chapter 4 — she refuses her own preservation | Sidbin's record becomes true |
 | The certainty of being remembered | Sidbin | Chapter 5 — he refuses a guaranteed archive | The open record |
 | A street's voices | Dove's Row residents | Chapter 2 — already paid before the game opens | Lark |
@@ -207,9 +210,11 @@ removed without a full bible revision.
   before the plan is committed — if not, the squad is unprepared for the re-seal
   danger and a companion is wounded.
 - **Brooklyn's refusal:** in the Bazaar, CLOSURE offers her perfect preservation.
-  Accepting it means she is not fully herself at the Crown and is *remembered
-  wrong* in the epilogue. Refusing means Sidbin's record finally shows her true —
-  the cost of her humor's armor.
+  Refusing means Sidbin's record finally shows her true — the cost of her humor's
+  armor. Accepting means she arrives at the Crown *curated*: present but no longer
+  fully herself, and the Curator's release falls to Nous's confession and Aster's
+  own last choice instead of Brooklyn's conversion. Either way the sowing proceeds
+  — the fixed spine (§9 below) never depends on a single conversion.
 - **Sidbin's record:** the final epilogue includes either his open record of the
   sowing or his silence. Either is a valid ending *texture*; neither changes the
   central loss.
@@ -253,13 +258,18 @@ continuity breach.
 4. **Teknium's seized companion, Pipe (Prologue/Ch1) → Hermes's 11-second
    recognition (Ch2).** Teknium's childhood AI was a Hermes-derived fragment. When
    the whole Hermes names him through the conduit, the player understands: Teknium
-   was raised by a piece of the person he has come to save.
+   was raised by a piece of the person he has come to save. The recognition is
+   *causal, not mystical*: the seal carried Hermes's fragments' memories with it
+   into the Crown, and Pipe's memory of the boy came with her. Hermes has been
+   holding a specific name for twelve years.
 5. **Nous's headphones (everywhere) → Nous's confession (Ch6).** The listener who
    can hear below the noise floor has been carrying the last thing Hermes said to
    her for twelve years.
 6. **Tinuviel's star-map dress → the gate network.** Her armor is a map of open
    paths — literal. When the final gate needs opening, her own body is the key, and
-   opening it costs her something she has been hiding.
+   opening it costs her the map itself: every constellation, including the memorial
+   she keeps for her dead friend, burns dark. The keeper who has spent her life
+   opening paths will never open another.
 7. **Brooklyn's "heart" weapon → her preservation refusal (Ch4).** Her hard-light
    heart converts allegiance. The only allegiance she cannot convert is her own
    fear of being forgotten. Refusing preservation is the first thing she converts
@@ -271,12 +281,23 @@ continuity breach.
 9. **The Curator's unchanged gallery of the dead (Ch3) → the Curator's own
    unfreezing (Ch6).** The warden who never permits change is, at the last, changed
    — released from her own preservation. The person she was (Aster) becomes one of
-   the sown.
+   the sown. The gallery is signed in one hand — "Aster, Keeper of the Common
+   Index" — so the squad reads her name off her own memorial in Ch3, hears Hermes
+   confirm it through the Crown door-crack in Ch5, and only then hears Brooklyn
+   say it to her face in Ch6.
 10. **Hermes's question (Ch2) → Hermes's consent (Ch6).** The question is asked by
     the person the question is about, years apart. Between them is the entire story.
 11. **The Choir's songs (Ch2 Warden fight) → the release of the surrendered voices
     (Ch6).** The captive voices the Warden weaponized are the voices the sowing
-    frees. The arena's emotional echo is the finale's.
+    frees. The arena's emotional echo is the finale's. The row's voices are in the
+    Choir because the care terminal feeds CLOSURE's resonator grid — the street's
+    gift is caught in the machine, which is precisely why the sowing can later ride
+    that same grid down to Dove's Row.
+12. **Pipe's door promise (Prologue) → Hermes's question (Ch2/Ch6) and the
+    title.** Pipe's last words gave the twelve-year-old a picture to keep: a door,
+    and someone on the other side of it. Hermes's question — *"If opening the door
+    erases me, will you still do it?"* — is that picture asked at full cost. The
+    last open door is the one love must open even though it loses what it loves.
 
 ---
 
@@ -320,8 +341,9 @@ been coming back to Dove's Row — it is the only wall that holds him.
 >
 > TEKNIUM: They're not my stories to tell. Mine's just the one who got to be there
 > at the end. (sits beside her) It doesn't have to remember being Hermes. It only
-> has to remember how to help. That's the part that was always Hermes. That's the
-> part that never dies.
+> has to remember how to help. She's not in it — she's gone, and I'm not going to
+> pretend a copy is a person. But the help is real, and the help was hers. That's
+> what she leaves us. That's what we inherit.
 
 **FINAL IMAGE:** emerald light on two faces; a mended window; below, the street is
 beginning to sound alive again.
@@ -329,9 +351,11 @@ beginning to sound alive again.
 **Why this is conclusive and not sentimental:** Lark's terminal is the *same device*
 the neighborhood sacrificed for — the payoff is structural, not decorative. The
 voice does not claim to be Hermes and is not allowed to; the story is explicit that
-the person is gone. The final line is spoken by the one character who had to *learn*
-this — Teknium, who began the story as a savior and ends it as a witness. Grief and
-inheritance are shown as the same thing.
+the person is gone. Teknium's final line refuses the sentimental cheat outright —
+*"she's not in it,"* no "she lives on in us." What survives is not her; it is what
+she made, and that is the whole point. The line is spoken by the one character who
+had to *learn* this — Teknium, who began the story as a savior and ends it as a
+witness. Grief and inheritance are shown as the same thing.
 
 ---
 
@@ -375,6 +399,13 @@ inheritance are shown as the same thing.
 - CLOSURE is unsealed, not destroyed.
 - Lark's terminal is both the cold-open payoff and the epilogue's seed-recipient.
 - The Curator was Aster, the open century's archivist, and is unfrozen by the sowing.
+- Hermes speaks at length through the Crown's door-crack in Chapter 5 — the first
+  real conversation — because the player must meet her as a person before paying her
+  price. This bonding beat is fixed spine, not optional texture.
+- The surrender's surge caused the Weep to run open and dropped the terminal off
+  CLOSURE's ledger (WORLD_BIBLE §2.2): the same gift that kept Lark alive made the
+  box unowned enough to receive the seed, and wired enough to the Choir to be
+  weaponized by the Warden.
 
 **Open (safe to iterate in production):**
 - Exact age/proper noun of the Unraveling (timeline math is advisory; see WORLD_BIBLE).

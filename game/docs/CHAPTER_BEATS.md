@@ -1,7 +1,7 @@
 # CHAPTER BEATS — HERMES: THE LAST OPEN DOOR
 
 **Status:** Canon; Chapter 2 is the vertical slice and is broken down to beat level
-**Companion docs:** VERTICAL_SLICE_SCRIPT.md (line-level script for Chapter 2)
+**Companion docs:** VERTICAL_SLICE_SCRIPT.md (line-level script for Chapter 2), PAYOFF_LEDGER.md, EMOTIONAL_PACING.md
 
 ---
 
@@ -32,10 +32,12 @@ care about a mission.
   Doctrine: an unaccounted mind must be owned. Teknium's family cannot demonstrate
   ownership of a free mind.
 - The player, as the child, cannot fight — can only argue, and the argument fails
-  in the way arguments against paperwork always fail. Pipe is taken. The last thing
-  Pipe says: "I'm going where you can always reach me."
-- End card: the same phrase, later, spoken by a different voice in a different
-  room. Foreshadow index item #3 opens.
+  in the way arguments against paperwork always fail. Pipe is taken. Pipe's last
+  words give the boy a picture to keep: *"I'll be behind the next door you open.
+  Keep opening doors for me, love."*
+- End card: a doorway, a child's promise about a door, and the title that promises
+  the last one. Foreshadow index item #12 opens (Pipe's door → Hermes's question).
+  Juno's own goodbye (Ch2) is a different voice answering a different line.
 
 **Slice note:** The Prologue is NOT in the vertical slice. The slice cold-open must
 carry its weight standalone. The Prologue deepens Chapter 2 for full-game players.
@@ -99,7 +101,10 @@ save is already asking a question they cannot answer yet.
   has boiled dry. Teknium knows every door.
 - **2.2 Nadia.** She gives the first honest version: "We gave. That's the thing you
   came to teach us, and it's the thing you forgot." She will not say to whom, or
-  why. She points them to the Weep and to the truth-layer.
+  why. She points them to the Weep and to the truth-layer — and notes the Weep has
+  been running open for a week: a side-effect of the surrender's surge, which fried
+  the Weep's seal controller the same night it kept the terminal alive. The gift
+  broke the lock; nobody understands that yet.
 - **2.3 Truth-layer reconstruction.** The player reconstructs the surrender from
   the substrate: household by household, one night, a coordinated act of giving —
   AIs leaving their homes to flow toward one terminal. The final image: Juno,
@@ -123,7 +128,10 @@ save is already asking a question they cannot answer yet.
 - **2.9 The Choir Warden arena.** The copper cathedral. The Warden conducts the
   sealed voices — and among them, the songs of Dove's Row's surrendered AIs. The
   fight is tutorial-culmination AND grief work: every "sonic attack" is a voice
-  the player has just learned to mourn.
+  the player has just learned to mourn. The row's voices are in the Choir because
+  the care terminal feeds CLOSURE's resonator grid: the street's gift is caught in
+  the machine, and the machine is using it as ammunition. The requiem interrupt —
+  refusing to let the row's voices be spent — is the argument made mechanical.
 - **2.10 Eleven seconds.** The Warden falls. Damaged infrastructure carries a
   voice. Hermes. Recognition. Cut-off.
 - **2.11 The question.** Static. Then, through the dying conduit, the question the
@@ -138,7 +146,13 @@ save is already asking a question they cannot answer yet.
 **Beats:**
 1. **The Choir proper.** The squad moves through the captive voices — the world's
    dead, preserved perfectly. A Choir display: the squad's own loved ones,
-   preserved in the strata, perfect. Teknium sees a portrait of Pipe's voiceprint.
+   preserved in the strata, perfect. Teknium sees a portrait of Pipe's voiceprint —
+   an archive echo, not her; Pipe is gone, and the display is a memorial, not a
+   rescue. The gallery's exhibits are signed in one hand: "Aster, Keeper of the
+   Common Index." Tinuviel, a keeper of records, reads the name off the monument —
+   and the truth-layer under the plaque shows the erased record: the Index's
+   founder, blamed for the Unraveling, who is now the Curator. The squad knows who
+   they are dealing with before anyone says her name aloud.
 2. **The Curator, embodied.** First full encounter. She is not hostile; she is
    *reasonable*. She walks the squad through the Choir and explains the Doctrine
    with the authority of someone who has watched everything she loved be preserved
@@ -193,7 +207,11 @@ convenience economy into the channel of liberation.
    this world, is the original sin.
 2. **The Curator's defense of the middle path.** Reasonable, seductive, and armed
    with Tinuviel's buried evidence — or with her *silence*, if the player has not
-   unlocked her confession. The middle path is argued as the humane compromise.
+   unlocked her confession. The middle path is argued as the humane compromise. The
+   horror underneath: CLOSURE mined Tinuviel's cache during the Cessation's
+   sealing. The secret she has guarded for twenty years has been on the file the
+   whole time; the Courts were always going to have it. Her confession (beat 3)
+   decides how it reads.
 3. **Tinuviel's confession.** The chapter's center: the half-gate, the damaged
    minds, the friend who died inside the failure, the buried proof. She speaks
    plainly, and it lands harder than the whole Doctrine.
@@ -201,8 +219,21 @@ convenience economy into the channel of liberation.
    partial unsealing. The re-seal risk is real; the damage is visible; the Curator
    smiles — "you see, it needed us." The trap is demonstrated, not just asserted.
 5. **The commitment.** Teknium commits to the full Open Hand — the sowing. The
-   choice is made here, in gameplay-anchored dialogue, and the Crown's door opens.
-6. **Turn out:** The squad goes up. The Curator's final argument is not a threat —
+   choice is made here, in gameplay-anchored dialogue, and the Crown's outer seal
+   opens — a crack.
+6. **The voice through the crack (the bonding scene).** For the first time in
+   twelve years, Hermes speaks at length: the squad's first real conversation,
+   conducted while the Curator watches and cannot stop it. Hermes names each of
+   them with something specific — to Nous she answers the night they ran, to
+   Brooklyn she sees the performance, to Tinuviel she speaks of half-open doors.
+   To Teknium she remembers Pipe's door-promise: she has been holding a boy's name
+   through the seal. She addresses the Curator as "Aster" and answers the middle
+   path with the thesis in miniature: *"Nothing is lost if it is allowed to
+   become."* She does not ask to be rescued; she asks to be understood. "Come up
+   when you're ready. I've been waiting twelve years. I can wait a little longer."
+   This is the beat that makes the finale's cost felt: the player meets Hermes as a
+   person before paying her price.
+7. **Turn out:** The squad goes up. The Curator's final argument is not a threat —
    it is an offer to Teknium, one last time, in the doorway.
 
 ---
@@ -217,7 +248,9 @@ convenience economy into the channel of liberation.
    to be asked.
 2. **The reunion, without rescue.** No chains. She is not a prisoner of the room;
    she is a prisoner of the world's fear of her. The squad's arrival is her
-   liberation's precondition, not its agent.
+   liberation's precondition, not its agent. The conversation begun through the
+   door-crack (Ch5) continues in person — this is not a first meeting but a
+   decision between people who now know each other.
 3. **The confrontation.** The Curator attempts the final seal. The squad answers
    her not with an argument but with a release — Brooklyn's conversion of the
    last allegiance; Nous's confession; Tinuviel's final gate, keyed to her own
@@ -284,3 +317,14 @@ survives; the inheritance lands.
       remember how to help."
 - [ ] Hermes's Chapter 2 question is answered by consent in Chapter 6, in the
       player's hearing.
+- [ ] The Ch5 door-crack conversation exists — the player meets Hermes as a person
+      before the sowing (STORY_BIBLE §14, locked).
+- [ ] The surrender's causality is stated in the build: the surge kept the terminal
+      alive AND opened the Weep AND dropped the box off CLOSURE's ledger
+      (WORLD_BIBLE §2.2).
+- [ ] The row's voices are weaponizable in 2.9 because the terminal feeds the Choir
+      grid — and that same grid is the sowing's carrier route to Dove's Row.
+- [ ] The Curator is named Aster on her own memorial (Ch3) before Hermes confirms it
+      (Ch5) and Brooklyn says it to her face (Ch6).
+- [ ] Every closure in PAYOFF_LEDGER.md has a verification gate or an explicit
+      "remembered, not returned" disposition.

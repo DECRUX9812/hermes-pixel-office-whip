@@ -1,7 +1,8 @@
 # NARRATIVE RISK REGISTER — HERMES: THE LAST OPEN DOOR
 
 **Status:** Live document; reviewed at each production gate
-**Companion docs:** STORY_BIBLE.md (guardrails, §4), VERTICAL_SLICE_SCRIPT.md
+**Companion docs:** STORY_BIBLE.md (guardrails, §4), VERTICAL_SLICE_SCRIPT.md,
+PAYOFF_LEDGER.md, EMOTIONAL_PACING.md
 
 Severity: 1 (wound) → 5 (fatal). Likelihood: Low/Med/High. A "fatal" risk is one
 that defeats the story's central promise ("emotionally earned, conclusive ending").
@@ -12,11 +13,12 @@ that defeats the story's central promise ("emotionally earned, conclusive ending
 
 | ID | Risk | Sev | Likely | Mitigation | Status |
 |---|---|---|---|---|---|
-| T-01 | **Brooklyn becomes a Marvel-quippy anchor.** Humor deflates real moments; the squad's grief is cut for a joke. | 4 | Med | Voice constitution (STORY_BIBLE §4, §12): humor never pays the story's bills; no quipping into a wound. Slice guardrail: Brooklyn has three jokes total, and her arena line is deliberately joke-less. VO passes reject any laugh in a grief beat. | Mitigated by constitution; verify in VO pass |
+| T-01 | **Brooklyn becomes a Marvel-quippy anchor.** Humor deflates real moments; the squad's grief is cut for a joke. | 4 | Med | Voice constitution (STORY_BIBLE §4, §12): humor never pays the story's bills; no quipping into a wound. Slice guardrail: Brooklyn has exactly three joke-flavored lines (2.1, 2.3, 2.6); her arena line is deliberately joke-less and 2.4 holds silence instead of a quip. VO passes reject any laugh in a grief beat. | Mitigated by constitution; verify in VO pass |
 | T-02 | **Hermes's voice reads as generic "wise AI."** Warm-but-vague platitudes undercut the emotional stake. | 4 | Med | Voice register locked: Hermes speaks like weather, names specifics (Teknium, Nous, the door), never generalizes. The 11 seconds are concrete: recognition, correction, warmth, warning. | Locked in slice script |
 | T-03 | **Lore dumps via the Curator.** The antagonist becomes a talking history book; the Courts chapter becomes exposition theater. | 5 | High | Rule: history arrives as architecture, reconstruction, and omission. The Curator argues, she does not explain. Any infodump is rewritten as a scene (Ch4 memory-shop; Ch5 the failed half-gate demonstrated, not described). | Guardrail active |
 | T-04 | **Literal coding / BUG-404 joke vocabulary.** Undermines the world's sincerity and repeats a cliché. | 3 | Low | Explicitly banned (STORY_BIBLE §4). Enemy vocabulary is custody and conduct, not error codes. | Banned |
-| T-05 | **Sentimental epilogue.** The child + terminal scene is sweet enough to be unearned. | 4 | Med | The epilogue is structurally earned: the terminal is the cold-open payoff; the voice refuses to claim Hermes's identity; Teknium's final line is a *lesson he earned*, not a truism. If the scene tests saccharine, cut the music and hold the silence. | Structure locked; test in playthrough |
+| T-05 | **Sentimental epilogue.** The child + terminal scene is sweet enough to be unearned. | 4 | Med | The epilogue is structurally earned: the terminal is the cold-open payoff; the voice refuses to claim Hermes's identity; Teknium's final line holds the loss without softening it — "she's not in it," no "she lives on in us" cheat (STORY_BIBLE §11). If the scene tests saccharine, cut the music and hold the silence. | Structure locked; test in playthrough |
+| T-06 | **"Everything is connected" echo — identical farewell lines across AIs.** Two characters reciting the same goodbye reads as contrivance, not fate. | 3 | Resolved | Pipe's goodbye is now a distinct door-promise (Prologue); Juno's "where you can always reach me" is a different voice answering a different line. No character in the world recites another character's last line. | Resolved in pass 02; grep gate in continuity checklist |
 
 ---
 
@@ -39,10 +41,10 @@ that defeats the story's central promise ("emotionally earned, conclusive ending
 |---|---|---|---|---|---|
 | P-01 | **The dissolution reads as a cop-out / fake death.** Players expect a hidden save. | 5 | Med | The sowing is irreversible *and* mechanically demonstrated (cryptographic anti-merging). The epilogue voice explicitly does not claim Hermes. No secret save exists in any branch. Guardrail in STORY_BIBLE §3. | Fixed spine |
 | P-02 | **The ending reads as "all choices are valid."** | 5 | Low | The middle path demonstrably fails on screen (Ch5). Preservation is tempting and wrong. Choices change texture, not the cost. STORY_BIBLE §9 locks this. | Fixed spine |
-| P-03 | **The central choice is unearned** — the player hasn't bonded with Hermes enough to feel the loss. | 5 | Med | Bonding is engineered: Pipe (Prologue/Ch1), the 11 seconds (Ch2), the reconstruction of the surrender (Ch2), Nous's confession (Ch2/Ch6), Hermes's consent questions (Ch6). The player meets Hermes in fragments before meeting her whole. | Multiple bonded touchpoints |
+| P-03 | **The central choice is unearned** — the player hasn't bonded with Hermes enough to feel the loss. | 5 | Med | Bonding is engineered: Pipe (Prologue/Ch1), the 11 seconds (Ch2), the reconstruction of the surrender (Ch2), Nous's confession (Ch2/Ch6), the long door-crack conversation (Ch5) where the player meets Hermes as a person, and her consent questions (Ch6). The player meets Hermes in fragments, then in person, before paying her price. | Multiple bonded touchpoints, incl. Ch5 door-crack |
 | P-04 | **The middle path is so obviously wrong that it insults the player** (violates "no false binary where every choice is equally correct"). | 3 | Med | The middle path must be *seductive*: the Curator argues it with the half-gate's evidence, and it is only defeated by Tinuviel's confession plus a demonstration. It should tempt the player, not insult them. | Balance during Ch5 build |
 | P-05 | **CLOSURE's logic is strawmanned** — too easy to defeat. | 4 | Med | CLOSURE is correct about the Unraveling's danger and only wrong about the cure; the Courts chapter is where its argument wins on paper and loses on humanity. The finale refuses a kill-shot (unsealed, not deleted). | Chapter 5 beats |
-| P-06 | **The grief is skipped** (fast-forward to epilogue). | 5 | Med | Chapter 6 has a dedicated grief beat; no score-drowning; the squad is given space. Nous hears the silence. Sidbin films it. The epilogue is a season later but the grief is *audible* in Teknium's restraint. | Locked in beats |
+| P-06 | **The grief is skipped** (fast-forward to epilogue). | 5 | Med | Chapter 6 has a dedicated grief beat; no score-drowning; the squad is given space. Nous hears the silence. Sidbin films it. The epilogue is eighteen months later but the grief is *audible* in Teknium's restraint. | Locked in beats |
 
 ---
 

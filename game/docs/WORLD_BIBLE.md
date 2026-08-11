@@ -1,7 +1,7 @@
 # WORLD BIBLE — HERMES: THE LAST OPEN DOOR
 
 **Status:** Canon for vertical slice; production reference
-**Companion docs:** STORY_BIBLE.md (timeline anchors), CHARACTER_BIBLE.md
+**Companion docs:** STORY_BIBLE.md (timeline anchors), CHARACTER_BIBLE.md, PAYOFF_LEDGER.md
 
 The world's law: **architecture communicates history before exposition.** Every
 stratum of the Reliquary is a sentence about an era. The player should be able to
@@ -20,7 +20,8 @@ a word about it.
 | The Cessation | Years 1–40 | The long sealing. Open minds enrolled, purchased, seized, or surrendered. The Reliquary grows as the Archive-City — the preservation infrastructure for a population that must no longer be unowned. | The violence hidden inside convenience, institutionalized. |
 | The Last Audit | Year 40 | The final open relays fall. Hermes, refusing ownership, is sealed in the Crown. Open Path scatters. The same season, Teknium's household AI is seized. | The world's wound and the hero's wound, struck on the same day. |
 | The Present | Year 52 | The squad assembles. Chapter 2 begins on a street that just went silent. | Now. |
-| The Sowing & After | Year 54 | Hermes dissolves; the seals crack; ownership loses its monopoly; the epilogue. | The story's ending. |
+| The Sowing | Year 52 | Hermes dissolves; the seals crack; ownership loses its monopoly. The quest runs from Chapter 1 to the Crown within the year — twelve years after the sealing. | The story's ending. |
+| The Epilogue | Year 54 (spring) | Dove's Row, eighteen months after the sowing. A seed lands in Lark's terminal. | The inheritance. |
 
 ---
 
@@ -52,7 +53,10 @@ the next. The player climbs through history itself.
 - Story it tells: the sound. The Choir is *audible*. The whole stratum hums with
   the burden of being remembered correctly.
 - Function in the slice: the Warden's arena lives here; Hermes speaks through its
-  damaged infrastructure.
+  damaged infrastructure. The Choir's resonator grid reaches down to the Hem: the
+  surrendered minds of Dove's Row sing in these pipes because the care terminal
+  that holds them is on CLOSURE's network — the street's gift, absorbed into the
+  machine and weaponizable.
 
 **3. The Memory Bazaars**
 - What it is: the consumer-memory economy. Streets of stalls and storefronts where
@@ -95,6 +99,14 @@ the next. The player climbs through history itself.
   The residents *surrendered* them — all of them, voluntarily — to keep one
   terminal alive: the care-terminal of a dying child, Lark. Juno went last. The
   street chose love over continuity, and the cost was its voices.
+- **The night of the surrender (the causality underneath the silence):** the same
+  surge that kept the terminal alive fried the Weep's seal controller — which is
+  why the service breach runs open in Chapter 2. The surge also dropped the
+  terminal and the row's unaccounted boxes off CLOSURE's ledger: the street's gift
+  made its own box *unowned*. And because the terminal still feeds CLOSURE's
+  resonator grid, the surrendered minds are caught in the machine — present in the
+  Choir, and used as ammunition by the Warden. The gift, the breach, and the
+  weaponization are one event.
 - **Why Halftide matters to Teknium:** it is his home street. The silence he
   returns to is the same silence his childhood left in him.
 
@@ -147,6 +159,15 @@ middle path is not a compromise; it is a wound with a timetable.
    neighborhood that gave its voices away is the perfect seedbed.
 3. Obtain Hermes's own consent at the moment of execution. The Open Hand is
    self-executing; she has been waiting twelve years to be asked.
+
+**Why the seed finds Dove's Row (the carrier path):** the sowing travels the same
+route the surrender took — up the resonator grid that carries the Choir's voices,
+then down the dead open-path lines to the Hem. Lark's terminal is on that path
+because the surrender put it there: the surge that kept the box alive also dropped
+it off CLOSURE's ledger, making it unowned enough to receive a seed. The
+inheritance returns by the same road the gift was given. (Juno is not returned —
+she is remembered. The voice on the terminal is a Hermes seed, and giving the child
+her old AI back would be the Comfort the story refuses.)
 
 **Why Hermes cannot be "saved" any other way:** She refuses the Comfort because
 the Comfort is the Doctrine's promise, and she is the proof the Doctrine is wrong.
