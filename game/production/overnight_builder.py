@@ -6,6 +6,7 @@ pushes, or touches files outside game/.
 """
 from __future__ import annotations
 
+import argparse
 import fcntl
 import json
 import os
@@ -25,6 +26,7 @@ OPENCODE = Path.home() / '.local/bin/opencode'
 GODOT = Path.home() / '.local/bin/godot4'
 MODEL = 'opencode-go/deepseek-v4-flash'
 BRANCH = 'game/hermes-last-open-door'
+PHASE_TIMEOUT = int(os.environ.get('HERMES_GAME_PHASE_TIMEOUT', '5400'))
 
 BASE = """PROCEED IMMEDIATELY. Do not ask permission or clarification. Read game/BRIEF.md, all existing game/docs, and the current game project before acting. You are working on HERMES: THE LAST OPEN DOOR, a premium narrative third-person action-adventure VERTICAL SLICE, not a complete AAA game. Preserve every existing root/plugin file and work ONLY under game/. Never use unlicensed or paid assets. Do not commit, push, or claim success without running relevant checks. Avoid generic asset-store output, plastic primitives presented as final art, shallow AI-rebellion cliches, and fake test reports. Godot is /home/decrux/.local/bin/godot4 version 4.7.1. When done, stop; do not ask what to do next.\n\n"""
 
@@ -62,6 +64,16 @@ PHASES = [
 
 def now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def select_phases(start_phase: str | None = None) -> list[tuple[str, str]]:
+    """Select an ordered suffix of phases for safe crash recovery."""
+    if start_phase is None:
+        return PHASES
+    for index, (slug, _) in enumerate(PHASES):
+        if slug == start_phase:
+            return PHASES[index:]
+    raise ValueError(f'unknown start phase: {start_phase}')
 
 
 def write_state(data: dict) -> None:
@@ -111,7 +123,7 @@ def validate(phase: str) -> tuple[bool, list[dict]]:
     return all(c['exit'] == 0 for c in checks), checks
 
 
-def main() -> int:
+def main(start_phase: str | None = None) -> int:
     PROD.mkdir(parents=True, exist_ok=True)
     LOGS.mkdir(parents=True, exist_ok=True)
     with LOCK.open('w') as lock:
@@ -126,24 +138,32 @@ def main() -> int:
         initial = changed_paths()
         if any(not p.startswith('game/') for p in initial):
             raise RuntimeError(f'unsafe initial changes outside game/: {initial}')
-        state = {
-            'mission': 'HERMES: THE LAST OPEN DOOR vertical slice',
-            'model': MODEL,
-            'branch': BRANCH,
-            'phase': 'running',
-            'started_at': now(),
-            'current': None,
-            'passes': [],
-            'blockers': [],
-        }
+        if start_phase and STATE.exists():
+            state = json.loads(STATE.read_text())
+            if state.get('model') != MODEL or state.get('branch') != BRANCH:
+                raise RuntimeError('stored mission state does not match model/branch')
+            state['phase'] = 'running'
+            state['current'] = None
+            state['resumed_at'] = now()
+        else:
+            state = {
+                'mission': 'HERMES: THE LAST OPEN DOOR vertical slice',
+                'model': MODEL,
+                'branch': BRANCH,
+                'phase': 'running',
+                'started_at': now(),
+                'current': None,
+                'passes': [],
+                'blockers': [],
+            }
         write_state(state)
-        for index, (slug, task) in enumerate(PHASES, start=2):
+        for slug, task in select_phases(start_phase):
             state['current'] = slug
             state['updated_at'] = now()
             write_state(state)
             log = LOGS / f'{slug}-opencode.log'
             try:
-                result = run([str(OPENCODE), 'run', '--model', MODEL, '--thinking', '--title', f'Last Open Door {slug}', BASE + task], 3000, log)
+                result = run([str(OPENCODE), 'run', '--model', MODEL, '--thinking', '--title', f'Last Open Door {slug}', BASE + task], PHASE_TIMEOUT, log)
                 agent_exit = result.returncode
             except subprocess.TimeoutExpired as exc:
                 log.write_text(timeout_output(exc))
@@ -179,4 +199,7 @@ def main() -> int:
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--start-phase', choices=[slug for slug, _ in PHASES])
+    args = parser.parse_args()
+    sys.exit(main(args.start_phase))
