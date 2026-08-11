@@ -1,0 +1,5 @@
+logs/
+OVERNIGHT_STATE.json
+.overnight.lock
+__pycache__/
+*.pyc
