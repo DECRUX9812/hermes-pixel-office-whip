@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://src/enemies/choir_warden.gd" id="1_warden"]
 [ext_resource type="Script" path="res://src/combat/health_component.gd" id="2_health"]
@@ -18,13 +18,28 @@ height = 2.1
 radius = 0.55
 height = 1.1
 
-[sub_resource type="SphereMesh" id="mesh_core"]
-radius = 0.24
-height = 0.48
-
 [sub_resource type="TorusMesh" id="mesh_crown"]
 inner_radius = 0.6
 outer_radius = 0.74
+
+[sub_resource type="CylinderMesh" id="mesh_baton"]
+top_radius = 0.03
+bottom_radius = 0.03
+height = 1.3
+
+[sub_resource type="StandardMaterial3D" id="mat_baton_glow"]
+albedo_color = Color(0.24, 0.13, 0.05, 1)
+emission_enabled = true
+emission = Color(0.98, 0.55, 0.24, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="mesh_baton_tip"]
+radius = 0.09
+height = 0.18
+
+[sub_resource type="SphereMesh" id="mesh_core"]
+radius = 0.24
+height = 0.48
 
 [sub_resource type="BoxShape3D" id="shape_sweep"]
 size = Vector3(4.4, 1.6, 3.2)
@@ -33,85 +48,68 @@ size = Vector3(4.4, 1.6, 3.2)
 radius = 0.68
 height = 2.1
 
-[sub_resource type="CylinderMesh" id="mesh_baton"]
-top_radius = 0.03
-bottom_radius = 0.03
-height = 1.3
-
-[sub_resource type="SphereMesh" id="mesh_baton_tip"]
-radius = 0.09
-height = 0.18
-
-[sub_resource type="StandardMaterial3D" id="mat_baton_glow"]
-albedo_color = Color(0.24, 0.13, 0.05, 1)
-emission_enabled = true
-emission = Color(0.98, 0.55, 0.24, 1)
-emission_energy_multiplier = 2.0
-
-[node name="ChoirWarden" type="CharacterBody3D"]
+[node name="ChoirWarden" type="CharacterBody3D" unique_id=630553694]
 collision_layer = 80
 collision_mask = 3
-floor_stop_on_slope = true
 script = ExtResource("1_warden")
 display_name = "Choir Warden"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=256146568]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
 shape = SubResource("shape_body")
 
-[node name="Health" type="Node" parent="."]
+[node name="Health" type="Node" parent="." unique_id=2109339114]
 script = ExtResource("2_health")
 max_health = 320.0
 
-[node name="VisualRoot" type="Node3D" parent="."]
+[node name="VisualRoot" type="Node3D" parent="." unique_id=912496610]
 
-[node name="Body" type="MeshInstance3D" parent="VisualRoot"]
+[node name="Body" type="MeshInstance3D" parent="VisualRoot" unique_id=896511616]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+material_override = ExtResource("3_copper")
 mesh = SubResource("mesh_body")
-material_override = ExtResource("3_copper")
 
-[node name="Head" type="MeshInstance3D" parent="VisualRoot"]
+[node name="Head" type="MeshInstance3D" parent="VisualRoot" unique_id=1056019754]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85, 0)
+material_override = ExtResource("4_obs")
 mesh = SubResource("mesh_head")
-material_override = ExtResource("4_obs")
 
-[node name="CrownBand" type="MeshInstance3D" parent="VisualRoot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85, 0)
-mesh = SubResource("mesh_crown")
+[node name="CrownBand" type="MeshInstance3D" parent="VisualRoot" unique_id=1153710189]
+transform = Transform3D(1.35, 0, 0, 0, 1.15, 0, 0, 0, 1.35, 0, 2.85, 0)
 material_override = ExtResource("3_copper")
+mesh = SubResource("mesh_crown")
 
-[node name="Baton" type="MeshInstance3D" parent="VisualRoot"]
-transform = Transform3D(0.7, 0.0, 0.7, 0, 1, 0, -0.7, 0, 0.7, 0.0, 3.0, 0.0)
-mesh = SubResource("mesh_baton")
+[node name="Baton" type="MeshInstance3D" parent="VisualRoot" unique_id=864980678]
+transform = Transform3D(0.7, 0, 0.7, 0, 1, 0, -0.7, 0, 0.7, 0, 3, 0)
 material_override = ExtResource("4_obs")
+mesh = SubResource("mesh_baton")
 
-[node name="BatonTip" type="MeshInstance3D" parent="VisualRoot"]
-transform = Transform3D(0.7, 0.0, 0.7, 0, 1, 0, -0.7, 0, 0.7, 0.0, 3.65, 0.0)
-mesh = SubResource("mesh_baton_tip")
+[node name="BatonTip" type="MeshInstance3D" parent="VisualRoot" unique_id=1098204419]
+transform = Transform3D(0.7, 0, 0.7, 0, 1, 0, -0.7, 0, 0.7, 0, 3.65, 0)
 material_override = SubResource("mat_baton_glow")
+mesh = SubResource("mesh_baton_tip")
 
-[node name="CoreGlow" type="MeshInstance3D" parent="VisualRoot"]
+[node name="CoreGlow" type="MeshInstance3D" parent="VisualRoot" unique_id=1747839607]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85, 0)
-mesh = SubResource("mesh_core")
 material_override = ExtResource("5_emerald")
+mesh = SubResource("mesh_core")
 
-[node name="CoreLight" type="OmniLight3D" parent="VisualRoot"]
+[node name="CoreLight" type="OmniLight3D" parent="VisualRoot" unique_id=1595568593]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85, 0)
 light_color = Color(0, 0.95, 0.55, 1)
 light_energy = 3.0
 omni_range = 4.0
 
-[node name="FlashMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
-visible = false
-mesh = SubResource("mesh_flash")
-material_override = ExtResource("5_emerald")
-
-[node name="SweepArea" type="Area3D" parent="VisualRoot"]
+[node name="SweepArea" type="Area3D" parent="VisualRoot" unique_id=1526630775]
 collision_layer = 0
 collision_mask = 2
-monitoring = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="VisualRoot/SweepArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -2.0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisualRoot/SweepArea" unique_id=1754736278]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -2)
 shape = SubResource("shape_sweep")
+
+[node name="FlashMesh" type="MeshInstance3D" parent="." unique_id=115229722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+visible = false
+material_override = ExtResource("5_emerald")
+mesh = SubResource("mesh_flash")

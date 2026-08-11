@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "char_orange"
+albedo_color = Color(0.2, 0.09, 0.03, 1)
+emission_enabled = true
+emission = Color(1.0, 0.5, 0.2, 1)
+emission_energy_multiplier = 3.0

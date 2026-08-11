@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "char_copper"
+albedo_color = Color(0.55, 0.3, 0.12, 1)
+roughness = 0.5
+metallic = 0.5

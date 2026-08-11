@@ -2,9 +2,9 @@
   "mission": "VISUAL + ACTION pass",
   "model": "opencode-go/deepseek-v4-flash",
   "branch": "game/hermes-last-open-door",
-  "phase": "running",
+  "phase": "awaiting_supervisor_verification",
   "started_at": "2026-08-11T12:04:31.167952+00:00",
-  "current": "c-combat-demo",
+  "current": null,
   "passes": [
     {
       "phase": "a-characters",
@@ -34,8 +34,26 @@
         "game/production/perf_probe.tscn"
       ],
       "finished_at": "2026-08-11T12:38:35.872404+00:00"
+    },
+    {
+      "phase": "c-combat-demo",
+      "agent_exit": 0,
+      "validated": true,
+      "commit": "3e5f62f3f252535e1bb328dac22efc06bb3a3ef2",
+      "changed_paths": [
+        "game/production/VISUAL_MISSION_STATE.json",
+        "game/production/demo_capture.gd",
+        "game/production/combat_demo.gd",
+        "game/production/combat_demo.gd.uid",
+        "game/production/combat_demo.tscn",
+        "game/production/evidence/demo_combat1.png",
+        "game/production/evidence/demo_combat2.png",
+        "game/production/evidence/demo_combat3.png"
+      ],
+      "finished_at": "2026-08-11T12:59:40.017147+00:00"
     }
   ],
   "blockers": [],
-  "updated_at": "2026-08-11T12:38:45.872920+00:00"
+  "updated_at": "2026-08-11T12:38:45.872920+00:00",
+  "finished_at": "2026-08-11T12:59:50.017663+00:00"
 }
