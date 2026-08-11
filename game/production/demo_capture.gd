@@ -64,19 +64,19 @@ var shot_index := 0
 var shot_time := 0.0
 var test_seconds := 0.0
 var _elapsed := 0.0
+var _movie_frames := 0
 var _finished := false
 var _advancing := false
 
-## Hard safety: total planned cut + 12s margin, and a frame cap. If _process
-## errors on some frame (e.g. display/fallback flakiness), the watchdog below
-## still ends the capture instead of recording forever.
+## Hard safety: the movie is fixed at 30fps, so _process calls == movie frames.
+## Cap at the planned cut (40s) + 15s margin; fires even if a frame errors.
 const TOTAL_SECONDS := 40.0
-const MAX_FRAMES := 2200
+const MAX_MOVIE_FRAMES := (TOTAL_SECONDS + 15.0) * 30.0
 
 func _physics_process(_delta: float) -> void:
 	if _finished:
 		return
-	if _elapsed > TOTAL_SECONDS + 12.0 or Engine.get_frames_drawn() > MAX_FRAMES:
+	if _movie_frames > int(MAX_MOVIE_FRAMES):
 		_finish()
 
 func _ready() -> void:
@@ -117,12 +117,15 @@ func _ready() -> void:
 	cam.fov = 60.0
 	AudioServer.set_bus_mute(AudioServer.get_bus_index(&"Master"), true)
 	var args := OS.get_cmdline_user_args()
+	var start_shot := 0
 	for i in args.size():
 		if args[i] == "--test" and i + 1 < args.size():
 			test_seconds = float(args[i + 1])
+		if args[i] == "--start" and i + 1 < args.size():
+			start_shot = clampi(int(args[i + 1]), 0, SHOTS.size() - 1)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_setup_shot(0)
+	_setup_shot(start_shot)
 
 func _setup_shot(i: int) -> void:
 	shot_index = i
@@ -151,6 +154,7 @@ func _setup_shot(i: int) -> void:
 func _process(delta: float) -> void:
 	_elapsed += delta
 	shot_time += delta
+	_movie_frames += 1
 	# Advance/quit FIRST — an error later in this frame must never stall the cut.
 	var s: Array = SHOTS[shot_index]
 	var dur: float = s[0]
