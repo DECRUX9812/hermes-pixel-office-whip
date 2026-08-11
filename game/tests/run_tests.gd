@@ -15,6 +15,10 @@ const TEST_MODULES: Array[String] = [
 	"res://tests/test_custodian.gd",
 	"res://tests/test_companion.gd",
 	"res://tests/test_encounter.gd",
+	"res://tests/test_dialogue_runner.gd",
+	"res://tests/test_script_dialogue.gd",
+	"res://tests/test_slice_spine.gd",
+	"res://tests/test_traversal_path.gd",
 	"res://tests/test_smoke.gd",
 ]
 

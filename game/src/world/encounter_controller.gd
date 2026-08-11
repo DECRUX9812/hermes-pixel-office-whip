@@ -54,7 +54,10 @@ func remaining_combatants() -> int:
 	if root == null:
 		return 0
 	for child in root.get_children():
-		if child is Combatant and is_instance_valid(child) and not child.dead:
+		# Only hostile combatants block completion: a Heart-Bind conversion is a
+		# valid resolution, not a stale obstacle, so a converted (friendly)
+		# Custodian does not strand the encounter.
+		if child is Combatant and is_instance_valid(child) and not child.dead and child.is_hostile():
 			count += 1
 	return count
 

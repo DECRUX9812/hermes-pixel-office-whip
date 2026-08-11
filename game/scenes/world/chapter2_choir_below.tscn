@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3]
+[gd_scene load_steps=46 format=3]
 
 [ext_resource type="Script" path="res://scenes/world/chapter2.gd" id="1_chapter"]
 [ext_resource type="Script" path="res://src/environment/blockout_chapter2.gd" id="2_blockout"]
@@ -17,6 +17,13 @@
 [ext_resource type="PackedScene" path="res://scenes/world/entities/companions/brooklyn.tscn" id="15_brooklyn"]
 [ext_resource type="Script" path="res://src/world/encounter_controller.gd" id="16_encounter"]
 [ext_resource type="PackedScene" path="res://scenes/ui/combat_telemetry.tscn" id="17_telemetry"]
+[ext_resource type="Script" path="res://src/narrative/dialogue_runner.gd" id="18_runner"]
+[ext_resource type="Script" path="res://src/narrative/dialogue_trigger_area.gd" id="19_trigger"]
+[ext_resource type="Script" path="res://src/narrative/dialogue_interactable.gd" id="20_dinter"]
+[ext_resource type="Script" path="res://src/narrative/truth_layer_reconstruction.gd" id="21_recon"]
+[ext_resource type="Script" path="res://src/world/bounds_guard.gd" id="22_bounds"]
+[ext_resource type="PackedScene" path="res://scenes/ui/title_card.tscn" id="23_card"]
+[ext_resource type="PackedScene" path="res://scenes/world/entities/weep_gate.tscn" id="24_gate"]
 
 [sub_resource type="Environment" id="env"]
 background_mode = 1
@@ -38,6 +45,24 @@ radius = 3.5
 [sub_resource type="BoxShape3D" id="door_shape"]
 size = Vector3(1.8, 2.6, 0.6)
 
+[sub_resource type="BoxShape3D" id="frag_shape"]
+size = Vector3(1.6, 1.6, 0.5)
+
+[sub_resource type="BoxShape3D" id="trig_descent"]
+size = Vector3(4.5, 3.0, 1.5)
+
+[sub_resource type="BoxShape3D" id="trig_announce"]
+size = Vector3(5.0, 3.0, 2.0)
+
+[sub_resource type="BoxShape3D" id="trig_payoff"]
+size = Vector3(6.0, 3.0, 2.4)
+
+[sub_resource type="BoxShape3D" id="trig_convo"]
+size = Vector3(6.0, 3.0, 2.0)
+
+[sub_resource type="BoxShape3D" id="encounter_shape"]
+size = Vector3(8.0, 4.0, 3.0)
+
 [sub_resource type="Resource" id="obj1"]
 script = ExtResource("4_objective")
 id = "investigate_doves_row"
@@ -45,36 +70,58 @@ label = "Dove's Row is silent. Find out what happened."
 
 [sub_resource type="Resource" id="obj2"]
 script = ExtResource("4_objective")
-id = "reach_the_weep"
-label = "Reach the Weep and descend into the Reliquary."
+id = "learn_the_surrender"
+label = "The street gave its voices. Learn what the surrender was for."
 
 [sub_resource type="Resource" id="obj3"]
+script = ExtResource("4_objective")
+id = "reconstruct_the_surrender"
+label = "Reconstruct the night from the substrate: three fragments, any order."
+
+[sub_resource type="Resource" id="obj4"]
+script = ExtResource("4_objective")
+id = "descend_the_weep"
+label = "Descend through the Weep's service breach."
+
+[sub_resource type="Resource" id="obj5"]
 script = ExtResource("4_objective")
 id = "cross_the_conduit"
 label = "Cross the collapsed inference conduit."
 
-[sub_resource type="Resource" id="obj4"]
-script = ExtResource("4_objective")
-id = "clear_the_threshold"
-label = "Face the Custodian construct at the Choir threshold."
-
-[sub_resource type="Resource" id="obj5"]
-script = ExtResource("4_objective")
-id = "enter_the_choir"
-label = "Open the Choir door."
-
 [sub_resource type="Resource" id="obj6"]
 script = ExtResource("4_objective")
-id = "reach_the_wardens_house"
-label = "Reach the Warden's choir-house."
+id = "clear_the_threshold"
+label = "Face the Custodian patrol at the Choir threshold."
 
 [sub_resource type="Resource" id="obj7"]
 script = ExtResource("4_objective")
-id = "defeat_the_warden"
-label = "Silence the Choir Warden."
+id = "the_voices_return"
+label = "Witness the surrender's payoff: Lark and Juno."
 
-[sub_resource type="BoxShape3D" id="encounter_shape"]
-size = Vector3(8.0, 4.0, 3.0)
+[sub_resource type="Resource" id="obj8"]
+script = ExtResource("4_objective")
+id = "open_the_choir_door"
+label = "Open the Choir door."
+
+[sub_resource type="Resource" id="obj9"]
+script = ExtResource("4_objective")
+id = "talk_with_nous"
+label = "The quiet before the fight: Teknium and Nous."
+
+[sub_resource type="Resource" id="obj10"]
+script = ExtResource("4_objective")
+id = "defeat_the_warden"
+label = "Silence the Choir Warden. The choir-house is sealed."
+
+[sub_resource type="Resource" id="obj11"]
+script = ExtResource("4_objective")
+id = "hermes_speaks"
+label = "Hermes speaks through the damaged infrastructure."
+
+[sub_resource type="Resource" id="obj12"]
+script = ExtResource("4_objective")
+id = "the_question"
+label = "Answer the question."
 
 [node name="Chapter2" type="Node3D"]
 script = ExtResource("1_chapter")
@@ -103,8 +150,14 @@ light_color = Color(0, 0.9, 0.5, 1)
 light_energy = 2.0
 omni_range = 10.0
 
+[node name="GalleryWarm" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -48)
+light_color = Color(0.9, 0.65, 0.3, 1)
+light_energy = 0.9
+omni_range = 6.0
+
 [node name="DescentBase" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7, -55)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7, -58)
 light_color = Color(0, 0.85, 0.5, 1)
 light_energy = 0.8
 omni_range = 8.0
@@ -136,6 +189,17 @@ omni_range = 18.0
 [node name="Blockout" type="Node3D" parent="."]
 script = ExtResource("2_blockout")
 
+[node name="BoundsGuard" type="Node3D" parent="."]
+script = ExtResource("22_bounds")
+
+[node name="CinematicCamera10" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, -95)
+fov = 60.0
+
+[node name="CinematicCamera11" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, -97)
+fov = 60.0
+
 [node name="Beats" type="Node3D" parent="."]
 
 [node name="SpawnPoint" type="Marker3D" parent="Beats"]
@@ -156,37 +220,37 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 shape = SubResource("cp_shape")
 
 [node name="CP_WeepDescent" type="Area3D" parent="Beats/Checkpoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -45.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, -64)
 script = ExtResource("5_checkpoint")
 checkpoint_id = "weep_descent"
 display_name = "The Weep"
 
 [node name="SpawnPoint" type="Marker3D" parent="Beats/Checkpoints/CP_WeepDescent"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -44)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.9, -63)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Checkpoints/CP_WeepDescent"]
 shape = SubResource("cp_shape")
 
 [node name="CP_ChoirThreshold" type="Area3D" parent="Beats/Checkpoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -81)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, -81)
 script = ExtResource("5_checkpoint")
 checkpoint_id = "choir_threshold"
 display_name = "Choir Threshold"
 
 [node name="SpawnPoint" type="Marker3D" parent="Beats/Checkpoints/CP_ChoirThreshold"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -80.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.9, -80.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Checkpoints/CP_ChoirThreshold"]
 shape = SubResource("cp_shape")
 
 [node name="CP_ChoirHouse" type="Area3D" parent="Beats/Checkpoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -91)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, -91)
 script = ExtResource("5_checkpoint")
 checkpoint_id = "choir_house"
 display_name = "Warden's Choir-House"
 
 [node name="SpawnPoint" type="Marker3D" parent="Beats/Checkpoints/CP_ChoirHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -90)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.9, -90.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Checkpoints/CP_ChoirHouse"]
 shape = SubResource("cp_shape")
@@ -199,18 +263,189 @@ script = ExtResource("6_story")
 id = "doves_row_door"
 prompt_text = "Step inside"
 one_shot = true
-speaker = "Sidbin"
-lines = PackedStringArray("Audio signature, Dove's Row. Expected: a hundred and twelve household harmonics. Observed: four. The four are ours.")
 beat_id = "doves_row_door"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Interactables/DoorJuno"]
 shape = SubResource("door_shape")
 
+[node name="Gates" type="Node3D" parent="Beats"]
+
+[node name="WeepGate" parent="Beats/Gates" instance=ExtResource("24_gate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -49.5)
+
+[node name="SlidingDoorThreshold" parent="Beats/Gates" instance=ExtResource("11_door")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5, -88.5)
+beat_to_open = "threshold_door"
+
+[node name="Narrative" type="Node3D" parent="Beats"]
+
+[node name="Cinematics" type="Node3D" parent="Beats/Narrative"]
+
+[node name="DoorScene" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.1_door"
+
+[node name="TruthScanExchange" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.1_truth_scan"
+
+[node name="NadiaScene" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.2_nadia"
+beat_id = "nadia_silence"
+lock_player = true
+
+[node name="RevealScene" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.3_reveal"
+beat_id = "surrender_reveal"
+lock_player = true
+
+[node name="DescentExchange" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.4_descent"
+
+[node name="Announcement" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.4_announcement"
+
+[node name="ConversionLine" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.6_conversion"
+
+[node name="AfterTheFight" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.6_after_fight"
+
+[node name="PayoffEcho" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.7_echo"
+beat_id = "voices_return"
+lock_player = true
+
+[node name="NousConversation" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.8_nous"
+beat_id = "nous_conversation"
+lock_player = true
+
+[node name="BrooklynRequiem" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.9_brooklyn_requiem"
+
+[node name="TekniumCoda" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.9_teknium_coda"
+
+[node name="HermesElevenSeconds" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.10_hermes"
+beat_id = "hermes_eleven_seconds"
+lock_player = true
+camera_path = NodePath("../../../../CinematicCamera10")
+
+[node name="TheQuestion" type="Node3D" parent="Beats/Narrative/Cinematics"]
+script = ExtResource("18_runner")
+sequence_id = "2.11_question"
+beat_id = "the_question_asked"
+lock_player = true
+camera_path = NodePath("../../../../CinematicCamera11")
+
+[node name="Fragments" type="Node3D" parent="Beats/Narrative"]
+
+[node name="GatheringRunner" type="Node3D" parent="Beats/Narrative/Fragments"]
+script = ExtResource("18_runner")
+sequence_id = "2.3_fragment_gathering"
+beat_id = "fragment_gathering"
+
+[node name="FarewellRunner" type="Node3D" parent="Beats/Narrative/Fragments"]
+script = ExtResource("18_runner")
+sequence_id = "2.3_fragment_farewell"
+beat_id = "fragment_farewell"
+
+[node name="JunoRunner" type="Node3D" parent="Beats/Narrative/Fragments"]
+script = ExtResource("18_runner")
+sequence_id = "2.3_fragment_juno"
+beat_id = "fragment_juno_goodbye"
+
+[node name="GatheringNode" type="Area3D" parent="Beats/Narrative/Fragments"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 1.5, -47.2)
+script = ExtResource("20_dinter")
+id = "fragment_gathering"
+prompt_text = "Reconstruct the gathering"
+one_shot = true
+runner_path = NodePath("GatheringRunner")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Narrative/Fragments/GatheringNode"]
+shape = SubResource("frag_shape")
+
+[node name="FarewellNode" type="Area3D" parent="Beats/Narrative/Fragments"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7, 1.5, -48.4)
+script = ExtResource("20_dinter")
+id = "fragment_farewell"
+prompt_text = "Reconstruct the farewell"
+one_shot = true
+runner_path = NodePath("FarewellRunner")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Narrative/Fragments/FarewellNode"]
+shape = SubResource("frag_shape")
+
+[node name="JunoNode" type="Area3D" parent="Beats/Narrative/Fragments"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -49.2)
+script = ExtResource("20_dinter")
+id = "fragment_juno_goodbye"
+prompt_text = "Reconstruct Juno's goodbye"
+one_shot = true
+runner_path = NodePath("JunoRunner")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Narrative/Fragments/JunoNode"]
+shape = SubResource("frag_shape")
+
+[node name="Reconstruction" type="Node3D" parent="Beats/Narrative"]
+script = ExtResource("21_recon")
+fragment_ids = PackedStringArray("fragment_gathering", "fragment_farewell", "fragment_juno_goodbye")
+complete_beat_id = "reconstruction_complete"
+
+[node name="Triggers" type="Node3D" parent="Beats"]
+
+[node name="DescentLinesTrigger" type="Area3D" parent="Beats/Triggers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -51.5)
+script = ExtResource("19_trigger")
+runner_path = NodePath("../../Narrative/Cinematics/DescentExchange")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Triggers/DescentLinesTrigger"]
+shape = SubResource("trig_descent")
+
+[node name="AnnouncementTrigger" type="Area3D" parent="Beats/Triggers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, -63.5)
+script = ExtResource("19_trigger")
+runner_path = NodePath("../../Narrative/Cinematics/Announcement")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Triggers/AnnouncementTrigger"]
+shape = SubResource("trig_announce")
+
+[node name="PayoffTrigger" type="Area3D" parent="Beats/Triggers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, -87)
+script = ExtResource("19_trigger")
+runner_path = NodePath("../../Narrative/Cinematics/PayoffEcho")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Triggers/PayoffTrigger"]
+shape = SubResource("trig_payoff")
+
+[node name="NousConvoTrigger" type="Area3D" parent="Beats/Triggers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, -89.3)
+script = ExtResource("19_trigger")
+runner_path = NodePath("../../Narrative/Cinematics/NousConversation")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Triggers/NousConvoTrigger"]
+shape = SubResource("trig_convo")
+
+[node name="FirstContactCustodian" parent="Beats" instance=ExtResource("12_custodian")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, -8, -85.5)
+aggro_range = 0.0
+
 [node name="DummyThreshold" parent="Beats" instance=ExtResource("10_dummy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -84.5)
-
-[node name="SlidingDoorThreshold" parent="Beats" instance=ExtResource("11_door")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5, -88.5)
 
 [node name="Arena" type="Node3D" parent="Beats"]
 
@@ -230,7 +465,7 @@ arena_root_path = NodePath("..")
 warden_path = NodePath("../Warden")
 
 [node name="Trigger" type="Area3D" parent="Beats/Arena/Encounter"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -89)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -92)
 monitoring = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Arena/Encounter/Trigger"]
@@ -249,10 +484,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
 [node name="ObjectiveFlow" type="Node" parent="." unique_name_in_owner = true]
 script = ExtResource("3_flow")
-objectives = [SubResource("obj1"), SubResource("obj2"), SubResource("obj3"), SubResource("obj4"), SubResource("obj5"), SubResource("obj6"), SubResource("obj7")]
+objectives = [SubResource("obj1"), SubResource("obj2"), SubResource("obj3"), SubResource("obj4"), SubResource("obj5"), SubResource("obj6"), SubResource("obj7"), SubResource("obj8"), SubResource("obj9"), SubResource("obj10"), SubResource("obj11"), SubResource("obj12")]
 
 [node name="HUD" parent="." instance=ExtResource("8_hud")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_pause")]
 
 [node name="CombatTelemetry" parent="." instance=ExtResource("17_telemetry")]
+
+[node name="TitleCard" parent="." instance=ExtResource("23_card")]

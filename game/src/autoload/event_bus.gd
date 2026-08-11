@@ -26,6 +26,15 @@ signal game_paused
 signal game_unpaused
 
 signal subtitle_requested(speaker: String, text: String)
+signal subtitle_requested_timed(speaker: String, text: String, seconds: float)
+signal subtitle_clear
+
+# --- Narrative / dialogue -----------------------------------------------------
+signal dialogue_sequence_started(sequence_id: String)
+signal dialogue_sequence_finished(sequence_id: String)
+signal truth_layer_fragment_collected(fragment_id: String, remaining: int)
+signal truth_layer_reconstruction_completed(reconstruction: Node)
+signal title_card_requested(title: String)
 
 signal combatant_defeated(combatant: Node)
 signal truth_layer_toggled(active: bool)

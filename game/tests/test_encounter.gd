@@ -64,6 +64,34 @@ func test_encounter_counts_summoned_minions_and_requires_all_dead() -> void:
 	check_eq(_completed.size(), 1, "completion emitted exactly once")
 	arena.queue_free()
 
+func test_converted_minions_do_not_block_completion() -> void:
+	_completed.clear()
+	var arena := Node3D.new()
+	add_child(arena)
+	var warden := _make_warden()
+	arena.add_child(warden)
+	var encounter := _make_encounter_controller(arena)
+	await _wait_physics(20)
+
+	var cust_a := _make_custodian()
+	arena.add_child(cust_a)
+	var cust_b := _make_custodian()
+	arena.add_child(cust_b)
+	await _wait_physics(5)
+	encounter.begin()
+	check_eq(encounter.remaining_combatants(), 3, "three hostile combatants at start")
+
+	cust_a.convert(30.0)
+	cust_b.convert(30.0)
+	await _wait_physics(5)
+	check_eq(encounter.remaining_combatants(), 1, "converted minions no longer block completion")
+
+	warden.take_hit(99999.0, Vector3.BACK, true)
+	await _wait_physics(10)
+	check(encounter.completed, "encounter completes with converted minions still alive")
+	check_eq(_completed.size(), 1, "completion emitted exactly once")
+	arena.queue_free()
+
 func test_chapter_objective_wiring() -> void:
 	var chapter_scene: PackedScene = load("res://scenes/world/chapter2_choir_below.tscn")
 	var chapter := chapter_scene.instantiate()
@@ -71,20 +99,23 @@ func test_chapter_objective_wiring() -> void:
 	await _wait_physics(40)
 	var flow := chapter.get_node("ObjectiveFlow") as ObjectiveFlow
 	check(flow != null and flow.current != null, "objective flow running")
+	check_eq(flow.current.id, "investigate_doves_row", "slice opens on the cold open")
 	var ids := [
-		"investigate_doves_row", "reach_the_weep", "cross_the_conduit",
-		"clear_the_threshold", "enter_the_choir", "reach_the_wardens_house",
+		"investigate_doves_row", "learn_the_surrender", "reconstruct_the_surrender",
+		"descend_the_weep", "cross_the_conduit", "clear_the_threshold",
+		"the_voices_return", "open_the_choir_door", "talk_with_nous",
+		"defeat_the_warden", "hermes_speaks", "the_question",
 	]
 	for id in ids:
-		check(flow.complete(id), "flow advanced past %s" % id)
-	check(flow.current != null and flow.current.id == "defeat_the_warden",
-		"flow reached the warden objective")
+		check(flow.skip_to(id), "skip_to advanced past %s" % id)
+	check(flow.current == null, "flow completes after the final objective")
 
-	# Chapter2 listens to EventBus.encounter_completed -> complete("defeat_the_warden")
+	# Chapter2 listens to EventBus.encounter_completed -> skip_to("defeat_the_warden").
+	# Idempotent: the flow is already past it, so it must not regress or error.
 	var dummy_encounter := EncounterController.new()
 	EventBus.encounter_completed.emit(dummy_encounter)
 	await _wait_physics(5)
-	check(flow.current == null, "warden objective completed closes the flow")
+	check(flow.has_reached("defeat_the_warden"), "encounter completion advanced the warden objective")
 	chapter.queue_free()
 	dummy_encounter.free()
 

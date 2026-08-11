@@ -158,8 +158,9 @@ func _add_plaque(parent: Node3D, plaque_name: String, text: String, position: Ve
 
 func _build_doves_row() -> void:
 	var beat := _beat("BeatDovesRow")
-	# Street ground, running +Z (toward the Weep) to -Z
-	_add_box(beat, "StreetGround", Vector3(16.0, 1.0, 48.0), Vector3(0.0, -0.5, -20.0), STONE)
+	# Street ground, running +Z (toward the Weep) to -Z; reaches the Weep wall so
+	# there is no void gap between the tenements and the breach.
+	_add_box(beat, "StreetGround", Vector3(16.0, 1.0, 50.0), Vector3(0.0, -0.5, -21.0), STONE)
 	# Left tenement blocks
 	_add_box(beat, "LeftBlock_1", Vector3(5.0, 7.0, 10.0), Vector3(-8.5, 3.0, -5.0), STONE)
 	_add_box(beat, "LeftBlock_2", Vector3(5.0, 7.0, 10.0), Vector3(-8.5, 3.0, -16.0), STONE)
@@ -190,11 +191,14 @@ func _build_doves_row() -> void:
 
 func _build_weep_entrance() -> void:
 	var beat := _beat("BeatWeepEntrance")
-	# Retaining wall with a doorway at the street's dead end (z=-46)
-	_add_box(beat, "WallLeft", Vector3(7.5, 7.0, 1.0), Vector3(-3.75, 3.5, -46.0), STONE)
-	_add_box(beat, "WallRight", Vector3(7.5, 7.0, 1.0), Vector3(3.75, 3.5, -46.0), STONE)
+	# Retaining wall with a doorway gap at centre (x -1.5..1.5) so the player can
+	# actually walk through the breach into the Weep.
+	_add_box(beat, "WallLeft", Vector3(6.0, 7.0, 1.0), Vector3(-4.5, 3.5, -46.0), STONE)
+	_add_box(beat, "WallRight", Vector3(6.0, 7.0, 1.0), Vector3(4.5, 3.5, -46.0), STONE)
 	_add_box(beat, "WallLintel", Vector3(4.5, 1.0, 1.0), Vector3(0.0, 6.5, -46.0), STONE)
-	# Emerald glow panel marking the breach
+	# Door jamb markers and the breach glow inside the opening
+	_add_visual_box(beat, "JambLeft", Vector3(0.3, 4.5, 0.2), Vector3(-1.7, 2.25, -45.85), COPPER)
+	_add_visual_box(beat, "JambRight", Vector3(0.3, 4.5, 0.2), Vector3(1.7, 2.25, -45.85), COPPER)
 	_add_visual_box(beat, "BreachGlow", Vector3(3.0, 0.2, 0.1), Vector3(0.0, 0.6, -45.8), EMERALD)
 	_add_plaque(beat, "PlaqueWeep", "THE WEEP", Vector3(0.0, 3.9, -45.2), Color(0.0, 0.9, 0.55))
 
@@ -202,31 +206,48 @@ func _build_weep_entrance() -> void:
 
 func _build_weep_descent() -> void:
 	var beat := _beat("BeatWeepDescent")
-	var step_z := -47.5
+	# Upper gallery just inside the breach (z -46..-50). The truth-layer
+	# fragments live here; the gate below blocks the steps until the
+	# reconstruction completes.
+	_add_box(beat, "GalleryFloor", Vector3(4.5, 0.5, 4.0), Vector3(0.0, -0.25, -48.0), STONE)
+	_add_box(beat, "GalleryWallLeft", Vector3(0.5, 4.5, 4.0), Vector3(-2.5, 2.0, -48.0), STONE)
+	_add_box(beat, "GalleryWallRight", Vector3(0.5, 4.5, 4.0), Vector3(2.5, 2.0, -48.0), STONE)
+	# Real descending staircase: step 0 is flush with the gallery floor (top
+	# y ≈ 0), each step drops 0.66 m down to ≈ -7.93 at the crypt floor. The
+	# stairs run -Z from the gallery gate down to the conduit landing.
+	var step_z := -50.5
 	for i in 13:
 		var depth := 1.0
 		var height := 0.66
-		_add_box(beat, "Step_%02d" % i, Vector3(4.0, height, depth),
-			Vector3(0.0, height * 0.5 - 0.01, step_z + depth * 0.5), STONE)
-		step_z += depth
-	# Landing at the base of the descent (y ≈ -8)
-	_add_box(beat, "DescentLanding", Vector3(4.5, 0.5, 3.0), Vector3(0.0, -8.25, -60.5), STONE)
-	# Side walls flanking the stairs
-	_add_box(beat, "DescentWallLeft", Vector3(1.0, 8.0, 16.0), Vector3(-3.0, -4.0, -54.0), STONE)
-	_add_box(beat, "DescentWallRight", Vector3(1.0, 8.0, 16.0), Vector3(3.0, -4.0, -54.0), STONE)
+		var step_y := -height * (i + 0.5) - 0.01
+		_add_box(beat, "Step_%02d" % i, Vector3(5.0, height, depth),
+			Vector3(0.0, step_y, step_z + depth * 0.5), STONE)
+		step_z -= depth
+	# Landing at the base of the descent (top y ≈ -7.6, flush with the conduit)
+	_add_box(beat, "DescentLanding", Vector3(5.0, 0.5, 3.0), Vector3(0.0, -7.85, -64.0), STONE)
+	# Side walls flanking the stairs (the stairs fill the corridor between them)
+	_add_box(beat, "DescentWallLeft", Vector3(0.5, 9.0, 16.0), Vector3(-3.0, -3.5, -55.5), STONE)
+	_add_box(beat, "DescentWallRight", Vector3(0.5, 9.0, 16.0), Vector3(3.0, -3.5, -55.5), STONE)
 	# Copper conduit pipes running down the walls
-	_add_cylinder(beat, "PipeLeft", 0.18, 14.0, Vector3(-2.6, -4.0, -54.0), COPPER, Vector3(0.0, 0.0, 1.5708))
-	_add_cylinder(beat, "PipeRight", 0.18, 14.0, Vector3(2.6, -4.0, -54.0), COPPER, Vector3(0.0, 0.0, 1.5708))
+	_add_cylinder(beat, "PipeLeft", 0.18, 14.0, Vector3(-2.6, -3.5, -55.5), COPPER, Vector3(0.0, 0.0, 1.5708))
+	_add_cylinder(beat, "PipeRight", 0.18, 14.0, Vector3(2.6, -3.5, -55.5), COPPER, Vector3(0.0, 0.0, 1.5708))
 	# Flooded crypt water below the landing
-	_add_visual_box(beat, "CryptWater", Vector3(8.0, 0.1, 8.0), Vector3(0.0, -8.6, -54.0), WATER)
+	_add_visual_box(beat, "CryptWater", Vector3(8.0, 0.1, 8.0), Vector3(0.0, -8.6, -56.0), WATER)
 	# Green lumen-moss accents on the walls
 	for i in 5:
 		_add_visual_sphere(beat, "LumenMoss_%d" % i, 0.12,
-			Vector3(-2.3, -1.0 - i * 1.3, -48.0 - i * 1.5), EMERALD)
+			Vector3(-2.3, -1.0 - i * 1.3, -49.5 - i * 1.5), EMERALD)
 		_add_visual_sphere(beat, "LumenMossR_%d" % i, 0.12,
-			Vector3(2.3, -1.0 - i * 1.3, -48.0 - i * 1.5), EMERALD)
-	_add_plaque(beat, "PlaqueDescent", "SERVICE BREACH — SECTOR WEEP-9", Vector3(0.0, -2.5, -52.0),
+			Vector3(2.3, -1.0 - i * 1.3, -49.5 - i * 1.5), EMERALD)
+	_add_plaque(beat, "PlaqueDescent", "SERVICE BREACH — SECTOR WEEP-9", Vector3(0.0, -2.5, -54.0),
 		Color(0.66, 0.4, 0.22))
+	# Reconstruction fragment markers in the gallery
+	_add_plaque(beat, "PlaqueFragment_1", "SUBSTRATE FRAGMENT 1/3 — THE GATHERING", Vector3(-1.7, 2.6, -47.2),
+		Color(0.0, 0.9, 0.55))
+	_add_plaque(beat, "PlaqueFragment_2", "SUBSTRATE FRAGMENT 2/3 — A FAREWELL", Vector3(1.7, 2.6, -48.4),
+		Color(0.0, 0.9, 0.55))
+	_add_plaque(beat, "PlaqueFragment_3", "SUBSTRATE FRAGMENT 3/3 — JUNO'S GOODBYE", Vector3(0.0, 2.6, -49.2),
+		Color(0.0, 0.9, 0.55))
 
 ## --- Beat 4: Collapsed inference conduit (traversal) ------------------------
 

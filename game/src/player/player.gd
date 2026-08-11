@@ -33,6 +33,10 @@ var move_state := MoveState.GROUND
 var _state_timer := 0.0
 var _dodge_vector := Vector3.ZERO
 var _dodge_cooldown := 0.0
+## Set by DialogueRunner during locked cinematics: movement input and the action
+## poll are ignored, so the player holds still for authored beats. Physics (and
+## gravity) keep running so the body stays grounded.
+var control_locked := false
 
 @onready var camera_rig: CameraRig = $CameraRig
 @onready var visual_root: Node3D = $VisualRoot
@@ -66,7 +70,7 @@ func _physics_process(delta: float) -> void:
 	_poll_actions()
 
 func _physics_ground_air(delta: float) -> void:
-	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var input_dir := Vector2.ZERO if control_locked else Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var wish_dir := _wish_direction(input_dir)
 	var moving := input_dir.length() > 0.1
 
@@ -103,6 +107,8 @@ func _physics_dodge(delta: float) -> void:
 		_emit_state()
 
 func _poll_actions() -> void:
+	if control_locked:
+		return
 	if Input.is_action_just_pressed("jump") and is_on_floor() and move_state != MoveState.DODGE:
 		velocity.y = jump_velocity
 		move_state = MoveState.AIR

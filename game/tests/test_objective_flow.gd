@@ -62,5 +62,45 @@ func test_flow_completed_signal() -> void:
 	flow.flow_completed.disconnect(_on_flow_completed)
 	flow.queue_free()
 
+func test_skip_to_completes_through_target() -> void:
+	var flow := _make_flow()
+	flow.begin()
+	check(flow.skip_to("a"), "skip_to completes the active objective")
+	check(flow.current.id == "b", "advanced past a")
+	check(flow.skip_to("c"), "skip_to jumps forward through b")
+	check(flow.current == null, "flow completed after skipping to the final objective")
+	check(flow.has_reached("a") and flow.has_reached("b") and flow.has_reached("c"),
+		"all skipped objectives marked reached")
+	flow.queue_free()
+
+func test_skip_to_before_begin_rejected() -> void:
+	var flow := _make_flow()
+	check(not flow.skip_to("a"), "skip_to rejected before begin")
+	flow.queue_free()
+
+func test_skip_to_unknown_rejected() -> void:
+	var flow := _make_flow()
+	flow.begin()
+	check(not flow.skip_to("nope"), "unknown id rejected")
+	check(flow.current.id == "a", "flow unchanged by unknown id")
+	flow.queue_free()
+
+func test_skip_to_idempotent_after_reached() -> void:
+	var flow := _make_flow()
+	flow.begin()
+	flow.skip_to("b")
+	check(flow.current.id == "c", "flow rests on c after skipping to b")
+	check(flow.skip_to("a"), "skip_to an earlier id is a safe no-op")
+	check(flow.current.id == "c", "flow did not move backward")
+	flow.queue_free()
+
+func test_skip_to_completes_even_when_current() -> void:
+	var flow := _make_flow()
+	flow.begin()
+	check(flow.current.id == "a", "a active")
+	check(flow.skip_to("a"), "skip_to the current objective completes it")
+	check(flow.current.id == "b", "advanced to b")
+	flow.queue_free()
+
 func _on_flow_completed() -> void:
 	_flow_completed = true

@@ -36,6 +36,8 @@ func _ready() -> void:
 	EventBus.interactable_unfocused.connect(_on_interactable_unfocused)
 	EventBus.objective_updated.connect(_on_objective_updated)
 	EventBus.subtitle_requested.connect(_on_subtitle_requested)
+	EventBus.subtitle_requested_timed.connect(_on_subtitle_requested_timed)
+	EventBus.subtitle_clear.connect(_on_subtitle_clear)
 	EventBus.encounter_started.connect(_on_encounter_started)
 	EventBus.encounter_completed.connect(_on_encounter_completed)
 
@@ -71,6 +73,16 @@ func _on_objective_updated(objective: Objective) -> void:
 	objective_label.text = objective.label
 
 func _on_subtitle_requested(speaker: String, text: String) -> void:
+	_show_subtitle(speaker, text, 4.0)
+
+func _on_subtitle_requested_timed(speaker: String, text: String, seconds: float) -> void:
+	_show_subtitle(speaker, text, seconds)
+
+func _on_subtitle_clear() -> void:
+	subtitle_timer.stop()
+	subtitle_label.visible = false
+
+func _show_subtitle(speaker: String, text: String, seconds: float) -> void:
 	if not Settings.subtitles_enabled:
 		return
 	var prefix := ""
@@ -78,7 +90,7 @@ func _on_subtitle_requested(speaker: String, text: String) -> void:
 		prefix = "%s: " % speaker
 	subtitle_label.text = prefix + text
 	subtitle_label.visible = true
-	subtitle_timer.start(4.0)
+	subtitle_timer.start(seconds if seconds > 0.0 else 4.0)
 
 func _on_subtitle_timer_timeout() -> void:
 	subtitle_label.visible = false
