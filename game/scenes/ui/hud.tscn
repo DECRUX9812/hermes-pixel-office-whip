@@ -128,23 +128,34 @@ horizontal_alignment = 1
 text = ""
 mouse_filter = 2
 
-[node name="SubtitleLabel" type="Label" parent="."]
+[node name="SubtitlePanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -500.0
-offset_top = -150.0
-offset_right = 500.0
-offset_bottom = -102.0
+offset_left = -560.0
+offset_top = -170.0
+offset_right = 560.0
+offset_bottom = -96.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_color = Color(0.9, 0.92, 0.95, 1)
-theme_override_font_sizes/font_size = 22
-horizontal_alignment = 1
-autowrap_mode = 2
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="SubtitlePanel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SubtitleLabel" type="RichTextLabel" parent="SubtitlePanel/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.9, 0.92, 0.95, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+scroll_active = false
+fit_content = true
 text = ""
 mouse_filter = 2
 

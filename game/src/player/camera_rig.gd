@@ -11,6 +11,7 @@ const WORLD_LAYER := 1
 @export var pitch_min_deg := -80.0
 @export var pitch_max_deg := 60.0
 @export var camera_distance := 4.2
+@export var default_fov := 70.0
 
 var yaw := 0.0
 var pitch := 0.0
@@ -24,7 +25,16 @@ func _ready() -> void:
 	var player := get_parent()
 	if player is CollisionObject3D:
 		spring.add_excluded_object((player as CollisionObject3D).get_rid())
+	Settings.settings_changed.connect(_on_setting_changed)
+	_apply_fov()
 	_apply()
+
+func _on_setting_changed(key: String, _value: Variant) -> void:
+	if key == "camera_fov":
+		_apply_fov()
+
+func _apply_fov() -> void:
+	camera.fov = Settings.camera_fov
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:

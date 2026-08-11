@@ -18,6 +18,8 @@ EventBus="*res://src/autoload/event_bus.gd"
 GameState="*res://src/autoload/game_state.gd"
 CheckpointManager="*res://src/autoload/checkpoint_manager.gd"
 Settings="*res://src/autoload/settings.gd"
+InputPrompts="*res://src/autoload/input_prompts.gd"
+AudioDirector="*res://src/audio/audio_director.gd"
 
 [display]
 
@@ -157,3 +159,9 @@ renderer/rendering_method="forward_plus"
 renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.02, 0.023, 0.027, 1)
 anti_aliasing/quality/msaa_3d=1
+shadows/positional_shadow/soft_shadow_filter_quality=1
+shadows/directional_shadow/soft_shadow_filter_quality=1
+textures/vram_compression/import_etc2_astc=true
+textures/default_filters/anisotropic_filtering_level=2
+lights_and_shadows/directional_shadow/16_bits=true
+anti_aliasing/quality/use_debanding=true

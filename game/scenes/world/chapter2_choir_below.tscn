@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3]
+[gd_scene load_steps=49 format=3]
 
 [ext_resource type="Script" path="res://scenes/world/chapter2.gd" id="1_chapter"]
 [ext_resource type="Script" path="res://src/environment/blockout_chapter2.gd" id="2_blockout"]
@@ -24,20 +24,29 @@
 [ext_resource type="Script" path="res://src/world/bounds_guard.gd" id="22_bounds"]
 [ext_resource type="PackedScene" path="res://scenes/ui/title_card.tscn" id="23_card"]
 [ext_resource type="PackedScene" path="res://scenes/world/entities/weep_gate.tscn" id="24_gate"]
+[ext_resource type="Script" path="res://src/world/lighting_director.gd" id="25_lighting"]
+[ext_resource type="Script" path="res://src/narrative/cinematic_camera.gd" id="26_cin_cam"]
+[ext_resource type="Script" path="res://src/world/combat_vfx.gd" id="27_vfx"]
 
 [sub_resource type="Environment" id="env"]
 background_mode = 1
 background_color = Color(0.02, 0.023, 0.027, 1)
 ambient_light_source = 2
-ambient_light_color = Color(0.16, 0.18, 0.2, 1)
-ambient_light_energy = 0.4
+ambient_light_color = Color(0.42, 0.46, 0.5, 1)
+ambient_light_energy = 1.6
 tonemap_mode = 3
 glow_enabled = true
-glow_intensity = 0.25
+glow_intensity = 0.22
 glow_bloom = 0.0
+glow_blend_mode = 1
+glow_hdr_threshold = 0.9
 fog_enabled = true
-fog_light_color = Color(0.03, 0.05, 0.06, 1)
-fog_density = 0.012
+fog_light_color = Color(0.16, 0.18, 0.19, 1)
+fog_density = 0.005
+ssao_enabled = true
+ssao_radius = 0.12
+ssao_intensity = 1.2
+ssao_ao_channel_affect = 1.0
 
 [sub_resource type="SphereShape3D" id="cp_shape"]
 radius = 3.5
@@ -126,6 +135,16 @@ label = "Answer the question."
 [node name="Chapter2" type="Node3D"]
 script = ExtResource("1_chapter")
 
+[node name="CombatVfx" type="Node3D" parent="."]
+script = ExtResource("27_vfx")
+
+[node name="LightingDirector" type="Node3D" parent="."]
+script = ExtResource("25_lighting")
+environment_node_path = NodePath("../WorldEnvironment")
+sun_path = NodePath("../Sun")
+emerald_key_path = NodePath("../Lighting/EmeraldKey")
+copper_key_path = NodePath("../Lighting/CopperKey")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("env")
 current = true
@@ -133,10 +152,24 @@ current = true
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.1736, -0.9848, 0, 0.9848, 0.1736, 0, 0, 0)
 light_color = Color(0.75, 0.78, 0.85, 1)
-light_energy = 0.6
+light_energy = 1.1
 shadow_enabled = true
 
 [node name="Lighting" type="Node3D" parent="."]
+
+[node name="EmeraldKey" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -30)
+light_color = Color(0, 0.9, 0.5, 1)
+light_energy = 1.0
+omni_range = 18.0
+shadow_enabled = false
+
+[node name="CopperKey" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -30)
+light_color = Color(0.95, 0.5, 0.2, 1)
+light_energy = 0.6
+omni_range = 18.0
+shadow_enabled = false
 
 [node name="LamppostLumen" type="OmniLight3D" parent="Lighting"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.6, -2)
@@ -195,10 +228,12 @@ script = ExtResource("22_bounds")
 [node name="CinematicCamera10" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, -95)
 fov = 60.0
+script = ExtResource("26_cin_cam")
 
 [node name="CinematicCamera11" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, -97)
 fov = 60.0
+script = ExtResource("26_cin_cam")
 
 [node name="Beats" type="Node3D" parent="."]
 

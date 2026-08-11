@@ -1,18 +1,45 @@
 class_name HUD
 extends CanvasLayer
 ## Heads-up display: health and resolve bars, interaction prompt, current
-## objective, and subtitles (gated by the accessibility setting).
+## objective, and accessible subtitles.
+##
+## Accessibility contract:
+##   - Subtitles render with a high-contrast backing panel (toggleable), a
+##     configurable scale, and per-speaker color so the source is readable
+##     without audio or colour alone.
+##   - Prompts render device-aware glyphs via InputPrompts ([E] on keyboard,
+##     [A] on gamepad) and re-render on device switch.
 
 @onready var health_bar: ProgressBar = %HealthBar
 @onready var resolve_bar: ProgressBar = %ResolveBar
 @onready var prompt_label: Label = %PromptLabel
 @onready var objective_label: Label = %ObjectiveLabel
-@onready var subtitle_label: Label = %SubtitleLabel
+@onready var subtitle_label: RichTextLabel = %SubtitleLabel
+@onready var subtitle_panel: PanelContainer = %SubtitlePanel
 @onready var subtitle_timer: Timer = %SubtitleTimer
 @onready var boss_panel: Control = %BossPanel
 @onready var boss_name_label: Label = %BossNameLabel
 @onready var boss_bar: ProgressBar = %BossBar
 @onready var companion_label: Label = %CompanionLabel
+
+const SPEAKER_COLORS := {
+	"Teknium": Color(0.4, 0.95, 0.7),
+	"Hermes": Color(0.0, 1.0, 0.6),
+	"Nous": Color(0.78, 0.5, 1.0),
+	"Brooklyn": Color(1.0, 0.5, 0.7),
+	"Tinuviel": Color(0.5, 0.6, 1.0),
+	"Sidbin": Color(1.0, 0.75, 0.4),
+	"Nadia": Color(0.95, 0.85, 0.6),
+	"Juno": Color(0.5, 1.0, 0.8),
+	"Juno (recorded)": Color(0.5, 1.0, 0.8),
+	"Lark": Color(0.6, 0.9, 1.0),
+	"Lark (recorded)": Color(0.6, 0.9, 1.0),
+	"Nadia (recorded)": Color(0.95, 0.85, 0.6),
+	"Announcement": Color(0.8, 0.83, 0.88),
+	"Neighbor": Color(0.9, 0.8, 0.65),
+}
+
+const SUBTITLE_BASE_SIZE := 22
 
 var _player_health: HealthComponent = null
 var _player_resolve: ResolveComponent = null
@@ -25,7 +52,7 @@ func _ready() -> void:
 	resolve_bar.max_value = 1.0
 	resolve_bar.value = 1.0
 	prompt_label.visible = false
-	subtitle_label.visible = false
+	subtitle_panel.visible = false
 	boss_panel.visible = false
 	companion_label.text = ""
 	subtitle_timer.timeout.connect(_on_subtitle_timer_timeout)
@@ -40,6 +67,9 @@ func _ready() -> void:
 	EventBus.subtitle_clear.connect(_on_subtitle_clear)
 	EventBus.encounter_started.connect(_on_encounter_started)
 	EventBus.encounter_completed.connect(_on_encounter_completed)
+	InputPrompts.input_device_changed.connect(_on_input_device_changed)
+	Settings.settings_changed.connect(_on_setting_changed)
+	_apply_subtitle_style()
 
 func _on_player_spawned(player: Node3D) -> void:
 	if player is Player:
@@ -63,7 +93,7 @@ func _sync_bars() -> void:
 		resolve_bar.value = _player_resolve.current_resolve / _player_resolve.max_resolve
 
 func _on_interactable_focused(interactable: Interactable) -> void:
-	prompt_label.text = "[%s]  %s" % [_action_hint("interact"), interactable.prompt_text]
+	prompt_label.text = "%s  %s" % [InputPrompts.glyph("interact"), interactable.prompt_text]
 	prompt_label.visible = true
 
 func _on_interactable_unfocused() -> void:
@@ -80,20 +110,61 @@ func _on_subtitle_requested_timed(speaker: String, text: String, seconds: float)
 
 func _on_subtitle_clear() -> void:
 	subtitle_timer.stop()
-	subtitle_label.visible = false
+	subtitle_panel.visible = false
 
 func _show_subtitle(speaker: String, text: String, seconds: float) -> void:
 	if not Settings.subtitles_enabled:
 		return
-	var prefix := ""
-	if speaker != "":
-		prefix = "%s: " % speaker
-	subtitle_label.text = prefix + text
-	subtitle_label.visible = true
+	subtitle_label.text = _format_subtitle(speaker, text)
+	_apply_subtitle_style()
+	subtitle_panel.visible = true
 	subtitle_timer.start(seconds if seconds > 0.0 else 4.0)
 
+func _format_subtitle(speaker: String, text: String) -> String:
+	if speaker == "":
+		return text
+	var color: Color = SPEAKER_COLORS.get(speaker, Color(0.95, 0.96, 0.98))
+	return "[color=#%s]%s[/color]  %s" % [color.to_html(false), speaker, text]
+
+func _apply_subtitle_style() -> void:
+	var size := int(round(SUBTITLE_BASE_SIZE * Settings.subtitle_scale))
+	subtitle_label.add_theme_font_size_override("normal_font_size", size)
+	subtitle_label.add_theme_color_override("default_color", Color(0.95, 0.96, 0.98))
+	if Settings.subtitle_background:
+		var panel_style := StyleBoxFlat.new()
+		panel_style.bg_color = Color(0.02, 0.02, 0.025, 0.72)
+		panel_style.border_color = Color(0.0, 0.85, 0.5, 0.55)
+		panel_style.set_border_width_all(1)
+		panel_style.set_corner_radius_all(6)
+		panel_style.content_margin_left = 16
+		panel_style.content_margin_right = 16
+		panel_style.content_margin_top = 8
+		panel_style.content_margin_bottom = 8
+		subtitle_panel.add_theme_stylebox_override("panel", panel_style)
+	else:
+		subtitle_panel.add_theme_stylebox_override("panel", null)
+
 func _on_subtitle_timer_timeout() -> void:
-	subtitle_label.visible = false
+	subtitle_panel.visible = false
+
+func _on_setting_changed(key: String, _value: Variant) -> void:
+	if key == "subtitle_scale" or key == "subtitle_background":
+		_apply_subtitle_style()
+		_refresh_prompt()
+
+func _on_input_device_changed(_device: int) -> void:
+	_refresh_prompt()
+	_refresh_companion_label()
+
+func _refresh_prompt() -> void:
+	if prompt_label.visible:
+		var text := prompt_label.text
+		var idx := text.find("]")
+		if idx >= 0:
+			prompt_label.text = InputPrompts.glyph("interact") + text.substr(idx)
+
+func _refresh_companion_label() -> void:
+	_update_companion_label()
 
 func _on_encounter_started(encounter: Node) -> void:
 	if encounter is EncounterController and encounter.warden_node:
@@ -131,38 +202,7 @@ func _update_companion_label() -> void:
 		return
 	var status := "READY" if companion.is_ready() else "%.1fs" % companion.current_cooldown
 	var ability := companion.ability_id().replace("_", " ").to_upper()
-	companion_label.text = "[%s] %s — %s (%d resolve)\nswitch companion: [%s]" % [
-		_action_hint("companion_command"), companion.display_name,
+	companion_label.text = "%s %s — %s (%d resolve)  ·  switch: %s" % [
+		InputPrompts.glyph("companion_command"), companion.display_name,
 		"%s — %s" % [ability, status], companion.ability_cost,
-		_action_hint("switch_companion")]
-
-func _action_hint(action: String) -> String:
-	var events := InputMap.action_get_events(action)
-	if events.is_empty():
-		return "?"
-	var event := events[0]
-	if event is InputEventKey:
-		var code := (event as InputEventKey).physical_keycode
-		return OS.get_keycode_string(code)
-	if event is InputEventMouseButton:
-		return "Mouse%d" % (event as InputEventMouseButton).button_index
-	if event is InputEventJoypadButton:
-		return _joypad_button_label((event as InputEventJoypadButton).button_index)
-	return "?"
-
-func _joypad_button_label(index: int) -> String:
-	match index:
-		0:
-			return "A"
-		1:
-			return "B"
-		2:
-			return "X"
-		3:
-			return "Y"
-		4:
-			return "LB"
-		5:
-			return "RB"
-		_:
-			return "Btn%d" % index
+		InputPrompts.glyph("switch_companion")]

@@ -1,10 +1,15 @@
-[gd_resource type="StandardMaterial3D" format=3]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/blockout/materials/ink_edge.gdshader" id="1_shader"]
 
 [resource]
-resource_name = "Blockout Emerald Glow (Hermes light)"
-albedo_color = Color(0.02, 0.1, 0.075, 1)
-metallic = 0.0
-roughness = 0.45
-emission_enabled = true
-emission = Color(0, 0.95, 0.55, 1)
-emission_energy_multiplier = 1.8
+resource_name = "Blockout Emerald Glow (Hermes light) — ink-edge prototype"
+shader = ExtResource("1_shader")
+shader_parameter/albedo = Color(0.02, 0.11, 0.085, 1)
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.5
+shader_parameter/rim_width = 0.12
+shader_parameter/rim_intensity = 0.25
+shader_parameter/rim_color = Color(0.0, 0.03, 0.025, 1)
+shader_parameter/emission = Color(0.0, 0.98, 0.58, 1)
+shader_parameter/emission_energy = 1.7

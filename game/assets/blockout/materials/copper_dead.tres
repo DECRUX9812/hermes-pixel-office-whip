@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/blockout/materials/ink_edge.gdshader" id="1_shader"]
+
+[resource]
+resource_name = "Blockout Dead Copper (rusted, for storytelling props) — ink-edge prototype"
+shader = ExtResource("1_shader")
+shader_parameter/albedo = Color(0.3, 0.19, 0.12, 1)
+shader_parameter/metallic = 0.8
+shader_parameter/roughness = 0.78
+shader_parameter/rim_width = 0.24
+shader_parameter/rim_intensity = 0.2
+shader_parameter/rim_color = Color(0.02, 0.012, 0.006, 1)
+shader_parameter/emission = Color(0.0, 0.0, 0.0, 1)
+shader_parameter/emission_energy = 0.0

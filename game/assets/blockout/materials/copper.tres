@@ -1,7 +1,15 @@
-[gd_resource type="StandardMaterial3D" format=3]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/blockout/materials/ink_edge.gdshader" id="1_shader"]
 
 [resource]
-resource_name = "Blockout Copper"
-albedo_color = Color(0.66, 0.4, 0.22, 1)
-metallic = 1.0
-roughness = 0.38
+resource_name = "Blockout Copper — ink-edge prototype"
+shader = ExtResource("1_shader")
+shader_parameter/albedo = Color(0.8, 0.52, 0.32, 1)
+shader_parameter/metallic = 1.0
+shader_parameter/roughness = 0.34
+shader_parameter/rim_width = 0.16
+shader_parameter/rim_intensity = 0.3
+shader_parameter/rim_color = Color(0.05, 0.028, 0.012, 1)
+shader_parameter/emission = Color(0.55, 0.26, 0.1, 1)
+shader_parameter/emission_energy = 0.35

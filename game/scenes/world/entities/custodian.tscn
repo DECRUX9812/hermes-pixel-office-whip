@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://src/enemies/custodian.gd" id="1_cust"]
 [ext_resource type="Script" path="res://src/combat/health_component.gd" id="2_health"]
@@ -34,6 +34,13 @@ size = Vector3(1.6, 1.1, 1.5)
 inner_radius = 0.52
 outer_radius = 0.66
 
+[sub_resource type="BoxMesh" id="mesh_visor"]
+size = Vector3(0.5, 0.12, 0.1)
+
+[sub_resource type="TorusMesh" id="mesh_shoulder_ring"]
+inner_radius = 0.5
+outer_radius = 0.58
+
 [node name="Custodian" type="CharacterBody3D"]
 collision_layer = 80
 collision_mask = 3
@@ -59,6 +66,16 @@ material_override = ExtResource("3_obs")
 [node name="Head" type="MeshInstance3D" parent="VisualRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
 mesh = SubResource("mesh_head")
+material_override = ExtResource("3_obs")
+
+[node name="Visor" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26, 2.05, 0)
+mesh = SubResource("mesh_visor")
+material_override = ExtResource("4_emerald")
+
+[node name="ShoulderRing" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("mesh_shoulder_ring")
 material_override = ExtResource("3_obs")
 
 [node name="LampPost" type="MeshInstance3D" parent="VisualRoot"]

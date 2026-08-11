@@ -19,6 +19,13 @@ const TEST_MODULES: Array[String] = [
 	"res://tests/test_script_dialogue.gd",
 	"res://tests/test_slice_spine.gd",
 	"res://tests/test_traversal_path.gd",
+	"res://tests/test_synth.gd",
+	"res://tests/test_audio_director.gd",
+	"res://tests/test_input_prompts.gd",
+	"res://tests/test_settings_extra.gd",
+	"res://tests/test_lighting_director.gd",
+	"res://tests/test_cinematic_camera.gd",
+	"res://tests/test_combat_vfx.gd",
 	"res://tests/test_smoke.gd",
 ]
 

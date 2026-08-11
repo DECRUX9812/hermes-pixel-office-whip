@@ -14,6 +14,8 @@ const COPPER := preload("res://assets/blockout/materials/copper.tres")
 const EMERALD := preload("res://assets/blockout/materials/emerald_glow.tres")
 const COPPER_GLOW := preload("res://assets/blockout/materials/copper_glow.tres")
 const WATER := preload("res://assets/blockout/materials/water.tres")
+const COPPER_DEAD := preload("res://assets/blockout/materials/copper_dead.tres")
+const STREET_GROUND := preload("res://assets/blockout/materials/street_ground.tres")
 
 const WORLD_LAYER := 1
 
@@ -160,7 +162,7 @@ func _build_doves_row() -> void:
 	var beat := _beat("BeatDovesRow")
 	# Street ground, running +Z (toward the Weep) to -Z; reaches the Weep wall so
 	# there is no void gap between the tenements and the breach.
-	_add_box(beat, "StreetGround", Vector3(16.0, 1.0, 50.0), Vector3(0.0, -0.5, -21.0), STONE)
+	_add_box(beat, "StreetGround", Vector3(16.0, 1.0, 50.0), Vector3(0.0, -0.5, -21.0), STREET_GROUND)
 	# Left tenement blocks
 	_add_box(beat, "LeftBlock_1", Vector3(5.0, 7.0, 10.0), Vector3(-8.5, 3.0, -5.0), STONE)
 	_add_box(beat, "LeftBlock_2", Vector3(5.0, 7.0, 10.0), Vector3(-8.5, 3.0, -16.0), STONE)
@@ -171,6 +173,13 @@ func _build_doves_row() -> void:
 	_add_box(beat, "RightBlock_2", Vector3(5.0, 7.0, 10.0), Vector3(8.5, 3.0, -16.0), STONE)
 	_add_box(beat, "RightBlock_3", Vector3(5.0, 7.0, 10.0), Vector3(8.5, 3.0, -27.0), STONE)
 	_add_box(beat, "RightBlock_4", Vector3(5.0, 7.0, 10.0), Vector3(8.5, 3.0, -38.0), STONE)
+	# Window lumens on the tenements — cold emerald, few, far apart: the street
+	# was full of household lights, and now almost none are left. These also
+	# break the dark mass so the composition reads at a glance (readability rule).
+	for side in [-1.0, 1.0]:
+		for z in [-9.0, -20.0, -31.0, -42.0]:
+			_add_visual_box(beat, "WindowLumen_%d_%d" % [int(side), int(abs(z))],
+				Vector3(0.5, 0.7, 0.04), Vector3(side * 7.6, 3.5, z), EMERALD)
 	# Copper curbs along the street
 	_add_box(beat, "CurbLeft", Vector3(0.5, 0.25, 46.0), Vector3(-5.0, 0.05, -20.0), COPPER)
 	_add_box(beat, "CurbRight", Vector3(0.5, 0.25, 46.0), Vector3(5.0, 0.05, -20.0), COPPER)
@@ -179,8 +188,23 @@ func _build_doves_row() -> void:
 	_add_box(beat, "JunoStoop", Vector3(1.6, 0.3, 0.9), Vector3(-6.9, 0.15, -16.0), STONE)
 	_add_visual_box(beat, "JunoDoorOpen", Vector3(1.4, 2.6, 0.15), Vector3(-6.9, 1.3, -16.5), COPPER,
 		Vector3(0.0, -0.6, 0.0))
-	_add_visual_cylinder(beat, "KettleBoiledDry", 0.16, 0.24, Vector3(-6.6, 0.22, -16.6), COPPER)
+	_add_visual_cylinder(beat, "KettleBoiledDry", 0.16, 0.24, Vector3(-6.6, 0.22, -16.6), COPPER_DEAD)
 	_add_plaque(beat, "PlaqueJunoHouse", "JUNO'S HOUSE", Vector3(-6.9, 3.6, -16.0), Color(0.66, 0.4, 0.22))
+
+	# Storytelling props — a street that gave its voices away:
+	# the care terminal (Lark's box, warm emerald screen), a chair pushed back
+	# and never returned to, a fallen household frame, and a market stall kept
+	# open for a child's winter. (PROTOTYPE: primitives stand in for set art.)
+	_add_visual_box(beat, "CareTerminal", Vector3(0.5, 0.7, 0.3), Vector3(-6.2, 0.6, -15.8), OBSIDIAN)
+	_add_visual_box(beat, "TerminalScreen", Vector3(0.42, 0.3, 0.05), Vector3(-6.2, 0.78, -15.95), EMERALD)
+	_add_visual_box(beat, "ChairPushedBack", Vector3(0.5, 0.95, 0.5), Vector3(-7.8, 0.48, -14.6), STONE,
+		Vector3(0.0, 0.35, 0.0))
+	_add_visual_box(beat, "ChairBack", Vector3(0.08, 0.7, 0.4), Vector3(-7.8, 0.85, -14.3), STONE)
+	_add_visual_box(beat, "HouseholdFrame", Vector3(0.5, 0.4, 0.04), Vector3(-6.2, 1.7, -16.45), COPPER_DEAD)
+	_add_visual_box(beat, "StallCounter", Vector3(3.2, 1.1, 0.6), Vector3(5.6, 0.55, -10.0), STONE)
+	_add_visual_box(beat, "StallAwning", Vector3(3.4, 0.12, 1.2), Vector3(5.6, 1.7, -10.0), COPPER_DEAD)
+	_add_visual_cylinder(beat, "StallCrate_1", 0.28, 0.5, Vector3(4.9, 0.25, -10.3), COPPER_DEAD)
+	_add_visual_cylinder(beat, "StallCrate_2", 0.28, 0.5, Vector3(6.3, 0.25, -9.7), STONE)
 
 	# Dead lamppost with cold emerald lumen
 	_add_cylinder(beat, "LampPost", 0.06, 2.4, Vector3(-3.0, 1.2, -2.0), OBSIDIAN)
@@ -201,6 +225,9 @@ func _build_weep_entrance() -> void:
 	_add_visual_box(beat, "JambRight", Vector3(0.3, 4.5, 0.2), Vector3(1.7, 2.25, -45.85), COPPER)
 	_add_visual_box(beat, "BreachGlow", Vector3(3.0, 0.2, 0.1), Vector3(0.0, 0.6, -45.8), EMERALD)
 	_add_plaque(beat, "PlaqueWeep", "THE WEEP", Vector3(0.0, 3.9, -45.2), Color(0.0, 0.9, 0.55))
+	# Common Index mark worn into the lintel — Aster's seal, the world-history
+	# beat canon to Ch2.3 (docs/WORLD_BIBLE §2.1, PAYOFF_LEDGER A8).
+	_add_plaque(beat, "IndexMarkLintel", "COMMON INDEX — SEALED", Vector3(0.0, 6.0, -45.95), Color(0.66, 0.4, 0.22))
 
 ## --- Beat 3: The Weep descent (service stairs) ------------------------------
 
@@ -248,6 +275,14 @@ func _build_weep_descent() -> void:
 		Color(0.0, 0.9, 0.55))
 	_add_plaque(beat, "PlaqueFragment_3", "SUBSTRATE FRAGMENT 3/3 — JUNO'S GOODBYE", Vector3(0.0, 2.6, -49.2),
 		Color(0.0, 0.9, 0.55))
+	# Drowned archive shelves — the open century as a flooded library (canon
+	# WORLD_BIBLE §2.1 Stratum 1): rows of sealed memory caskets on the walls.
+	for i in 4:
+		_add_visual_box(beat, "ArchiveShelfL_%d" % i, Vector3(0.14, 0.35, 0.6), Vector3(-2.2, -1.2 - i * 0.9, -50.5 - i * 0.4), COPPER_DEAD)
+		_add_visual_box(beat, "ArchiveShelfR_%d" % i, Vector3(0.14, 0.35, 0.6), Vector3(2.2, -1.2 - i * 0.9, -50.5 - i * 0.4), COPPER_DEAD)
+	# A single emerald lumen against the drowned dark — the only warm memory
+	# the crypt still holds (canon color language: emerald on near-black).
+	_add_visual_sphere(beat, "CryptRememberLumen", 0.16, Vector3(0.0, -3.2, -58.0), EMERALD)
 
 ## --- Beat 4: Collapsed inference conduit (traversal) ------------------------
 
@@ -291,6 +326,11 @@ func _build_choir_threshold() -> void:
 	_add_visual_sphere(beat, "ResonatorBell", 0.7, Vector3(-2.5, -3.6, -86.0), COPPER_GLOW)
 	_add_plaque(beat, "PlaqueThreshold", "CHOIR THRESHOLD", Vector3(0.0, -3.8, -81.0),
 		Color(0.66, 0.4, 0.22))
+	# A captive-voice panel — a voice "able to sing, not able to mean it"
+	# (canon 2.6 Tinuviel beat, PAYOFF_LEDGER E2): sealed resonators on the wall.
+	for i in 3:
+		_add_visual_cylinder(beat, "CaptiveVoice_%d" % i, 0.18, 0.7, Vector3(-4.6, -4.2 - i * 0.8, -82.0), COPPER)
+		_add_visual_sphere(beat, "CaptiveLumen_%d" % i, 0.1, Vector3(-4.6, -4.2 - i * 0.8, -81.8), EMERALD)
 
 ## --- Beat 6: Warden's choir-house (arena) -----------------------------------
 
@@ -314,12 +354,18 @@ func _build_choir_arena() -> void:
 	_add_visual_box(beat, "HermesDoor", Vector3(4.0, 4.0, 0.3), Vector3(0.0, -6.0, -110.5), EMERALD)
 	_add_plaque(beat, "PlaqueArena", "THE DOOR IS WAITING", Vector3(0.0, -2.8, -110.0),
 		Color(0.0, 0.95, 0.55))
+	# Captive-choir echo wall — the surrendered voices of Dove's Row are bound
+	# into these pipes (canon 2.9 causality; the Warden weaponizes them). Small
+	# emerald resonators read as "captive Hermes-color" rather than decor.
+	for i in 7:
+		_add_visual_cylinder(beat, "ChoirEcho_%d" % i, 0.2, 3.0, Vector3(-6.0 + i * 2.0, -6.4, -102.0), COPPER)
+		_add_visual_sphere(beat, "ChoirEchoLumen_%d" % i, 0.12, Vector3(-6.0 + i * 2.0, -6.4, -101.7), EMERALD)
 
 ## --- Prototype guide --------------------------------------------------------
 
 func _add_prototype_guide() -> void:
 	var guide := _beat("BeatPrototypeGuide")
 	var label := _add_plaque(guide, "GuideLabel",
-		"PROTOTYPE BLOCKOUT — replaceable by authored art\nWASD move · Shift sprint · LMB light · RMB heavy · Q dodge · Tab lock-on\nE interact · F companion command · C switch companion · F3 telemetry",
+		"PROTOTYPE BLOCKOUT — replaceable by authored art\nWASD move · Shift sprint · LMB light · RMB heavy · Q dodge · Tab lock-on\nE interact · F companion command · C switch companion · F3 telemetry\nPause/Esc pause menu · T truth-layer scan prompt appears near fragments",
 		Vector3(0.0, 2.2, 4.0), Color(0.6, 0.65, 0.7))
 	label.billboard = BaseMaterial3D.BILLBOARD_DISABLED

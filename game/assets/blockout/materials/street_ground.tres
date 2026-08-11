@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/blockout/materials/ink_edge.gdshader" id="1_shader"]
+
+[resource]
+resource_name = "Blockout Street Ground (lighter wash) — ink-edge prototype"
+shader = ExtResource("1_shader")
+shader_parameter/albedo = Color(0.3, 0.31, 0.34, 1)
+shader_parameter/metallic = 0.05
+shader_parameter/roughness = 0.9
+shader_parameter/rim_width = 0.1
+shader_parameter/rim_intensity = 0.2
+shader_parameter/rim_color = Color(0.02, 0.02, 0.025, 1)
+shader_parameter/emission = Color(0, 0, 0, 1)
+shader_parameter/emission_energy = 0.0

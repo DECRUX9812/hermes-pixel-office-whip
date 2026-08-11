@@ -17,38 +17,74 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -170.0
-offset_right = 220.0
-offset_bottom = 170.0
+offset_left = -300.0
+offset_top = -270.0
+offset_right = 300.0
+offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="Panel"]
+[node name="Scroll" type="ScrollContainer" parent="Panel"]
+custom_minimum_size = Vector2(0, 0)
+horizontal_scroll_mode = 0
 
-[node name="Title" type="Label" parent="Panel/VBox"]
+[node name="VBox" type="VBoxContainer" parent="Panel/Scroll"]
+custom_minimum_size = Vector2(520, 0)
+
+[node name="Title" type="Label" parent="Panel/Scroll/VBox"]
 text = "Options"
 theme_override_font_sizes/font_size = 26
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="Panel/VBox"]
-custom_minimum_size = Vector2(0, 12)
+[node name="Spacer" type="Control" parent="Panel/Scroll/VBox"]
+custom_minimum_size = Vector2(0, 8)
 
-[node name="SubtitlesToggle" type="CheckButton" parent="Panel/VBox"]
+[node name="SubtitleSection" type="Label" parent="Panel/Scroll/VBox"]
+text = "ACCESSIBILITY"
+theme_override_colors/font_color = Color(0.0, 0.85, 0.5, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="SubtitlesToggle" type="CheckButton" parent="Panel/Scroll/VBox"]
 unique_name_in_owner = true
-text = "Subtitles (accessibility)"
+text = "Subtitles"
 
-[node name="InvertYToggle" type="CheckButton" parent="Panel/VBox"]
+[node name="SubtitleBgToggle" type="CheckButton" parent="Panel/Scroll/VBox"]
+unique_name_in_owner = true
+text = "Subtitle background panel"
+
+[node name="SubtitleScaleRow" type="HBoxContainer" parent="Panel/Scroll/VBox"]
+
+[node name="SubtitleScaleLabel" type="Label" parent="Panel/Scroll/VBox/SubtitleScaleRow"]
+text = "Subtitle size"
+size_flags_horizontal = 3
+
+[node name="SubtitleScaleSlider" type="HSlider" parent="Panel/Scroll/VBox/SubtitleScaleRow"]
+unique_name_in_owner = true
+min_value = 0.75
+max_value = 1.8
+step = 0.05
+value = 1.0
+size_flags_horizontal = 3
+
+[node name="Spacer2" type="Control" parent="Panel/Scroll/VBox"]
+custom_minimum_size = Vector2(0, 8)
+
+[node name="CameraSection" type="Label" parent="Panel/Scroll/VBox"]
+text = "CAMERA"
+theme_override_colors/font_color = Color(0.95, 0.5, 0.2, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="InvertYToggle" type="CheckButton" parent="Panel/Scroll/VBox"]
 unique_name_in_owner = true
 text = "Invert camera Y"
 
-[node name="SensitivityRow" type="HBoxContainer" parent="Panel/VBox"]
+[node name="SensitivityRow" type="HBoxContainer" parent="Panel/Scroll/VBox"]
 
-[node name="SensitivityLabel" type="Label" parent="Panel/VBox/SensitivityRow"]
+[node name="SensitivityLabel" type="Label" parent="Panel/Scroll/VBox/SensitivityRow"]
 text = "Camera sensitivity"
 size_flags_horizontal = 3
 
-[node name="SensitivitySlider" type="HSlider" parent="Panel/VBox/SensitivityRow"]
+[node name="SensitivitySlider" type="HSlider" parent="Panel/Scroll/VBox/SensitivityRow"]
 unique_name_in_owner = true
 min_value = 0.1
 max_value = 3.0
@@ -56,13 +92,113 @@ step = 0.05
 value = 1.0
 size_flags_horizontal = 3
 
-[node name="VolumeRow" type="HBoxContainer" parent="Panel/VBox"]
+[node name="FovRow" type="HBoxContainer" parent="Panel/Scroll/VBox"]
 
-[node name="VolumeLabel" type="Label" parent="Panel/VBox/VolumeRow"]
+[node name="FovLabel" type="Label" parent="Panel/Scroll/VBox/FovRow"]
+text = "Field of view"
+size_flags_horizontal = 3
+
+[node name="FovSlider" type="HSlider" parent="Panel/Scroll/VBox/FovRow"]
+unique_name_in_owner = true
+min_value = 55.0
+max_value = 90.0
+step = 1.0
+value = 70.0
+size_flags_horizontal = 3
+
+[node name="Spacer4" type="Control" parent="Panel/Scroll/VBox"]
+custom_minimum_size = Vector2(0, 8)
+
+[node name="PerformanceSection" type="Label" parent="Panel/Scroll/VBox"]
+text = "PERFORMANCE (target: Radeon Pro W6400 / 4 GB)"
+theme_override_colors/font_color = Color(0.72, 0.95, 0.86, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="QualityRow" type="HBoxContainer" parent="Panel/Scroll/VBox"]
+
+[node name="QualityLabel" type="Label" parent="Panel/Scroll/VBox/QualityRow"]
+text = "Quality preset"
+size_flags_horizontal = 3
+
+[node name="QualityOption" type="OptionButton" parent="Panel/Scroll/VBox/QualityRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+item_count = 3
+popup/item_0/text = "High (forward)"
+popup/item_1/text = "Balanced"
+popup/item_2/text = "Low (Compatibility)"
+
+[node name="Spacer3" type="Control" parent="Panel/Scroll/VBox"]
+custom_minimum_size = Vector2(0, 8)
+
+[node name="AudioSection" type="Label" parent="Panel/Scroll/VBox"]
+text = "AUDIO (original placeholder synthesis)"
+theme_override_colors/font_color = Color(0.72, 0.95, 0.86, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="VolumeRow" type="HBoxContainer" parent="Panel/Scroll/VBox"]
+
+[node name="VolumeLabel" type="Label" parent="Panel/Scroll/VBox/VolumeRow"]
 text = "Master volume"
 size_flags_horizontal = 3
 
-[node name="VolumeSlider" type="HSlider" parent="Panel/VBox/VolumeRow"]
+[node name="VolumeSlider" type="HSlider" parent="Panel/Scroll/VBox/VolumeRow"]
+unique_name_in_owner = true
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+size_flags_horizontal = 3
+
+[node name="SfxRow" type="HBoxContainer" parent="Panel/Scroll/VBox"]
+
+[node name="SfxLabel" type="Label" parent="Panel/Scroll/VBox/SfxRow"]
+text = "Effects volume"
+size_flags_horizontal = 3
+
+[node name="SfxSlider" type="HSlider" parent="Panel/Scroll/VBox/SfxRow"]
+unique_name_in_owner = true
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+size_flags_horizontal = 3
+
+[node name="MusicRow" type="HBoxContainer" parent="Panel/Scroll/VBox"]
+
+[node name="MusicLabel" type="Label" parent="Panel/Scroll/VBox/MusicRow"]
+text = "Music volume"
+size_flags_horizontal = 3
+
+[node name="MusicSlider" type="HSlider" parent="Panel/Scroll/VBox/MusicRow"]
+unique_name_in_owner = true
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+size_flags_horizontal = 3
+
+[node name="VoiceRow" type="HBoxContainer" parent="Panel/Scroll/VBox"]
+
+[node name="VoiceLabel" type="Label" parent="Panel/Scroll/VBox/VoiceRow"]
+text = "Voice volume"
+size_flags_horizontal = 3
+
+[node name="VoiceSlider" type="HSlider" parent="Panel/Scroll/VBox/VoiceRow"]
+unique_name_in_owner = true
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+size_flags_horizontal = 3
+
+[node name="AmbienceRow" type="HBoxContainer" parent="Panel/Scroll/VBox"]
+
+[node name="AmbienceLabel" type="Label" parent="Panel/Scroll/VBox/AmbienceRow"]
+text = "Ambience volume"
+size_flags_horizontal = 3
+
+[node name="AmbienceSlider" type="HSlider" parent="Panel/Scroll/VBox/AmbienceRow"]
 unique_name_in_owner = true
 min_value = 0.0
 max_value = 1.0

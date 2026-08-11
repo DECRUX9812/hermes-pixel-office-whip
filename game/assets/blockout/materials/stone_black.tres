@@ -1,7 +1,15 @@
-[gd_resource type="StandardMaterial3D" format=3]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/blockout/materials/ink_edge.gdshader" id="1_shader"]
 
 [resource]
-resource_name = "Blockout Stone (near-black)"
-albedo_color = Color(0.075, 0.082, 0.095, 1)
-metallic = 0.0
-roughness = 0.94
+resource_name = "Blockout Stone (near-black) — ink-edge prototype"
+shader = ExtResource("1_shader")
+shader_parameter/albedo = Color(0.24, 0.25, 0.28, 1)
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.92
+shader_parameter/rim_width = 0.2
+shader_parameter/rim_intensity = 0.35
+shader_parameter/rim_color = Color(0.012, 0.014, 0.018, 1)
+shader_parameter/emission = Color(0, 0, 0, 1)
+shader_parameter/emission_energy = 0.0

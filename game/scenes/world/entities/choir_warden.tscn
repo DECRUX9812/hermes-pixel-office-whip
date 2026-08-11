@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://src/enemies/choir_warden.gd" id="1_warden"]
 [ext_resource type="Script" path="res://src/combat/health_component.gd" id="2_health"]
@@ -33,6 +33,21 @@ size = Vector3(4.4, 1.6, 3.2)
 radius = 0.68
 height = 2.1
 
+[sub_resource type="CylinderMesh" id="mesh_baton"]
+top_radius = 0.03
+bottom_radius = 0.03
+height = 1.3
+
+[sub_resource type="SphereMesh" id="mesh_baton_tip"]
+radius = 0.09
+height = 0.18
+
+[sub_resource type="StandardMaterial3D" id="mat_baton_glow"]
+albedo_color = Color(0.24, 0.13, 0.05, 1)
+emission_enabled = true
+emission = Color(0.98, 0.55, 0.24, 1)
+emission_energy_multiplier = 2.0
+
 [node name="ChoirWarden" type="CharacterBody3D"]
 collision_layer = 80
 collision_mask = 3
@@ -64,6 +79,16 @@ material_override = ExtResource("4_obs")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85, 0)
 mesh = SubResource("mesh_crown")
 material_override = ExtResource("3_copper")
+
+[node name="Baton" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(0.7, 0.0, 0.7, 0, 1, 0, -0.7, 0, 0.7, 0.0, 3.0, 0.0)
+mesh = SubResource("mesh_baton")
+material_override = ExtResource("4_obs")
+
+[node name="BatonTip" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(0.7, 0.0, 0.7, 0, 1, 0, -0.7, 0, 0.7, 0.0, 3.65, 0.0)
+mesh = SubResource("mesh_baton_tip")
+material_override = SubResource("mat_baton_glow")
 
 [node name="CoreGlow" type="MeshInstance3D" parent="VisualRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85, 0)
