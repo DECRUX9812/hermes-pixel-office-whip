@@ -299,6 +299,6 @@ func _build_choir_arena() -> void:
 func _add_prototype_guide() -> void:
 	var guide := _beat("BeatPrototypeGuide")
 	var label := _add_plaque(guide, "GuideLabel",
-		"PROTOTYPE BLOCKOUT — replaceable by authored art\nWalk forward · Shift sprint · E interact · Q dodge",
+		"PROTOTYPE BLOCKOUT — replaceable by authored art\nWASD move · Shift sprint · LMB light · RMB heavy · Q dodge · Tab lock-on\nE interact · F companion command · C switch companion · F3 telemetry",
 		Vector3(0.0, 2.2, 4.0), Color(0.6, 0.65, 0.7))
 	label.billboard = BaseMaterial3D.BILLBOARD_DISABLED

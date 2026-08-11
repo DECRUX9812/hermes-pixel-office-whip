@@ -32,3 +32,29 @@ signal truth_layer_toggled(active: bool)
 
 signal scene_loading(scene_path: String)
 signal scene_loaded(scene_path: String)
+
+# --- Combat -------------------------------------------------------------------
+signal attack_started(attacker: Node, kind: String)
+signal attack_landed(attacker: Node, target: Node, damage: float, kind: String)
+signal damage_dealt(attacker: Node, target: Node, amount: float, kind: String)
+signal player_attack_state_changed(state: String)
+signal player_hit_received(target: Node, damage: float, source: Node)
+signal enemy_spawned(enemy: Node)
+signal enemy_state_changed(enemy: Node, state: String)
+signal target_locked(target: Node)
+signal target_released
+
+# --- Companions ----------------------------------------------------------------
+signal companion_joined(companion: Node)
+signal companion_command_issued(companion: Node, ability_id: String)
+signal ability_used(companion: Node, ability_id: String, target: Node)
+signal companion_ability_ready_changed(companion: Node, ready: bool)
+signal truth_revealed(target: Node, duration: float)
+signal custodian_converted(custodian: Node, duration: float)
+
+# --- Encounters ----------------------------------------------------------------
+signal encounter_started(encounter: Node)
+signal encounter_completed(encounter: Node)
+
+# --- Telemetry -----------------------------------------------------------------
+signal combat_event(message: String)

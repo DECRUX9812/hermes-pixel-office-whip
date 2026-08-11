@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/ui/combat_telemetry.gd" id="1_tele"]
+
+[sub_resource type="StyleBoxFlat" id="panel_bg"]
+bg_color = Color(0.0, 0.02, 0.02, 0.72)
+border_width_bottom = 1
+border_width_left = 1
+border_width_right = 1
+border_width_top = 1
+border_color = Color(0, 0.6, 0.4, 1)
+
+[node name="CombatTelemetry" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_tele")
+
+[node name="Panel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 24.0
+offset_top = 176.0
+offset_right = 620.0
+offset_bottom = 640.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("panel_bg")
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="Panel/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "HERMES COMBAT TELEMETRY"
+autowrap_mode = 0
+mouse_filter = 2

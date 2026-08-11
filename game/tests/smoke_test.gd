@@ -77,6 +77,29 @@ func _run() -> void:
 	var flow := chapter.get_node_or_null("ObjectiveFlow") as ObjectiveFlow
 	_check(flow != null and flow.current != null, "objective flow began with an active objective")
 
+	# Combat telemetry overlay toggles and composes
+	var telemetry := chapter.get_node_or_null("CombatTelemetry") as CombatTelemetry
+	_check(telemetry != null, "combat telemetry present")
+	if telemetry:
+		telemetry.toggle()
+		await _wait_frames(2)
+		_check(telemetry.is_visible_overlay(), "telemetry toggles on")
+		telemetry.toggle()
+		await _wait_frames(2)
+		_check(not telemetry.is_visible_overlay(), "telemetry toggles off")
+
+	# Arena encounter starts when the player crosses the Warden threshold
+	var trigger := chapter.get_node_or_null("Beats/Arena/Encounter/Trigger") as Area3D
+	_check(trigger != null, "arena encounter trigger present")
+	if trigger:
+		player.global_position = trigger.global_position + Vector3(0.0, 0.0, 0.5)
+		await _wait_frames(40)
+		var encounter := chapter.get_node_or_null("Beats/Arena/Encounter") as EncounterController
+		_check(encounter != null and encounter.active, "encounter began at the arena threshold")
+		if encounter:
+			_check(encounter.remaining_combatants() == 3,
+				"warden plus two custodians roistered (%d)" % encounter.remaining_combatants())
+
 	_finish()
 
 func _check(condition: bool, message: String) -> void:

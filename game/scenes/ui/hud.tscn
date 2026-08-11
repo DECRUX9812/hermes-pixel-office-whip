@@ -64,6 +64,51 @@ theme_override_font_sizes/font_size = 16
 text = ""
 mouse_filter = 2
 
+[node name="BossPanel" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -260.0
+offset_top = 20.0
+offset_right = 260.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="BossNameLabel" type="Label" parent="BossPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.62, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+text = "CHOIR WARDEN"
+mouse_filter = 2
+
+[node name="BossBar" type="ProgressBar" parent="BossPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(520, 16)
+show_percentage = false
+theme_override_styles/background = SubResource("bar_bg")
+theme_override_styles/fill = SubResource("bar_fill_copper")
+
+[node name="CompanionLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -132.0
+offset_right = 520.0
+offset_bottom = -84.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.95, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 15
+text = ""
+mouse_filter = 2
+
 [node name="PromptLabel" type="Label" parent="."]
 unique_name_in_owner = true
 anchors_preset = 7

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://src/player/camera_rig.gd" id="2_cam"]
@@ -6,9 +6,11 @@
 [ext_resource type="Script" path="res://src/combat/resolve_component.gd" id="4_resolve"]
 [ext_resource type="Script" path="res://src/interaction/interaction_controller.gd" id="5_inter"]
 [ext_resource type="Script" path="res://src/player/melee_controller.gd" id="6_melee"]
-[ext_resource type="Material" path="res://assets/blockout/materials/stone_obsidian.tres" id="7_obs"]
-[ext_resource type="Material" path="res://assets/blockout/materials/stone_black.tres" id="8_stone"]
-[ext_resource type="Material" path="res://assets/blockout/materials/emerald_glow.tres" id="9_emerald"]
+[ext_resource type="Script" path="res://src/combat/targeting_controller.gd" id="7_targeting"]
+[ext_resource type="Script" path="res://src/companion/companion_controller.gd" id="8_companions"]
+[ext_resource type="Material" path="res://assets/blockout/materials/stone_obsidian.tres" id="9_obs"]
+[ext_resource type="Material" path="res://assets/blockout/materials/stone_black.tres" id="10_stone"]
+[ext_resource type="Material" path="res://assets/blockout/materials/emerald_glow.tres" id="11_emerald"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_body"]
 radius = 0.4
@@ -38,7 +40,7 @@ height = 1.6
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
-collision_mask = 1
+collision_mask = 65
 floor_stop_on_slope = true
 script = ExtResource("1_player")
 
@@ -64,17 +66,17 @@ fov = 70.0
 [node name="Torso" type="MeshInstance3D" parent="VisualRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
 mesh = SubResource("CapsuleMesh_torso")
-material_override = ExtResource("7_obs")
+material_override = ExtResource("9_obs")
 
 [node name="Head" type="MeshInstance3D" parent="VisualRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)
 mesh = SubResource("SphereMesh_head")
-material_override = ExtResource("8_stone")
+material_override = ExtResource("10_stone")
 
 [node name="Staff" type="MeshInstance3D" parent="VisualRoot"]
 transform = Transform3D(0.9211, 0.3894, 0, -0.3894, 0.9211, 0, 0, 0, 1, 0.55, 1.25, 0.15)
 mesh = SubResource("CylinderMesh_staff")
-material_override = ExtResource("9_emerald")
+material_override = ExtResource("11_emerald")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("3_health")
@@ -104,3 +106,9 @@ monitoring = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Melee/HitArea"]
 shape = SubResource("BoxShape_hit")
+
+[node name="Targeting" type="Node3D" parent="."]
+script = ExtResource("7_targeting")
+
+[node name="Companions" type="Node3D" parent="."]
+script = ExtResource("8_companions")

@@ -1,0 +1,98 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://src/enemies/custodian.gd" id="1_cust"]
+[ext_resource type="Script" path="res://src/combat/health_component.gd" id="2_health"]
+[ext_resource type="Material" path="res://assets/blockout/materials/stone_obsidian.tres" id="3_obs"]
+[ext_resource type="Material" path="res://assets/blockout/materials/emerald_glow.tres" id="4_emerald"]
+[ext_resource type="Material" path="res://assets/blockout/materials/copper.tres" id="5_copper"]
+
+[sub_resource type="CapsuleShape3D" id="shape_body"]
+radius = 0.45
+height = 2.0
+
+[sub_resource type="CapsuleMesh" id="mesh_body"]
+radius = 0.42
+height = 1.5
+
+[sub_resource type="SphereMesh" id="mesh_head"]
+radius = 0.3
+height = 0.6
+
+[sub_resource type="SphereMesh" id="mesh_eye"]
+radius = 0.16
+height = 0.32
+
+[sub_resource type="CylinderMesh" id="mesh_lamp"]
+top_radius = 0.18
+bottom_radius = 0.18
+height = 0.3
+
+[sub_resource type="BoxShape3D" id="shape_attack"]
+size = Vector3(1.6, 1.1, 1.5)
+
+[sub_resource type="TorusMesh" id="mesh_ring"]
+inner_radius = 0.52
+outer_radius = 0.66
+
+[node name="Custodian" type="CharacterBody3D"]
+collision_layer = 80
+collision_mask = 3
+floor_stop_on_slope = true
+script = ExtResource("1_cust")
+display_name = "Custodian"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+shape = SubResource("shape_body")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 90.0
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+mesh = SubResource("mesh_body")
+material_override = ExtResource("3_obs")
+
+[node name="Head" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
+mesh = SubResource("mesh_head")
+material_override = ExtResource("3_obs")
+
+[node name="LampPost" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0.5)
+mesh = SubResource("mesh_lamp")
+material_override = ExtResource("5_copper")
+
+[node name="EyeGlow" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
+mesh = SubResource("mesh_eye")
+material_override = ExtResource("4_emerald")
+
+[node name="TargetRing" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("mesh_ring")
+material_override = ExtResource("4_emerald")
+
+[node name="EyeLight" type="OmniLight3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
+light_color = Color(0, 0.95, 0.55, 1)
+light_energy = 2.5
+omni_range = 3.0
+
+[node name="FlashMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+visible = false
+mesh = SubResource("mesh_body")
+material_override = ExtResource("4_emerald")
+
+[node name="AttackArea" type="Area3D" parent="VisualRoot"]
+collision_layer = 0
+collision_mask = 2
+monitoring = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisualRoot/AttackArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, -1.0)
+shape = SubResource("shape_attack")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3]
+[gd_scene load_steps=29 format=3]
 
 [ext_resource type="Script" path="res://scenes/world/chapter2.gd" id="1_chapter"]
 [ext_resource type="Script" path="res://src/environment/blockout_chapter2.gd" id="2_blockout"]
@@ -11,6 +11,12 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="9_pause"]
 [ext_resource type="PackedScene" path="res://scenes/world/entities/training_dummy.tscn" id="10_dummy"]
 [ext_resource type="PackedScene" path="res://scenes/world/entities/sliding_door.tscn" id="11_door"]
+[ext_resource type="PackedScene" path="res://scenes/world/entities/custodian.tscn" id="12_custodian"]
+[ext_resource type="PackedScene" path="res://scenes/world/entities/choir_warden.tscn" id="13_warden"]
+[ext_resource type="PackedScene" path="res://scenes/world/entities/companions/nous.tscn" id="14_nous"]
+[ext_resource type="PackedScene" path="res://scenes/world/entities/companions/brooklyn.tscn" id="15_brooklyn"]
+[ext_resource type="Script" path="res://src/world/encounter_controller.gd" id="16_encounter"]
+[ext_resource type="PackedScene" path="res://scenes/ui/combat_telemetry.tscn" id="17_telemetry"]
 
 [sub_resource type="Environment" id="env"]
 background_mode = 1
@@ -61,6 +67,14 @@ label = "Open the Choir door."
 script = ExtResource("4_objective")
 id = "reach_the_wardens_house"
 label = "Reach the Warden's choir-house."
+
+[sub_resource type="Resource" id="obj7"]
+script = ExtResource("4_objective")
+id = "defeat_the_warden"
+label = "Silence the Choir Warden."
+
+[sub_resource type="BoxShape3D" id="encounter_shape"]
+size = Vector3(8.0, 4.0, 3.0)
 
 [node name="Chapter2" type="Node3D"]
 script = ExtResource("1_chapter")
@@ -198,13 +212,47 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -84.5)
 [node name="SlidingDoorThreshold" parent="Beats" instance=ExtResource("11_door")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5, -88.5)
 
+[node name="Arena" type="Node3D" parent="Beats"]
+
+[node name="Warden" parent="Beats/Arena" instance=ExtResource("13_warden")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -100)
+
+[node name="CustodianA" parent="Beats/Arena" instance=ExtResource("12_custodian")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -8, -95)
+
+[node name="CustodianB" parent="Beats/Arena" instance=ExtResource("12_custodian")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -8, -105)
+
+[node name="Encounter" type="Node3D" parent="Beats/Arena"]
+script = ExtResource("16_encounter")
+encounter_id = "choir_house"
+arena_root_path = NodePath("..")
+warden_path = NodePath("../Warden")
+
+[node name="Trigger" type="Area3D" parent="Beats/Arena/Encounter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -89)
+monitoring = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beats/Arena/Encounter/Trigger"]
+shape = SubResource("encounter_shape")
+
+[node name="Companions" type="Node3D" parent="Beats"]
+
+[node name="Nous" parent="Beats/Companions" instance=ExtResource("14_nous")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="Brooklyn" parent="Beats/Companions" instance=ExtResource("15_brooklyn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
 [node name="Player" parent="." instance=ExtResource("7_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
 [node name="ObjectiveFlow" type="Node" parent="." unique_name_in_owner = true]
 script = ExtResource("3_flow")
-objectives = [SubResource("obj1"), SubResource("obj2"), SubResource("obj3"), SubResource("obj4"), SubResource("obj5"), SubResource("obj6")]
+objectives = [SubResource("obj1"), SubResource("obj2"), SubResource("obj3"), SubResource("obj4"), SubResource("obj5"), SubResource("obj6"), SubResource("obj7")]
 
 [node name="HUD" parent="." instance=ExtResource("8_hud")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_pause")]
+
+[node name="CombatTelemetry" parent="." instance=ExtResource("17_telemetry")]

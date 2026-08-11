@@ -40,8 +40,11 @@ var _dodge_cooldown := 0.0
 @onready var resolve: ResolveComponent = $Resolve
 @onready var interaction: InteractionController = $Interaction
 @onready var melee: MeleeController = $Melee
+@onready var targeting: TargetingController = $Targeting
+@onready var companions: CompanionController = $Companions
 
 func _ready() -> void:
+	add_to_group("player")
 	health.depleted.connect(_on_health_depleted)
 	EventBus.player_spawned.emit(self)
 	_apply_checkpoint_spawn()
@@ -59,6 +62,7 @@ func _physics_process(delta: float) -> void:
 			_physics_dodge(delta)
 		_:
 			_physics_ground_air(delta)
+	targeting.update(self, delta)
 	_poll_actions()
 
 func _physics_ground_air(delta: float) -> void:
@@ -105,12 +109,38 @@ func _poll_actions() -> void:
 		_emit_state()
 		return
 	if Input.is_action_just_pressed("dodge") and _dodge_cooldown <= 0.0 and move_state != MoveState.DODGE:
+		melee.cancel_to_dodge()
 		_start_dodge()
 		return
 	if Input.is_action_just_pressed("interact"):
 		interaction.perform_interaction()
-	if Input.is_action_just_pressed("attack_light") or Input.is_action_just_pressed("attack_heavy"):
+	if Input.is_action_just_pressed("attack_light"):
 		melee.try_light_attack()
+	if Input.is_action_just_pressed("attack_heavy"):
+		melee.try_heavy_attack()
+	if Input.is_action_just_pressed("lock_on"):
+		targeting.toggle_lock(self)
+	if Input.is_action_just_pressed("companion_command"):
+		companions.try_command(self)
+	if Input.is_action_just_pressed("switch_companion"):
+		companions.switch_active()
+
+func get_combat_target() -> Node3D:
+	return targeting.get_target(self)
+
+func set_visual_facing(direction: Vector3) -> void:
+	if direction.length_squared() < 0.0001:
+		return
+	visual_root.rotation.y = atan2(-direction.x, -direction.z)
+
+func is_locked_on() -> bool:
+	return targeting.is_locked()
+
+func locked_target() -> Node3D:
+	return targeting.locked_target
+
+func get_dodge_cooldown() -> float:
+	return _dodge_cooldown
 
 func _wish_direction(input_dir: Vector2) -> Vector3:
 	# Input.get_vector maps move_forward to the negative Y axis (y = -1 when
@@ -127,7 +157,7 @@ func _apply_horizontal_velocity(dir: Vector3, target_speed: float, accel: float,
 	velocity.z = new_h.y
 
 func _face_direction(dir: Vector3, moving: bool, delta: float) -> void:
-	if not moving:
+	if not moving or melee.is_attacking():
 		return
 	var target_yaw := atan2(-dir.x, -dir.z)
 	visual_root.rotation.y = lerp_angle(visual_root.rotation.y, target_yaw, rotation_speed * delta)

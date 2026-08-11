@@ -11,6 +11,8 @@ func _ready() -> void:
 	EventBus.story_beat_triggered.connect(_on_story_beat)
 	EventBus.combatant_defeated.connect(_on_combatant_defeated)
 	EventBus.checkpoint_reached.connect(_on_checkpoint_reached)
+	EventBus.encounter_started.connect(_on_encounter_started)
+	EventBus.encounter_completed.connect(_on_encounter_completed)
 	EventBus.scene_loaded.emit(scene_file_path)
 	objective_flow.begin()
 
@@ -32,3 +34,9 @@ func _on_checkpoint_reached(checkpoint: CheckpointArea) -> void:
 			objective_flow.complete("cross_the_conduit")
 		"choir_house":
 			objective_flow.complete("reach_the_wardens_house")
+
+func _on_encounter_started(_encounter: Node) -> void:
+	EventBus.subtitle_requested.emit("", "The choir-house doors close behind the squad. No escape but through the Warden.")
+
+func _on_encounter_completed(_encounter: Node) -> void:
+	objective_flow.complete("defeat_the_warden")
