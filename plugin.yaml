@@ -1,0 +1,13 @@
+name: pixel-office
+version: "1.0.0"
+description: "Live agent office: watch every Hermes agent work — and crack the whip."
+author: "Ritesh Patel + Hermes Agent"
+hooks:
+  - pre_tool_call
+  - post_tool_call
+  - subagent_start
+  - subagent_stop
+  - on_session_start
+  - on_session_end
+  - pre_approval_request
+  - post_approval_response
