@@ -56,6 +56,8 @@ _STALE_SECONDS = 30 * 60
 
 _lock = threading.Lock()
 _server_started = False
+_server_ever_bound = False
+_last_bind_attempt = 0.0
 _port: int = DEFAULT_PORT
 # Approval hooks don't carry session_id (only a gateway session_key), so we
 # attribute them to the most recent session that fired a tool in this
@@ -333,12 +335,18 @@ def _resolve_port() -> int:
 
 
 def _ensure_server() -> None:
-    global _server_started
-    if _server_started:
+    global _server_started, _last_bind_attempt
+    if _server_started or _server_ever_bound:
         return
     with _lock:
-        if _server_started:
+        if _server_started or _server_ever_bound:
             return
+        # Retry a failed bind at most once every 30s — the squatter may go
+        # away (e.g. a restart), and we must not hammer the port.
+        now = time.time()
+        if _last_bind_attempt and now - _last_bind_attempt < 30:
+            return
+        _last_bind_attempt = now
         _server_started = True
     t = threading.Thread(target=_serve, name="pixel-office-http", daemon=True)
     t.start()
@@ -414,7 +422,7 @@ def _make_handler(html_path: Path):
 
 
 def _serve() -> None:
-    global _port
+    global _port, _server_started, _server_ever_bound
     from http.server import ThreadingHTTPServer
 
     _port = _resolve_port()
@@ -423,6 +431,8 @@ def _serve() -> None:
     try:
         srv = ThreadingHTTPServer(("127.0.0.1", _port), _make_handler(html_path))
     except OSError as exc:
+        # Bind failed — allow a later retry (cooldown in _ensure_server).
+        _server_started = False
         # Port already bound. Probe it: a healthy office answers /state with
         # JSON containing "agents". Anything else is a foreign squatter.
         verdict = _probe_port(_port)
@@ -440,6 +450,7 @@ def _serve() -> None:
                 _port, exc, verdict,
             )
         return
+    _server_ever_bound = True
     logger.info("pixel-office serving at http://127.0.0.1:%s", _port)
     try:
         srv.serve_forever()
