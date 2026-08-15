@@ -1,8 +1,6 @@
-# Pixel Office — the live agent office for Hermes
+# Pixel Office for Hermes
 
-Watch every Hermes agent work — main sessions, delegate_task subagents,
-cron sessions, all of them — as live cards in one tiny office. And when
-they get lazy, **crack the whip**. From anywhere.
+A small dashboard for Hermes sessions, delegate_task subagents, and cron jobs. It shows their current state as cards and provides controls for sending a whip action.
 
 ```
 ┌ PIXEL OFFICE ──────────────────────────────────────────┐
